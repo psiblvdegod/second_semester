@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Globalization;
 
 namespace BWT;
@@ -23,29 +24,42 @@ public static class Shifts
         return shifts;
     }
 
-    private static void QuickSort(int[] array, int l, int r, string input)
+    private static void QuickSort(int[] array, int left, int right, string input)
     {
-        if (l >= r)
+        if (left >= right)
         {
             return;
         }
 
-        var pivot = input[array[r]..] + input[..array[r]];
+        var pivot = Partition(left, right);
+        QuickSort(array, left, pivot, input);
+        QuickSort(array, pivot + 1, right, input);
 
-        var (i, j) = (l, r);
-
-        while (i < j)
+        int Partition(int l, int r)
         {
-            if (string.Compare(input[array[i]..] + input[..array[i]], pivot) > 0)
+            var p = input[array[(l + r) / 2]..] + input[..array[(l + r) / 2]];
+            var (i, j) = (l, r);
+            while (true)
             {
+                while (string.Compare(input[array[i]..] + input[..array[i]], p) < 0)
+                {
+                    ++i;
+                }
+
+                while (string.Compare(input[array[j]..] + input[..array[j]], p) > 0)
+                {
+                    --j;
+                }
+
+                if (i >= j)
+                {
+                    return i;
+                }
+
                 (array[i], array[j]) = (array[j], array[i]);
+                ++i;
                 --j;
             }
-
-            ++i;
         }
-
-        QuickSort(array, l, i - 1, input);
-        QuickSort(array, i, r, input);
     }
 }
