@@ -15,4 +15,10 @@ public class BWT_Tests
 
         Assert.Equal((expectedOutput, expectedPosition), BWT.Transform(input));
     }
+
+    [Fact]
+    public void Transform_EmptyStringAsInput()
+    {
+        Assert.Throws<Exception>(() => BWT.Transform(string.Empty));
+    }
 }
