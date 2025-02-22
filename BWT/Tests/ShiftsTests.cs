@@ -18,4 +18,16 @@ public class ShiftsSortTests
 
         Assert.Equal(expectedResult, result);
     }
+
+    [Fact]
+    public static void GetShifts_2()
+    {
+        var input = "AABA";
+
+        var result = GetShifts(input);
+
+        int[] expectedResult = [3, 0, 1, 2];
+
+        Assert.Equal(expectedResult, result);
+    }
 }

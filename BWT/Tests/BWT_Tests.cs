@@ -6,7 +6,7 @@ using BWT;
 
 public class BWT_Tests
 {
- 
+    [Fact]
     public void Transform_OrdinaryInput()
     {
         var input = "ABACABA";
