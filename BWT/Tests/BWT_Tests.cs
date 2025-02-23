@@ -7,6 +7,9 @@ namespace Tests;
 using BWT;
 using Xunit;
 
+/// <summary>
+/// Tests for functions from BWT.cs.
+/// </summary>
 public class BWT_Tests
 {
     [Fact]

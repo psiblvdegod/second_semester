@@ -6,8 +6,16 @@ namespace BWT;
 
 using System.Collections;
 
+/// <summary>
+/// Contains methods, which allow do Burrows-Wheeler transform.
+/// </summary>
 public static class BWT
 {
+    /// <summary>
+    /// Tranforms string using Burrows-Wheeler algorithm.
+    /// </summary>
+    /// <param name="input">String which will be transformed.</param>
+    /// <returns>Transformed string and it's position in the table of shifts.</returns>
     public static (string Output, int Position) Transform(string input)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(input);
@@ -33,59 +41,12 @@ public static class BWT
         return (string.Concat(output), position);
     }
 
-    private static int[] GetShifts(string input)
-    {
-        if (input == string.Empty)
-        {
-            throw new Exception("empty string is not allowed as input");
-        }
-
-        var shifts = new int[input.Length];
-
-        for (var i = 0; i < input.Length; ++i)
-        {
-            shifts[i] = i;
-        }
-
-        QuickSort(shifts, 0, input.Length - 1, input);
-
-        return shifts;
-    }
-
-    private static void QuickSort(int[] array, int left, int right, string input)
-    {
-        if (left >= right)
-        {
-            return;
-        }
-
-        var pivot = Partition(left, right);
-        QuickSort(array, left, pivot - 1, input);
-        QuickSort(array, pivot + 1, right, input);
-
-        int Partition(int left, int right)
-        {
-            var pivot = right;
-            var i = left - 1;
-
-            for (var j = left; j < right; ++j)
-            {
-                if (!Compare(j, pivot))
-                {
-                    ++i;
-                    (array[i], array[j]) = (array[j], array[i]);
-                }
-            }
-
-            (array[i + 1], array[right]) = (array[right], array[i + 1]);
-
-            return i + 1;
-        }
-
-        bool Compare(int left, int right)
-            => string.Compare(input[array[left]..] + input[..array[left]], input[array[right]..] + input[..array[right]]) > 0;
-    }
-
+    /// <summary>
+    /// Detransforms string which has been transformed with Burrows-Wheeler algorithm.
+    /// </summary>
+    /// <param name="input">String which will be detransformed.</param>
+    /// <param name="position">Position of input string in the shifts table.</param>
+    /// <returns>Initial string.</returns>
     public static string Detransform(string input, int position)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(input);
@@ -144,5 +105,58 @@ public static class BWT
         }
 
         return string.Concat(output);
+    }
+
+    private static int[] GetShifts(string input)
+    {
+        if (input == string.Empty)
+        {
+            throw new Exception("empty string is not allowed as input");
+        }
+
+        var shifts = new int[input.Length];
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            shifts[i] = i;
+        }
+
+        QuickSort(shifts, 0, input.Length - 1, input);
+
+        return shifts;
+    }
+
+    private static void QuickSort(int[] array, int left, int right, string input)
+    {
+        if (left >= right)
+        {
+            return;
+        }
+
+        var pivot = Partition(left, right);
+        QuickSort(array, left, pivot - 1, input);
+        QuickSort(array, pivot + 1, right, input);
+
+        int Partition(int left, int right)
+        {
+            var pivot = right;
+            var i = left - 1;
+
+            for (var j = left; j < right; ++j)
+            {
+                if (!Compare(j, pivot))
+                {
+                    ++i;
+                    (array[i], array[j]) = (array[j], array[i]);
+                }
+            }
+
+            (array[i + 1], array[right]) = (array[right], array[i + 1]);
+
+            return i + 1;
+        }
+
+        bool Compare(int left, int right)
+            => string.Compare(input[array[left]..] + input[..array[left]], input[array[right]..] + input[..array[right]]) > 0;
     }
 }
