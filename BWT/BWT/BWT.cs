@@ -1,4 +1,8 @@
-﻿namespace BWT;
+﻿// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+// under MIT license
+// </copyright>
+
+namespace BWT;
 
 using System.Collections;
 

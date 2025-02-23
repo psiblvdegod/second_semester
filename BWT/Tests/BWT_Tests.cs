@@ -1,13 +1,16 @@
+// <copyright file = "BWT_Tests.cs" author = "psiblvdegod" date = "2025">
+// under MIT license
+// </copyright>
+
 namespace Tests;
 
-using Xunit;
-
 using BWT;
+using Xunit;
 
 public class BWT_Tests
 {
     [Fact]
-    public void Transform_OrdinaryInput()
+    private void Transform_OrdinaryInput()
     {
         var input = "ABACABA";
         var expectedOutput = "BCABAAA";
@@ -17,7 +20,7 @@ public class BWT_Tests
     }
 
     [Fact]
-    public void Transform_OneSymbolAsInput()
+    private void Transform_OneSymbolAsInput()
     {
         var input = "C";
         var expectedOutput = "C";
@@ -27,7 +30,7 @@ public class BWT_Tests
     }
 
     [Fact]
-    public void Transform_StrOfIdentialCharsAsInput()
+    private void Transform_StrOfIdentialCharsAsInput()
     {
         var input = "1111";
         var expectedOutput = "1111";
@@ -37,55 +40,55 @@ public class BWT_Tests
     }
 
     [Fact]
-    public void Transform_EmptyStringAsInput()
+    private void Transform_EmptyStringAsInput()
     {
         Assert.Throws<ArgumentException>(() => BWT.Transform(string.Empty));
     }
 
     [Fact]
-    public void Detransform_OrdinaryInput()
+    private void Detransform_OrdinaryInput()
     {
         var input = "BCABAAA";
         var position = 2;
         var expectedOutput = "ABACABA";
 
-        Assert.Equal(expectedOutput, BWT.Detransform(input, position)); 
+        Assert.Equal(expectedOutput, BWT.Detransform(input, position));
     }
 
     [Fact]
-    public void Detransform_OneSymbolAsInput()
+    private void Detransform_OneSymbolAsInput()
     {
         var input = "C";
         var position = 0;
         var expectedOutput = "C";
 
-        Assert.Equal(expectedOutput, BWT.Detransform(input, position)); 
+        Assert.Equal(expectedOutput, BWT.Detransform(input, position));
     }
 
     [Fact]
-    public void Detransform_StrOfIdentialCharsAsInput()
+    private void Detransform_StrOfIdentialCharsAsInput()
     {
         var input = "4444";
         var position = 0;
         var expectedOutput = "4444";
 
-        Assert.Equal(expectedOutput, BWT.Detransform(input, position)); 
+        Assert.Equal(expectedOutput, BWT.Detransform(input, position));
     }
 
     [Fact]
-    public void Detransform_EmptyStringAsInput()
+    private void Detransform_EmptyStringAsInput()
     {
         Assert.Throws<ArgumentException>(() => BWT.Detransform(string.Empty, 0));
     }
 
     [Fact]
-    public void Detransform_IncorrectPosition()
+    private void Detransform_IncorrectPosition()
     {
         Assert.Throws<ArgumentException>(() => BWT.Detransform("123", 123));
     }
-    
+
     [Fact]
-    public void Transform_Then_Detransform()
+    private void Transform_Then_Detransform()
     {
         var input = "BANANA";
         (string output, int position) = BWT.Transform(input);
