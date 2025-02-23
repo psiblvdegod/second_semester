@@ -33,7 +33,7 @@ public static class BWT
     {
         if (input == string.Empty)
         {
-            throw new Exception("input is string empty");
+            throw new Exception("empty string is not allowed as input");
         }
 
         var shifts = new int[input.Length];
@@ -59,32 +59,27 @@ public static class BWT
         QuickSort(array, left, pivot - 1, input);
         QuickSort(array, pivot + 1, right, input);
 
-        int Partition(int l, int r)
+        int Partition(int left, int right)
         {
-            var p = r;
-            var i = l - 1;
+            var pivot = right;
+            var i = left - 1;
 
-            for (var j = l; j < r; ++j)
+            for (var j = left; j < right; ++j)
             {
-                if (!Compare(j, p))
+                if (!Compare(j, pivot))
                 {
                     ++i;
                     (array[i], array[j]) = (array[j], array[i]);
                 }
             }
 
-            (array[i + 1], array[r]) = (array[r], array[i + 1]);
+            (array[i + 1], array[right]) = (array[right], array[i + 1]);
 
             return i + 1;
         }
 
-        bool Compare(int low, int high)
-        {
-            var lo = input[array[low]..] + input[..array[low]];
-            var hi = input[array[high]..] + input[..array[high]];
-
-            return string.Compare(lo, hi) > 0;
-        }
+        bool Compare(int left, int right)
+            => string.Compare(input[array[left]..] + input[..array[left]], input[array[right]..] + input[..array[right]]) > 0;
     }
 
     public static string Detransform(string input, int position)
@@ -111,25 +106,27 @@ public static class BWT
             {
                 continue;
             }
+
             amountOfSmaller[input[i]] = 0;
 
-            for (var j = 0; j < input[i]; ++j) // O(1)
+            for (var j = 0; j < input[i]; ++j)
             {
                 amountOfSmaller[input[i]] += count[j];
             }
         }
 
-        var table = new Dictionary<char, int>();
-
         var amountOfSameEarlier = new int[input.Length];
+
+        var counterForSameEarlier = new Dictionary<char, int>();
 
         for (var i = 0; i < input.Length; ++i)
         {
-            if (!table.ContainsKey(input[i]))
+            if (!counterForSameEarlier.ContainsKey(input[i]))
             {
-                table[input[i]] = 0;
+                counterForSameEarlier[input[i]] = 0;
             }
-            amountOfSameEarlier[i] = table[input[i]]++;
+
+            amountOfSameEarlier[i] = counterForSameEarlier[input[i]]++;
         }
 
         var output = new char[input.Length];
