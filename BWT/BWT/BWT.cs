@@ -1,13 +1,12 @@
-﻿namespace BWT;
+﻿using System.Collections;
+
+namespace BWT;
 
 public static class BWT
 {
     public static (string Output, int Position) Transform(string input)
     {
-        if (input == string.Empty)
-        {
-            throw new Exception("input is empty string");
-        }
+        ArgumentNullException.ThrowIfNullOrEmpty(input);
 
         var shifts = GetShifts(input);
 
@@ -64,5 +63,56 @@ public static class BWT
                 }
             }
         }
+    }
+
+    public static string Detransform(string input, int position)
+    {
+        int alphabetPower = (int)Math.Pow(2, sizeof(char) * 8);
+        var count = new int[alphabetPower];
+        var amountOfSmaller = new Dictionary<char, int>();
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            ++count[input[i]];
+        }
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            if (amountOfSmaller.ContainsKey(input[i]))
+            {
+                continue;
+            }
+            amountOfSmaller[input[i]] = 0;
+
+            for (var j = 0; j < input[i]; ++j) // O(1)
+            {
+                amountOfSmaller[input[i]] += count[j];
+            }
+        }
+
+        var table = new Dictionary<char, int>();
+
+        var amountOfSameEarlier = new int[input.Length];
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            if (!table.ContainsKey(input[i]))
+            {
+                table[input[i]] = 0;
+            }
+            amountOfSameEarlier[i] = table[input[i]]++;
+        }
+
+        var output = new char[input.Length];
+
+        var current = position;
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            output[i] = input[current];
+            current = amountOfSameEarlier[current] + amountOfSmaller[input[current]];
+        }
+
+        return string.Concat(output);
     }
 }

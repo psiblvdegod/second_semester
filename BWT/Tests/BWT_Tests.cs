@@ -19,6 +19,16 @@ public class BWT_Tests
     [Fact]
     public void Transform_EmptyStringAsInput()
     {
-        Assert.Throws<Exception>(() => BWT.Transform(string.Empty));
+        Assert.Throws<ArgumentException>(() => BWT.Transform(string.Empty));
+    }
+
+    [Fact]
+    public void Detransform_OrdinaryInput()
+    {
+        var input = "BCABAAA";
+        var position = 2;
+        var expectedOutput = "ABACABA";
+
+        Assert.Equal(expectedOutput, BWT.Detransform(input, position)); 
     }
 }
