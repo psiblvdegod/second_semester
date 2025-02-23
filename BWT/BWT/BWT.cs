@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿namespace BWT;
 
-namespace BWT;
+using System.Collections;
 
 public static class BWT
 {
@@ -43,25 +43,47 @@ public static class BWT
             shifts[i] = i;
         }
 
-        BubbleSort(shifts, input);
+        QuickSort(shifts, 0, input.Length - 1, input);
 
         return shifts;
     }
 
-    private static void BubbleSort(int[] array, string input)
+    private static void QuickSort(int[] array, int left, int right, string input)
     {
-        bool isSorted = false;
-        while (!isSorted)
+        if (left >= right)
         {
-            isSorted = true;
-            for (var i = 1; i < array.Length; ++i)
+            return;
+        }
+
+        var pivot = Partition(left, right);
+        QuickSort(array, left, pivot - 1, input);
+        QuickSort(array, pivot + 1, right, input);
+
+        int Partition(int l, int r)
+        {
+            var p = r;
+            var i = l - 1;
+
+            for (var j = l; j < r; ++j)
             {
-                if (string.Compare(input[array[i - 1]..] + input[..array[i - 1]], input[array[i]..] + input[..array[i]]) > 0)
+                if (!Compare(j, p))
                 {
-                    (array[i - 1], array[i]) = (array[i], array[i - 1]);
-                    isSorted = false;
+                    ++i;
+                    (array[i], array[j]) = (array[j], array[i]);
                 }
             }
+
+            (array[i + 1], array[r]) = (array[r], array[i + 1]);
+
+            return i + 1;
+        }
+
+        bool Compare(int low, int high)
+        {
+            var lo = input[array[low]..] + input[..array[low]];
+            var hi = input[array[high]..] + input[..array[high]];
+
+            return string.Compare(lo, hi) > 0;
         }
     }
 
