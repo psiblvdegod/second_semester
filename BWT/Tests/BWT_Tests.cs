@@ -31,4 +31,24 @@ public class BWT_Tests
 
         Assert.Equal(expectedOutput, BWT.Detransform(input, position)); 
     }
+
+    [Fact]
+    public void Detransform_EmptyStringAsInput()
+    {
+        Assert.Throws<ArgumentException>(() => BWT.Detransform(string.Empty, 0));
+    }
+
+    [Fact]
+    public void Detransform_IncorrectPosition()
+    {
+        Assert.Throws<ArgumentException>(() => BWT.Detransform("123", 123));
+    }
+    
+    [Fact]
+    public void Transform_Then_Detransform()
+    {
+        var input = "BANANA";
+        (string output, int position) = BWT.Transform(input);
+        Assert.Equal(input, BWT.Detransform(output, position));
+    }
 }

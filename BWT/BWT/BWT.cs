@@ -89,6 +89,13 @@ public static class BWT
 
     public static string Detransform(string input, int position)
     {
+        ArgumentNullException.ThrowIfNullOrEmpty(input);
+
+        if (position < 0 || position > input.Length - 1)
+        {
+            throw new ArgumentException("invalid value");
+        }
+
         int alphabetPower = (int)Math.Pow(2, sizeof(char) * 8);
         var count = new int[alphabetPower];
         var amountOfSmaller = new Dictionary<char, int>();
@@ -129,7 +136,7 @@ public static class BWT
 
         var current = position;
 
-        for (var i = 0; i < input.Length; ++i)
+        for (var i = input.Length - 1; i >= 0; --i)
         {
             output[i] = input[current];
             current = amountOfSameEarlier[current] + amountOfSmaller[input[current]];
