@@ -21,9 +21,7 @@ public static class BWT
         ArgumentNullException.ThrowIfNullOrEmpty(input);
 
         var shifts = GetShifts(input);
-
         var output = new char[input.Length];
-
         var position = 0;
 
         for (var i = 0; i < shifts.Length; ++i)
@@ -81,7 +79,6 @@ public static class BWT
         }
 
         var amountOfSameEarlier = new int[input.Length];
-
         var counterForSameEarlier = new Dictionary<char, int>();
 
         for (var i = 0; i < input.Length; ++i)
@@ -95,7 +92,6 @@ public static class BWT
         }
 
         var output = new char[input.Length];
-
         var current = position;
 
         for (var i = input.Length - 1; i >= 0; --i)
@@ -109,10 +105,7 @@ public static class BWT
 
     private static int[] GetShifts(string input)
     {
-        if (input == string.Empty)
-        {
-            throw new Exception("empty string is not allowed as input");
-        }
+        ArgumentException.ThrowIfNullOrEmpty(input);
 
         var shifts = new int[input.Length];
 
