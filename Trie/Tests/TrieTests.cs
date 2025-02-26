@@ -5,31 +5,17 @@ using Trie;
 [TestFixture]
 public class TrieTests
 {
-    [Test]
-    public void Constructor_SequenceAsInput()
-    {
-        List<string> sequence = ["first", "second", "third"];
-
-        var trie = new Trie(sequence);
-
-        for (var i = 0; i < sequence.Count; ++i)
-        {
-            Assert.That(trie.DoesContain(sequence[i]));
-        }
-    }
 
     [Test]
-    public void Add_OneElementAsInput()
+    public void DoesContain_ElementIsNotInTrie()
     {
         var trie = new Trie();
 
-        Assert.That(trie.Add("string"));
-
-        Assert.That(trie.DoesContain("string"));
+        Assert.That(!trie.DoesContain("element"));
     }
 
     [Test]
-    public void Add_SequenceAsInput()
+    public void Add_OrdinaryInput()
     {
         var trie = new Trie();
 
@@ -47,11 +33,32 @@ public class TrieTests
     }
 
     [Test]
+    public void Add_ElementIsAlreadyInTrie()
+    {
+        var trie = new Trie(["element"]);
+
+        Assert.That(!trie.Add("element"));
+    }
+
+    [Test]
     public void Add_EmptyStringAsInput()
     {
         var trie = new Trie();
 
         Assert.Throws<ArgumentException>(() => trie.Add(string.Empty));
+    }
+
+    [Test]
+    public void Constructor_SequenceAsInput()
+    {
+        List<string> sequence = ["first", "second", "third"];
+
+        var trie = new Trie(sequence);
+
+        for (var i = 0; i < sequence.Count; ++i)
+        {
+            Assert.That(trie.DoesContain(sequence[i]));
+        }
     }
 
     [Test]
@@ -78,5 +85,29 @@ public class TrieTests
         var trie = new Trie();
 
         Assert.Throws<ArgumentException>(() => trie.Remove(string.Empty));
+    }
+
+    [Test]
+    public void CountWordsWithSuchPrefix_NoSuchWordsInTrie()
+    {
+        var trie = new Trie();
+
+        Assert.That(trie.CountWordsWithSuchPrefix("prefix"), Is.EqualTo(0));
+    }
+
+    [Test]
+    public void CountWordsWithSuchPrefix_OrdinaryInput()
+    {
+        var trie = new Trie(["first_1", "second_1", "second_2", "third_1", "third_2", "third_3"]);
+
+        Assert.That(trie.CountWordsWithSuchPrefix("second"), Is.EqualTo(2));
+    }
+
+    [Test]
+    public void CountWordsWithSuchPrefix_EmptyStringAsInput()
+    {
+        var trie = new Trie();
+
+        Assert.Throws<ArgumentException>(() => trie.CountWordsWithSuchPrefix(string.Empty));
     }
 }

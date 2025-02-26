@@ -1,5 +1,4 @@
-﻿
-namespace Trie
+﻿namespace Trie
 {
     /// <summary>
     /// Implements the "Trie" data structure.
@@ -17,7 +16,7 @@ namespace Trie
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Trie"/> class.
+        /// Initializes a new instance of the <see cref="Trie"/> class filling it with passed sequence.
         /// </summary>
         /// <param name="elements">The sequence from which the Trie is created.</param>
         public Trie(IEnumerable<string> elements)
@@ -159,6 +158,8 @@ namespace Trie
         /// <param name="prefix">The prefix which defines search key.</param>
         public int CountWordsWithSuchPrefix(string prefix)
         {
+            ArgumentException.ThrowIfNullOrEmpty(prefix);
+
             var current = this.root;
 
             foreach (var c in prefix)
