@@ -1,4 +1,8 @@
-﻿namespace Trie
+﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
+// under MIT license
+// </copyright>
+
+namespace Trie
 {
     /// <summary>
     /// Implements the "Trie" data structure.

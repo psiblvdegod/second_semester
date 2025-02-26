@@ -2,10 +2,12 @@
 
 using Trie;
 
+/// <summary>
+/// Tests class Trie.
+/// </summary>
 [TestFixture]
 public class TrieTests
 {
-
     [Test]
     public void DoesContain_ElementIsNotInTrie()
     {
