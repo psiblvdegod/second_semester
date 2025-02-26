@@ -49,10 +49,9 @@ public static class BWT
     {
         ArgumentNullException.ThrowIfNullOrEmpty(input);
 
-        if (position < 0 || position > input.Length - 1)
-        {
-            throw new ArgumentException("invalid value");
-        }
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(position, input.Length);
+
+        ArgumentOutOfRangeException.ThrowIfLessThan(position, 0);
 
         int alphabetPower = (int)Math.Pow(2, sizeof(char) * 8);
         var count = new int[alphabetPower];

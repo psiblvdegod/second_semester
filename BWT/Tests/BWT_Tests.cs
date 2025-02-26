@@ -87,7 +87,7 @@ public class BWT_Tests
     [Test]
     public void Detransform_IncorrectPosition()
     {
-        Assert.Throws<ArgumentException>(() => BWT.Detransform("123", 123));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BWT.Detransform("123", 123));
     }
 
     [Test]
