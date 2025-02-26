@@ -112,4 +112,34 @@ public class TrieTests
 
         Assert.Throws<ArgumentException>(() => trie.CountWordsWithSuchPrefix(string.Empty));
     }
+
+    [Test]
+    public void Size_EmptyTrie()
+    {
+        var trie = new Trie();
+
+        Assert.That(trie.Size, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void Size_Ordinary()
+    {
+        var trie = new Trie(["1", "2", "3", "4", "5"]);
+
+        Assert.That(trie.Size, Is.EqualTo(5));
+    }
+
+    [Test]
+    public void Size_AddThenRemove()
+    {
+        var trie = new Trie();
+
+        trie.Add("element");
+
+        Assert.That(trie.Size, Is.EqualTo(1));
+
+        trie.Remove("element");
+
+        Assert.That(trie.Size, Is.EqualTo(0));
+    }
 }
