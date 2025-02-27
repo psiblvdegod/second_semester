@@ -5,6 +5,8 @@
 namespace BWT;
 
 using System.Collections;
+using System.Formats.Asn1;
+using System.Runtime.CompilerServices;
 
 /// <summary>
 /// Contains methods, which allow do Burrows-Wheeler transform.
@@ -113,42 +115,20 @@ public static class BWT
             shifts[i] = i;
         }
 
-        QuickSort(shifts, 0, input.Length - 1, input);
+        var comparer = new ShiftsComparer(input);
+
+        Array.Sort(shifts, comparer.Compare);
 
         return shifts;
     }
 
-    private static void QuickSort(int[] array, int left, int right, string input)
+    public class ShiftsComparer(string input) : IComparer<int>
     {
-        if (left >= right)
-        {
-            return;
-        }
-
-        var pivot = Partition(left, right);
-        QuickSort(array, left, pivot - 1, input);
-        QuickSort(array, pivot + 1, right, input);
-
-        int Partition(int left, int right)
-        {
-            var pivot = right;
-            var i = left - 1;
-
-            for (var j = left; j < right; ++j)
-            {
-                if (!Compare(j, pivot))
-                {
-                    ++i;
-                    (array[i], array[j]) = (array[j], array[i]);
-                }
-            }
-
-            (array[i + 1], array[right]) = (array[right], array[i + 1]);
-
-            return i + 1;
-        }
-
-        bool Compare(int left, int right)
-            => string.Compare(input[array[left]..] + input[..array[left]], input[array[right]..] + input[..array[right]]) > 0;
+        public int Compare(int left, int right)
+            => string.Compare(input[left..] + input[..left], input[right..] + input[..right]);
     }
 }
+
+    // private static bool Compare(int[] array, int left, int right, string input)
+    //      => string.Compare(input[array[left]..] + input[..array[left]], input[array[right]..] + input[..array[right]]) > 0;
+
