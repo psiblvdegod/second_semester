@@ -53,7 +53,7 @@ public static class BWT
 
         ArgumentOutOfRangeException.ThrowIfLessThan(position, 0);
 
-        int alphabetPower = (int)Math.Pow(2, sizeof(char) * 8);
+        int alphabetPower = char.MaxValue;
         var count = new int[alphabetPower];
         var amountOfSmaller = new Dictionary<char, int>();
 
@@ -104,7 +104,7 @@ public static class BWT
 
     private static int[] GetShifts(string input)
     {
-        ArgumentException.ThrowIfNullOrEmpty(input);
+        ArgumentNullException.ThrowIfNullOrEmpty(input);
 
         var shifts = new int[input.Length];
 
