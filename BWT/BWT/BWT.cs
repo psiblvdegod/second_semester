@@ -20,7 +20,7 @@ public static class BWT
     /// <returns>Transformed string and it's position in the table of shifts.</returns>
     public static (string Output, int Position) Transform(string input)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(input);
+        ArgumentException.ThrowIfNullOrEmpty(input);
 
         var shifts = GetShifts(input);
         var output = new char[input.Length];
@@ -49,7 +49,7 @@ public static class BWT
     /// <returns>Initial string.</returns>
     public static string Detransform(string input, int position)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(input);
+        ArgumentException.ThrowIfNullOrEmpty(input);
 
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(position, input.Length);
 
@@ -106,7 +106,7 @@ public static class BWT
 
     private static int[] GetShifts(string input)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(input);
+        ArgumentException.ThrowIfNullOrEmpty(input);
 
         var shifts = new int[input.Length];
 
@@ -117,18 +117,44 @@ public static class BWT
 
         var comparer = new ShiftsComparer(input);
 
-        Array.Sort(shifts, comparer.Compare);
+        Array.Sort(shifts, comparer);
 
         return shifts;
     }
 
-    public class ShiftsComparer(string input) : IComparer<int>
+    private class ShiftsComparer(string input) : IComparer<int>
     {
         public int Compare(int left, int right)
-            => string.Compare(input[left..] + input[..left], input[right..] + input[..right]);
+        {
+            var j = right;
+
+            for (var i = left; i < input.Length; ++i, ++j)
+            {
+                if (j == input.Length)
+                {
+                    j = 0;
+                }
+
+                if (input[i] != input[j])
+                {
+                    return input[i] - input[j];
+                }
+            }
+
+            for (var i = 0; i < left; ++i, ++j)
+            {
+                if (j == input.Length)
+                {
+                    j = 0;
+                }
+
+                if (input[i] != input[j])
+                {
+                    return input[i] - input[j];
+                }
+            }
+
+            return 0;
+        }
     }
 }
-
-    // private static bool Compare(int[] array, int left, int right, string input)
-    //      => string.Compare(input[array[left]..] + input[..array[left]], input[array[right]..] + input[..array[right]]) > 0;
-
