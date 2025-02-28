@@ -167,32 +167,6 @@ public class Trie
         return current.Number;
     }
 
-    /// <summary>
-    /// Counts word with such prefix in the Trie.
-    /// </summary>
-    /// <returns>Number of elements, which have such prefix.</returns>
-    /// <param name="prefix">The prefix which defines search key.</param>
-    public int CountWordsWithSuchPrefix(string prefix)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(prefix);
-
-        var current = this.root;
-
-        foreach (var c in prefix)
-        {
-            var next = current.Find(c);
-
-            if (next is null)
-            {
-                return 0;
-            }
-
-            current = next;
-        }
-
-        return current.HeirsNumber;
-    }
-
     private class Vertex(char symbol, int number = -1)
     {
         private readonly List<Vertex> linked = [];

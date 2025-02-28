@@ -11,15 +11,12 @@ using Trie;
 [TestFixture]
 public class TrieTests
 {
-
     private static readonly string[] InputData = ["first", "second", "third", "fourth", "fifth"];
     private Trie trie;
 
     [SetUp]
     public void SetUp()
-    {
-        this.trie = new();
-    }
+        => this.trie = new();
 
     [Test]
     public void Find_ElementIsNotInTrie()
@@ -90,14 +87,6 @@ public class TrieTests
     [Test]
     public void Remove_EmptyStringAsInput()
         => Assert.Throws<ArgumentException>(() => this.trie.Remove(string.Empty));
-
-    [Test]
-    public void CountWordsWithSuchPrefix_NoSuchWordsInTrie()
-        => Assert.That(this.trie.CountWordsWithSuchPrefix("prefix"), Is.EqualTo(0));
-
-    [Test]
-    public void CountWordsWithSuchPrefix_EmptyStringAsInput()
-        => Assert.Throws<ArgumentException>(() => this.trie.CountWordsWithSuchPrefix(string.Empty));
 
     [Test]
     public void Size_EmptyTrie()
