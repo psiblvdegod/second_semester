@@ -2,7 +2,8 @@
 
 using Trie;
 
-public class LZW
+static public class LZW
 {
-    
+    // List<int> decimalCodesForOutput = [];
+
 }

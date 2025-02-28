@@ -11,138 +11,115 @@ using Trie;
 [TestFixture]
 public class TrieTests
 {
-    [Test]
-    public void DoesContain_ElementIsNotInTrie()
-    {
-        var trie = new Trie();
 
-        Assert.That(trie.Find("element"), Is.EqualTo(-1));
+    private static readonly string[] InputData = ["first", "second", "third", "fourth", "fifth"];
+    private Trie trie;
+
+    [SetUp]
+    public void SetUp()
+    {
+        this.trie = new();
     }
 
     [Test]
-    public void Add_OrdinaryInput()
+    public void Find_ElementIsNotInTrie()
+        => Assert.That(this.trie.Find("element"), Is.EqualTo(-1));
+
+    [Test]
+    public void Add_OnSequenceOfString_ShouldReturnTrue_Multiply()
     {
-        var trie = new Trie();
-
-        List<string> sequence = ["first", "second", "third"];
-
-        for (var i = 0; i < sequence.Count; ++i)
+        foreach (var s in InputData)
         {
-            Assert.That(trie.Add(sequence[i]));
+            Assert.That(this.trie.Add(s));
         }
+    }
 
-        for (var i = 0; i < sequence.Count; ++i)
+    [Test]
+    public void Find_SequenceAsInput()
+    {
+        this.trie.Add(InputData);
+
+        for (var i = 0; i < InputData.Length; ++i)
         {
-            Assert.That(trie.Find(sequence[i]), Is.EqualTo(i));
+            Assert.That(this.trie.Find(InputData[i]), Is.EqualTo(i));
         }
     }
 
     [Test]
     public void Add_ElementIsAlreadyInTrie()
     {
-        var trie = new Trie(["element"]);
+        this.trie.Add("element");
 
-        Assert.That(!trie.Add("element"));
+        Assert.That(!this.trie.Add("element"));
     }
 
     [Test]
     public void Add_EmptyStringAsInput()
-    {
-        var trie = new Trie();
-
-        Assert.Throws<ArgumentException>(() => trie.Add(string.Empty));
-    }
+        => Assert.Throws<ArgumentException>(() => this.trie.Add(string.Empty));
 
     [Test]
     public void Constructor_SequenceAsInput()
     {
         List<string> sequence = ["first", "second", "third"];
 
-        var trie = new Trie(sequence);
+        foreach (var s in sequence)
+        {
+            this.trie.Add(s);
+        }
 
         for (var i = 0; i < sequence.Count; ++i)
         {
-            Assert.That(trie.Find(sequence[i]), Is.EqualTo(i));
+            Assert.That(this.trie.Find(sequence[i]), Is.EqualTo(i));
         }
     }
 
     [Test]
     public void Remove_ElementIsInTrie()
     {
-        var trie = new Trie(["element"]);
+        this.trie.Add("element");
 
-        Assert.That(trie.Remove("element"));
+        Assert.That(this.trie.Remove("element"));
 
-        Assert.That(trie.Find("element"), Is.EqualTo(-1));
+        Assert.That(this.trie.Find("element"), Is.EqualTo(-1));
     }
 
     [Test]
     public void Remove_ElementIsNotInTrie()
-    {
-        var trie = new Trie();
-
-        Assert.That(!trie.Remove("element"));
-    }
+        => Assert.That(!this.trie.Remove("element"));
 
     [Test]
     public void Remove_EmptyStringAsInput()
-    {
-        var trie = new Trie();
-
-        Assert.Throws<ArgumentException>(() => trie.Remove(string.Empty));
-    }
+        => Assert.Throws<ArgumentException>(() => this.trie.Remove(string.Empty));
 
     [Test]
     public void CountWordsWithSuchPrefix_NoSuchWordsInTrie()
-    {
-        var trie = new Trie();
-
-        Assert.That(trie.CountWordsWithSuchPrefix("prefix"), Is.EqualTo(0));
-    }
-
-    [Test]
-    public void CountWordsWithSuchPrefix_OrdinaryInput()
-    {
-        var trie = new Trie(["first_1", "second_1", "second_2", "third_1", "third_2", "third_3"]);
-
-        Assert.That(trie.CountWordsWithSuchPrefix("second"), Is.EqualTo(2));
-    }
+        => Assert.That(this.trie.CountWordsWithSuchPrefix("prefix"), Is.EqualTo(0));
 
     [Test]
     public void CountWordsWithSuchPrefix_EmptyStringAsInput()
-    {
-        var trie = new Trie();
-
-        Assert.Throws<ArgumentException>(() => trie.CountWordsWithSuchPrefix(string.Empty));
-    }
+        => Assert.Throws<ArgumentException>(() => this.trie.CountWordsWithSuchPrefix(string.Empty));
 
     [Test]
     public void Size_EmptyTrie()
-    {
-        var trie = new Trie();
-
-        Assert.That(trie.Size, Is.EqualTo(0));
-    }
+        => Assert.That(this.trie.Size, Is.EqualTo(0));
 
     [Test]
     public void Size_Ordinary()
     {
-        var trie = new Trie(["1", "2", "3", "4", "5"]);
+        this.trie.Add(InputData);
 
-        Assert.That(trie.Size, Is.EqualTo(5));
+        Assert.That(this.trie.Size, Is.EqualTo(5));
     }
 
     [Test]
     public void Size_AddThenRemove()
     {
-        var trie = new Trie();
+        this.trie.Add("element");
 
-        trie.Add("element");
+        Assert.That(this.trie.Size, Is.EqualTo(1));
 
-        Assert.That(trie.Size, Is.EqualTo(1));
+        this.trie.Remove("element");
 
-        trie.Remove("element");
-
-        Assert.That(trie.Size, Is.EqualTo(0));
+        Assert.That(this.trie.Size, Is.EqualTo(0));
     }
 }

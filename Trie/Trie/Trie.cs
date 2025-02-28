@@ -83,6 +83,18 @@ public class Trie
     }
 
     /// <summary>
+    /// Adds elements to the Trie. Does not report if element was added.
+    /// </summary>
+    /// <param name="input">The elements which will be added.</param>
+    public void Add(IEnumerable<string> input)
+    {
+        foreach (var s in input)
+        {
+            this.Add(s);
+        }
+    }
+
+    /// <summary>
     /// Removes element from the Trie.
     /// </summary>
     /// <returns>true if item is successfully removed; otherwise, false.</returns>
