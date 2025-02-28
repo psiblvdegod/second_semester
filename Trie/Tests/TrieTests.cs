@@ -16,7 +16,7 @@ public class TrieTests
     {
         var trie = new Trie();
 
-        Assert.That(!trie.DoesContain("element"));
+        Assert.That(trie.Find("element"), Is.EqualTo(-1));
     }
 
     [Test]
@@ -33,7 +33,7 @@ public class TrieTests
 
         for (var i = 0; i < sequence.Count; ++i)
         {
-            Assert.That(trie.DoesContain(sequence[i]));
+            Assert.That(trie.Find(sequence[i]), Is.EqualTo(i));
         }
     }
 
@@ -62,7 +62,7 @@ public class TrieTests
 
         for (var i = 0; i < sequence.Count; ++i)
         {
-            Assert.That(trie.DoesContain(sequence[i]));
+            Assert.That(trie.Find(sequence[i]), Is.EqualTo(i));
         }
     }
 
@@ -73,7 +73,7 @@ public class TrieTests
 
         Assert.That(trie.Remove("element"));
 
-        Assert.That(!trie.DoesContain("element"));
+        Assert.That(trie.Find("element"), Is.EqualTo(-1));
     }
 
     [Test]

@@ -67,12 +67,12 @@ public class Trie
             current = next;
         }
 
-        if (current.IsInTrie)
+        if (current.Number != -1)
         {
             return false;
         }
 
-        current.IsInTrie = true;
+        current.Number = this.Size;
 
         foreach (var v in path)
         {
@@ -108,12 +108,12 @@ public class Trie
             current = next;
         }
 
-        if (!current.IsInTrie)
+        if (current.Number == -1)
         {
             return false;
         }
 
-        current.IsInTrie = false;
+        current.Number = -1;
 
         for (var i = 1; i < path.Count; ++i)
         {
@@ -132,11 +132,11 @@ public class Trie
     }
 
     /// <summary>
-    /// Finds element in the Trie.
+    /// Searches element in the Trie.
     /// </summary>
-    /// <returns>true if item was found; otherwise, false.</returns>
+    /// <returns>(positive)number of item if it was found; otherwise, -1.</returns>
     /// <param name="element">The element which will be searched for.</param>
-    public bool DoesContain(string element)
+    public int Find(string element)
     {
         var current = this.root;
 
@@ -146,13 +146,13 @@ public class Trie
 
             if (next is null)
             {
-                return false;
+                return -1;
             }
 
             current = next;
         }
 
-        return current.IsInTrie;
+        return current.Number;
     }
 
     /// <summary>
@@ -181,13 +181,13 @@ public class Trie
         return current.HeirsNumber;
     }
 
-    private class Vertex(char symbol, bool isInTrie = false)
+    private class Vertex(char symbol, int number = -1)
     {
         private readonly List<Vertex> linked = [];
 
         internal char Symbol { get; } = symbol;
 
-        internal bool IsInTrie { get; set; } = isInTrie;
+        internal int Number { get; set; } = number;
 
         internal int HeirsNumber { get; set; }
 
