@@ -2,200 +2,199 @@
 // under MIT license
 // </copyright>
 
-namespace Trie
+namespace Trie;
+
+/// <summary>
+/// Implements the "Trie" data structure.
+/// </summary>
+public class Trie
 {
+    private readonly Vertex root;
+
     /// <summary>
-    /// Implements the "Trie" data structure.
+    /// Initializes a new instance of the <see cref="Trie"/> class.
     /// </summary>
-    public class Trie
+    public Trie()
     {
-        private readonly Vertex root;
+        this.root = new('/');
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Trie"/> class.
-        /// </summary>
-        public Trie()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Trie"/> class filling it with passed sequence.
+    /// </summary>
+    /// <param name="elements">The sequence from which the Trie is created.</param>
+    public Trie(IEnumerable<string> elements)
+        : this()
+    {
+        foreach (var element in elements)
         {
-            this.root = new('/');
+            this.Add(element);
         }
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Trie"/> class filling it with passed sequence.
-        /// </summary>
-        /// <param name="elements">The sequence from which the Trie is created.</param>
-        public Trie(IEnumerable<string> elements)
-            : this()
+    /// <summary>
+    /// Gets amount of elements in the Trie.
+    /// </summary>
+    public int Size
+    {
+        get { return this.root.HeirsNumber; }
+    }
+
+    /// <summary>
+    /// Adds element to the Trie.
+    /// </summary>
+    /// <returns>true if item is successfully added; otherwise, false.</returns>
+    /// <param name="element">The element which will be added.</param>
+    public bool Add(string element)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(element);
+
+        List<Vertex> path = [];
+        var current = this.root;
+        path.Add(current);
+
+        foreach (var c in element)
         {
-            foreach (var element in elements)
+            var next = current.Find(c);
+
+            if (next is null)
             {
-                this.Add(element);
-            }
-        }
-
-        /// <summary>
-        /// Gets amount of elements in the Trie.
-        /// </summary>
-        public int Size
-        {
-            get { return this.root.HeirsNumber; }
-        }
-
-        /// <summary>
-        /// Adds element to the Trie.
-        /// </summary>
-        /// <returns>true if item is successfully added; otherwise, false.</returns>
-        /// <param name="element">The element which will be added.</param>
-        public bool Add(string element)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(element);
-
-            List<Vertex> path = [];
-            var current = this.root;
-            path.Add(current);
-
-            foreach (var c in element)
-            {
-                var next = current.Find(c);
-
-                if (next is null)
-                {
-                    next = new Vertex(c);
-                    current.Link(next);
-                }
-
-                path.Add(next);
-                current = next;
+                next = new Vertex(c);
+                current.Link(next);
             }
 
-            if (current.IsInTrie)
+            path.Add(next);
+            current = next;
+        }
+
+        if (current.IsInTrie)
+        {
+            return false;
+        }
+
+        current.IsInTrie = true;
+
+        foreach (var v in path)
+        {
+            ++v.HeirsNumber;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Removes element from the Trie.
+    /// </summary>
+    /// <returns>true if item is successfully removed; otherwise, false.</returns>
+    /// <param name="element">The element which will be removed.</param>
+    public bool Remove(string element)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(element);
+
+        List<Vertex> path = [];
+        var current = this.root;
+        path.Add(current);
+
+        foreach (var c in element)
+        {
+            var next = current.Find(c);
+
+            if (next is null)
             {
                 return false;
             }
 
-            current.IsInTrie = true;
-
-            foreach (var v in path)
-            {
-                ++v.HeirsNumber;
-            }
-
-            return true;
+            path.Add(next);
+            current = next;
         }
 
-        /// <summary>
-        /// Removes element from the Trie.
-        /// </summary>
-        /// <returns>true if item is successfully removed; otherwise, false.</returns>
-        /// <param name="element">The element which will be removed.</param>
-        public bool Remove(string element)
+        if (!current.IsInTrie)
         {
-            ArgumentException.ThrowIfNullOrEmpty(element);
+            return false;
+        }
 
-            List<Vertex> path = [];
-            var current = this.root;
-            path.Add(current);
+        current.IsInTrie = false;
 
-            foreach (var c in element)
+        for (var i = 1; i < path.Count; ++i)
+        {
+            if (path[i].HeirsNumber == 1)
             {
-                var next = current.Find(c);
-
-                if (next is null)
-                {
-                    return false;
-                }
-
-                path.Add(next);
-                current = next;
+                path[i - 1].Unlink(path[i]);
+                break;
             }
 
-            if (!current.IsInTrie)
+            --path[i].HeirsNumber;
+        }
+
+        --this.root.HeirsNumber;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Finds element in the Trie.
+    /// </summary>
+    /// <returns>true if item was found; otherwise, false.</returns>
+    /// <param name="element">The element which will be searched for.</param>
+    public bool DoesContain(string element)
+    {
+        var current = this.root;
+
+        foreach (var c in element)
+        {
+            var next = current.Find(c);
+
+            if (next is null)
             {
                 return false;
             }
 
-            current.IsInTrie = false;
+            current = next;
+        }
 
-            for (var i = 1; i < path.Count; ++i)
+        return current.IsInTrie;
+    }
+
+    /// <summary>
+    /// Counts word with such prefix in the Trie.
+    /// </summary>
+    /// <returns>Number of elements, which have such prefix.</returns>
+    /// <param name="prefix">The prefix which defines search key.</param>
+    public int CountWordsWithSuchPrefix(string prefix)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(prefix);
+
+        var current = this.root;
+
+        foreach (var c in prefix)
+        {
+            var next = current.Find(c);
+
+            if (next is null)
             {
-                if (path[i].HeirsNumber == 1)
-                {
-                    path[i - 1].Unlink(path[i]);
-                    break;
-                }
-
-                --path[i].HeirsNumber;
+                return 0;
             }
 
-            --this.root.HeirsNumber;
-
-            return true;
+            current = next;
         }
 
-        /// <summary>
-        /// Finds element in the Trie.
-        /// </summary>
-        /// <returns>true if item was found; otherwise, false.</returns>
-        /// <param name="element">The element which will be searched for.</param>
-        public bool DoesContain(string element)
-        {
-            var current = this.root;
+        return current.HeirsNumber;
+    }
 
-            foreach (var c in element)
-            {
-                var next = current.Find(c);
+    private class Vertex(char symbol, bool isInTrie = false)
+    {
+        private readonly List<Vertex> linked = [];
 
-                if (next is null)
-                {
-                    return false;
-                }
+        internal char Symbol { get; } = symbol;
 
-                current = next;
-            }
+        internal bool IsInTrie { get; set; } = isInTrie;
 
-            return current.IsInTrie;
-        }
+        internal int HeirsNumber { get; set; }
 
-        /// <summary>
-        /// Counts word with such prefix in the Trie.
-        /// </summary>
-        /// <returns>Number of elements, which have such prefix.</returns>
-        /// <param name="prefix">The prefix which defines search key.</param>
-        public int CountWordsWithSuchPrefix(string prefix)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(prefix);
+        internal void Link(Vertex vertex) => this.linked.Add(vertex);
 
-            var current = this.root;
+        internal bool Unlink(Vertex vertex) => this.linked.Remove(vertex);
 
-            foreach (var c in prefix)
-            {
-                var next = current.Find(c);
-
-                if (next is null)
-                {
-                    return 0;
-                }
-
-                current = next;
-            }
-
-            return current.HeirsNumber;
-        }
-
-        private class Vertex(char symbol, bool isInTrie = false)
-        {
-            private readonly List<Vertex> linked = [];
-
-            internal char Symbol { get; } = symbol;
-
-            internal bool IsInTrie { get; set; } = isInTrie;
-
-            internal int HeirsNumber { get; set; }
-
-            internal void Link(Vertex vertex) => this.linked.Add(vertex);
-
-            internal bool Unlink(Vertex vertex) => this.linked.Remove(vertex);
-
-            internal Vertex? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
-        }
+        internal Vertex? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
     }
 }
