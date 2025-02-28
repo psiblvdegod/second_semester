@@ -1,4 +1,7 @@
-﻿namespace Tests;
+﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
+// under MIT license
+// </copyright>
+namespace Tests;
 
 using Trie;
 
