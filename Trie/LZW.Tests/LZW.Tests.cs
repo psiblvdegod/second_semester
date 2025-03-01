@@ -8,10 +8,12 @@ public class Tests
     [Test]
     public void Compress_WithOrdinaryInput()
     {
-        var input = "abacabadabacabae";
+        var input = "abacabababa";
 
-        Assert.That(LZW.Compress(input), Is.EqualTo("01025039864"));
+        Assert.That(LZW.Compress(input), Is.EqualTo("0102374"));
+
         /*
+
         a - 0
         b - 1
         c - 2
@@ -19,6 +21,10 @@ public class Tests
         ba - 4
         ac - 5
         ca - 6
+        aba - 7
+
+        
+
         */
     }
 }
