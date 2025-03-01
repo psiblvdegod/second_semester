@@ -85,14 +85,22 @@ public class Trie
     /// <summary>
     /// Adds elements to the Trie. Does not report if element was added.
     /// </summary>
-    /// <param name="input">The elements which will be added.</param>
-    public void Add(IEnumerable<string> input)
+    /// <param name="element">The elements which will be added.</param>
+    public void Add(IEnumerable<string> element)
     {
-        foreach (var s in input)
+        foreach (var s in element)
         {
             this.Add(s);
         }
     }
+
+    /// <summary>
+    /// Adds element to the Trie.
+    /// </summary>
+    /// <returns>true if item is successfully added; otherwise, false.</returns>
+    /// <param name="element">The element which will be added.</param>
+    public bool Add(char element)
+        => this.Add(element.ToString());
 
     /// <summary>
     /// Removes element from the Trie.
@@ -166,6 +174,14 @@ public class Trie
 
         return current.Number;
     }
+
+    /// <summary>
+    /// Searches element in the Trie.
+    /// </summary>
+    /// <returns>(positive)number of item if it was found; otherwise, -1.</returns>
+    /// <param name="element">The element which will be searched for.</param>
+    public int Find(char element)
+     => this.Find(element.ToString());
 
     private class Vertex(char symbol, int number = -1)
     {
