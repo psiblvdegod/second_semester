@@ -18,16 +18,17 @@ static public class LZW
 
         var current = input[0].ToString();
 
-        foreach (var c in input[1..])
+        for (var i = 1; i < input.Length; ++i)
         {
-            if (!dictionary.Add(current + c))
+            while (i < input.Length - 1 && !dictionary.Add(current + input[i]))
             {
-                current += c;
+                current += input[i];
+                ++i;
             }
 
             output += dictionary.Find(current);
 
-            current = c.ToString();
+            current = input[i].ToString();
         }
     
         return output;
