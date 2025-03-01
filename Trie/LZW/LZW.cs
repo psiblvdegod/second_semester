@@ -18,7 +18,7 @@ static public class LZW
 
         var current = string.Empty;
 
-        for (var i = 0; i < input.Length; ++i)
+        for (var i = 0; i <= input.Length; ++i)
         {
             while (i < input.Length && !dictionary.Add(current + input[i]))
             {
