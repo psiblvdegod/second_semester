@@ -1,25 +1,35 @@
 ﻿namespace LZW;
 
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using Trie;
 
-// static public class LZW
-// {
-//     public static string Compress(string input)
-//     {
-//         var dictionary = new Trie();
+static public class LZW
+{
+    public static string Compress(string input)
+    {
+        var dictionary = new Trie();
 
-//         foreach (var c in input)
-//         {
-//             dictionary.Add(c);
-//         }
+        foreach (var c in input)
+        {
+            dictionary.Add(c);
+        }
 
-//         var current = string.Empty;
+        var output = string.Empty;
 
-//         foreach (var c in input)
-//         {
-//             if (
-//         }
-//     } 
+        var current = input[0].ToString();
 
-// }
+        foreach (var c in input[1..])
+        {
+            if (!dictionary.Add(current + c))
+            {
+                current += c;
+            }
+
+            output += dictionary.Find(current);
+
+            current = c.ToString();
+        }
+    
+        return output;
+    } 
+}
