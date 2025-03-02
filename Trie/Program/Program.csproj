@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LZW\LZW.csproj" />
+    <ProjectReference Include="..\LZW.FileProcessing\LZW.FileProcessing.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
