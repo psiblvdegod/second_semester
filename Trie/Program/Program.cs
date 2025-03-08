@@ -1,10 +1,11 @@
 ﻿using static LZW.LZW;
 using System.Linq.Expressions;
 
+args = ["/home/psi/Desktop/second_semester/Trie/Program/text.txt", "c"];
+
 if (args.Length != 2)
 {
-    Console.WriteLine("Specify params.");
-    return -1;
+    throw new ArgumentException("Incorrect number of parameters.");
 }
 
 if (args[1] == "c")
@@ -25,7 +26,7 @@ if (args[1] == "c")
     }
 }
 
-if (args[1] == "u")
+else if (args[1] == "u")
 {
     if (args[0][args[0].LastIndexOf('.')..] != ".zipped")
     {
@@ -33,9 +34,7 @@ if (args[1] == "u")
     }
 
     var input = File.ReadAllText(args[0]);
-
     var result = Decompress(input);
-
     var stream = File.CreateText(args[0][..args[0].LastIndexOf('.')]);
 
     try
@@ -46,6 +45,11 @@ if (args[1] == "u")
     {
         stream.Close();
     }
+}
+
+else 
+{
+    throw new ArgumentException("Invalid switch.");
 }
 
 return 0;

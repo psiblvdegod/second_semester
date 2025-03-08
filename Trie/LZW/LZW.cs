@@ -8,7 +8,6 @@ static public class LZW
     public static string Compress(string input)
     {
         var dictionary = new Trie();
-
         var output = string.Empty;
 
         foreach (var c in input)
@@ -30,8 +29,9 @@ static public class LZW
                 tail += input[i++];
             }
 
-            output += Convert.ToString(dictionary.Find(tail), 2);
-            output += ' ';
+            var significant = Convert.ToString(dictionary.Find(tail), 2);
+    
+            output = string.Concat(output, significant, ' ');
 
             if (i < input.Length)
             {
