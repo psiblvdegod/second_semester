@@ -1,8 +1,6 @@
 ﻿using static LZW.LZW;
 using System.Linq.Expressions;
 
-args = ["/home/psi/Desktop/second_semester/Trie/Program/text.txt", "c"];
-
 if (args.Length != 2)
 {
     throw new ArgumentException("Incorrect number of parameters.");
