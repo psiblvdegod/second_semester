@@ -1,6 +1,8 @@
 ﻿using static LZW.LZW;
 using System.Linq.Expressions;
 
+args = ["/home/psi/Desktop/second_semester/Trie/Program/text.txt.zipped", "u"];
+
 if (args.Length != 2)
 {
     Console.WriteLine("Specify params.");
@@ -13,9 +15,7 @@ if (args[1] == "c")
 
     var result = Compress(input);
 
-    var dir = args[0][(args[0].LastIndexOf('/') + 1)..];
-
-    var stream = File.CreateText(dir + ".zipped");
+    var stream = File.CreateText($"{args[0]}.zipped");
 
     try
     {
@@ -27,7 +27,7 @@ if (args[1] == "c")
     }
 }
 
-if (args[1] == "-u")
+if (args[1] == "u")
 {
     if (args[0][args[0].LastIndexOf('.')..] != ".zipped")
     {
@@ -35,6 +35,19 @@ if (args[1] == "-u")
     }
 
     var input = File.ReadAllText(args[0]);
+
+    var result = Decompress(input);
+
+    var stream = File.CreateText(args[0][..args[0].LastIndexOf('.')]);
+
+    try
+    {
+        stream.Write(result);
+    }
+    finally
+    {
+        stream.Close();
+    }
 }
 
 return 0;
