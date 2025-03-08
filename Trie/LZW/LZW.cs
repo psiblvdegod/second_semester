@@ -9,12 +9,17 @@ static public class LZW
     {
         var dictionary = new Trie();
 
+        var output = string.Empty;
+
         foreach (var c in input)
         {
-            dictionary.Add(c);
+            if (dictionary.Add(c))
+            {
+                output += c;
+            }
         }
 
-        var output = string.Empty;
+        output += '\n';
 
         var tail = string.Empty;
 
@@ -25,8 +30,8 @@ static public class LZW
                 tail += input[i++];
             }
 
-            output += dictionary.Find(tail);
-
+            output += Convert.ToString(dictionary.Find(tail), 2);
+            output += ' ';
 
             if (i < input.Length)
             {
@@ -35,5 +40,34 @@ static public class LZW
         }
     
         return output;
-    } 
+    }
+
+    public static string Decompress(string input)
+    {
+        var dictionary = new Trie();
+
+        foreach (var c in input[..input.IndexOf('\n')])
+        {
+            dictionary.Add(c);
+        }
+
+        var output = string.Empty;
+
+        var tail = string.Empty;
+
+        foreach (var b in input[(input.IndexOf('\n') + 1)..].Split(" "))
+        {
+            var s = Convert.ToInt32(b, 2).ToString();
+
+            if (dictionary.Add(tail + s))
+            {
+                output += tail;
+                tail = s;
+            }
+        }
+
+        output += tail;
+
+        return output;
+    }
 }

@@ -1,8 +1,6 @@
 ﻿using static LZW.LZW;
 using System.Linq.Expressions;
 
-args = ["/home/psi/Desktop/second_semester/Trie/Program/text.txt.zipped", "u"];
-
 if (args.Length != 2)
 {
     Console.WriteLine("Specify params.");
