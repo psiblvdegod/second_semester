@@ -10,6 +10,7 @@ static public class LZW
     public static string Compress(string input)
     {
         var dictionary = new Trie();
+
         var output = string.Empty;
 
         foreach (var c in input)
@@ -23,78 +24,32 @@ static public class LZW
         output += '$';
 
         var length = 5;
-        var amount = (int)Math.Pow(2, length) - dictionary.Size;
         var tail = string.Empty;
 
-        for (var i = 0; i < input.Length; ++i)
+        foreach (var c in input)
         {
-            if (dictionary.Add(tail + input[i]))
+            if (dictionary.Add(tail + c))
             {
-                if (--amount <= 0)
-                {
-                    amount = (int)Math.Pow(2, ++length) - dictionary.Size;
-                }
-
-                var significant = Convert.ToString(dictionary.Find(tail), 2);
-                var zeros = new string('0', length - significant.Length);
-                output = string.Concat(output, zeros, significant);                
-                tail = input[i].ToString();
+                output += GetBinNumber(tail);               
+                tail = c.ToString();
             }
-            else 
+            else
             {
-                tail += input[i];
+                tail += c;
             }
         }
 
-        var s = Convert.ToString(dictionary.Find(tail), 2);
-        var z = new string('0', length - s.Length);
-    
-        return output + z + s;
+        return output + GetBinNumber(tail);
+
+        string GetBinNumber(string seq)
+        {
+            var significant = Convert.ToString(dictionary.Find(seq), 2);
+            var zeros = new string('0', length - significant.Length);
+            return zeros + significant;
+        }
     }
 
     public static string Decompress(string input)
-    {
-        var dictionary = new Trie();
-
-        var length = 5;
-
-        for (var i = 0; input[i] != '$'; ++i)
-        {
-            var significant = Convert.ToString(i, 2);
-            var zeros = new string('0', length - significant.Length);
-            dictionary.Add(zeros + significant);
-        }
-        
-        var amount = (int)Math.Pow(2, length) - dictionary.Size;
-
-        var output = string.Empty;
-        var tail = string.Empty;
-
-        for (var i = input.IndexOf('$') + 1; i + length < input.Length; i += length)
-        {
-            var current = input[i..(i + length)];            
-
-            if (dictionary.Add(tail + current))
-            {
-                output += tail;
-                tail = current;
-                
-                if (--amount <= 0)
-                {
-                    amount = (int)Math.Pow(2, ++length) - dictionary.Size;
-                }
-            }
-
-            else 
-            {
-                tail += current;
-            }
-        }
-
-        return output + tail;
-    }
-
-    public static string Decompress2(string input)
     {
         var dictionary = new List<string>();
 
