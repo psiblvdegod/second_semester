@@ -1,5 +1,6 @@
 ﻿namespace LZW;
 
+using System.Diagnostics;
 using System.Text;
 using Microsoft.VisualBasic;
 using Trie;
@@ -21,7 +22,7 @@ static public class LZW
 
         output += '$';
 
-        var length = 3;
+        var length = 5;
         var amount = (int)Math.Pow(2, length) - dictionary.Size;
         var tail = string.Empty;
 
@@ -48,14 +49,14 @@ static public class LZW
         var s = Convert.ToString(dictionary.Find(tail), 2);
         var z = new string('0', length - s.Length);
     
-        return output + s + z;
+        return output + z + s;
     }
 
     public static string Decompress(string input)
     {
         var dictionary = new Trie();
 
-        var length = 4;
+        var length = 5;
 
         for (var i = 0; input[i] != '$'; ++i)
         {
@@ -75,7 +76,7 @@ static public class LZW
 
             if (dictionary.Add(tail + current))
             {
-                output += tail + ' ';
+                output += tail;
                 tail = current;
                 
                 if (--amount <= 0)
@@ -83,11 +84,48 @@ static public class LZW
                     amount = (int)Math.Pow(2, ++length) - dictionary.Size;
                 }
             }
+
             else 
             {
                 tail += current;
             }
         }
+
         return output + tail;
+    }
+
+    public static string Decompress2(string input)
+    {
+        var dictionary = new List<string>();
+
+        var length = 5;
+
+        foreach (var c in input[..input.IndexOf('$')])
+        {
+            dictionary.Add(c.ToString());
+        }
+
+        var output = string.Empty;
+
+        var tail = string.Empty;
+
+        for (var i = input.IndexOf('$') + 1; i + length <= input.Length; i += length)
+        {
+            var current = dictionary[Convert.ToInt32(input[i..(i + length)], 2)];
+
+            output += current;
+
+            if (!dictionary.Contains(tail + current))
+            {
+                dictionary.Add(tail + current);
+                tail = current;
+            }
+            else
+            {
+                tail += current;
+            }
+        }
+
+        return output;
     }
 }
