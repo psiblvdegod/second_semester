@@ -21,40 +21,41 @@ static public class LZW
 
         output += '$';
 
-        var length = (int)Math.Ceiling(Math.Log2(dictionary.Size));
+        var length = 3;
         var amount = (int)Math.Pow(2, length) - dictionary.Size;
         var tail = string.Empty;
 
-        for (var i = 0; i <= input.Length; ++i)
+        for (var i = 0; i < input.Length; ++i)
         {
-            while (i < input.Length && !dictionary.Add(tail + input[i]))
+            if (dictionary.Add(tail + input[i]))
             {
-                tail += input[i++];
-            }
+                if (--amount <= 0)
+                {
+                    amount = (int)Math.Pow(2, ++length) - dictionary.Size;
+                }
 
-            if (--amount <= 0)
-            {
-                amount = (int)Math.Pow(2, ++length) - dictionary.Size;
-            }
-
-            var significant = Convert.ToString(dictionary.Find(tail), 2);
-            var zeros = new string('0', length - significant.Length);
-            output = string.Concat(output, zeros, significant);
-
-            if (i < input.Length)
-            {
+                var significant = Convert.ToString(dictionary.Find(tail), 2);
+                var zeros = new string('0', length - significant.Length);
+                output = string.Concat(output, zeros, significant);                
                 tail = input[i].ToString();
             }
+            else 
+            {
+                tail += input[i];
+            }
         }
+
+        var s = Convert.ToString(dictionary.Find(tail), 2);
+        var z = new string('0', length - s.Length);
     
-        return output;
+        return output + s + z;
     }
 
     public static string Decompress(string input)
     {
         var dictionary = new Trie();
 
-        var length = (int)Math.Ceiling(Math.Log2(input.IndexOf('$')));
+        var length = 4;
 
         for (var i = 0; input[i] != '$'; ++i)
         {
@@ -86,9 +87,7 @@ static public class LZW
             {
                 tail += current;
             }
-
         }
-
         return output + tail;
     }
 }
