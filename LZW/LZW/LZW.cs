@@ -1,6 +1,7 @@
 ﻿namespace LZW;
 
 using System.Text;
+using Microsoft.VisualBasic;
 using Trie;
 
 static public class LZW
@@ -18,8 +19,10 @@ static public class LZW
             }
         }
 
-        output += '\n';
+        output += '$';
 
+        var length = (int)Math.Ceiling(Math.Log2(dictionary.Size));
+        var amount = (int)Math.Pow(2, length) - dictionary.Size;
         var tail = string.Empty;
 
         for (var i = 0; i <= input.Length; ++i)
@@ -29,9 +32,14 @@ static public class LZW
                 tail += input[i++];
             }
 
+            if (--amount <= 0)
+            {
+                amount = (int)Math.Pow(2, ++length) - dictionary.Size;
+            }
+
             var significant = Convert.ToString(dictionary.Find(tail), 2);
-    
-            output = string.Concat(output, significant, ' ');
+            var zeros = new string('0', length - significant.Length);
+            output = string.Concat(output, zeros, significant);
 
             if (i < input.Length)
             {
@@ -46,28 +54,41 @@ static public class LZW
     {
         var dictionary = new Trie();
 
-        foreach (var c in input[..input.IndexOf('\n')])
+        var length = (int)Math.Ceiling(Math.Log2(input.IndexOf('$')));
+
+        for (var i = 0; input[i] != '$'; ++i)
         {
-            dictionary.Add(c);
+            var significant = Convert.ToString(i, 2);
+            var zeros = new string('0', length - significant.Length);
+            dictionary.Add(zeros + significant);
         }
+        
+        var amount = (int)Math.Pow(2, length) - dictionary.Size;
 
         var output = string.Empty;
-
         var tail = string.Empty;
 
-        foreach (var b in input[(input.IndexOf('\n') + 1)..].Split(" "))
+        for (var i = input.IndexOf('$') + 1; i + length < input.Length; i += length)
         {
-            var s = Convert.ToInt32(b, 2).ToString();
+            var current = input[i..(i + length)];            
 
-            if (dictionary.Add(tail + s))
+            if (dictionary.Add(tail + current))
             {
-                output += tail;
-                tail = s;
+                output += tail + ' ';
+                tail = current;
+                
+                if (--amount <= 0)
+                {
+                    amount = (int)Math.Pow(2, ++length) - dictionary.Size;
+                }
             }
+            else 
+            {
+                tail += current;
+            }
+
         }
 
-        output += tail;
-
-        return output;
+        return output + tail;
     }
 }
