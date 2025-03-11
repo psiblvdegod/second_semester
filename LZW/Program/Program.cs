@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 
  args = ["/home/psi/Desktop/second_semester/LZW/Program/text.txt.zipped", "u"];
-//args = ["/home/psi/Desktop/second_semester/LZW/Program/text.txt", "c"];
+args = ["/home/psi/Desktop/second_semester/LZW/Program/text.txt", "c"];
 
 
 if (args.Length != 2)

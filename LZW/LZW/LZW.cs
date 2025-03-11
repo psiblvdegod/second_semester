@@ -23,7 +23,9 @@ static public class LZW
 
         output += '$';
 
-        var length = 5;
+        var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Size)));
+        var freeSpace = (int)Math.Pow(2, length) - dictionary.Size;
+
         var tail = string.Empty;
 
         foreach (var c in input)
@@ -32,6 +34,11 @@ static public class LZW
             {
                 output += GetBinNumber(tail);               
                 tail = c.ToString();
+
+                if (--freeSpace <= 0)
+                {
+                    freeSpace = -(int)Math.Pow(2, length++) + (int)Math.Pow(2, length);
+                }
             }
             else
             {
@@ -49,47 +56,16 @@ static public class LZW
         }
     }
 
-    public static string Decompress(string input)
-    {
-        var dictionary = new Trie();
-
-        var length = 5;
-
-        for (var i = 0; i < input.IndexOf('$'); ++i)
-        {
-            var significant = Convert.ToString(i, 2);
-            var zeros = new string('0', length - significant.Length);
-            dictionary.Add(zeros + significant);
-        }
-
-        var output = string.Empty;
-
-        var tail = string.Empty;
-
-        for (var i = input.IndexOf('$') + 1; i + length <= input.Length; i += length)
-        {
-            var current = input[i..(i + length)];
-
-            if (dictionary.Add(tail + current))
-            {
-                tail = current;
-            }
-            else
-            {
-                tail += current;
-            }
-        }
-
-        return output;
-    }
-
     public static string Decompress2(string input)
     {
         var dictionary = new Dictionary<int, string>();
 
-        var length = 5;
+        var separatorIndex = input.IndexOf('$');
 
-        for (var i = 0; input[i] != '$'; ++i)
+        var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(separatorIndex)));
+        var freeSpace = (int)Math.Pow(2, length) - separatorIndex;
+
+        for (var i = 0; i < separatorIndex; ++i)
         {
             dictionary[i] = input[i].ToString();
         }
@@ -98,20 +74,11 @@ static public class LZW
 
         var tail = string.Empty;
 
-        for (var i = input.IndexOf('$') + 1; i + length <= input.Length; i += length)
+        for (var i = separatorIndex + 1; i + length <= input.Length; i += length)
         {
-            var index = Convert.ToInt32(input[i..(i + length)], 2);
+            var code = Convert.ToInt32(input[i..(i + length)], 2);
 
-            var current = string.Empty;
-
-            if (index < dictionary.Count)
-            {
-                current = dictionary[index];
-            }
-            else
-            {
-                current = tail + tail[0];
-            }
+            var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
 
             output += current;
 
@@ -123,6 +90,11 @@ static public class LZW
             else
             {
                 tail += current;
+            }
+
+            if (--freeSpace <= 0)
+            {
+                freeSpace = -(int)Math.Pow(2, length++) + (int)Math.Pow(2, length);
             }
         }
 
