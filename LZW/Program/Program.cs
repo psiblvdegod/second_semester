@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 
  args = ["/home/psi/Desktop/second_semester/LZW/Program/text.txt.zipped", "u"];
-args = ["/home/psi/Desktop/second_semester/LZW/Program/text.txt", "c"];
+//args = ["/home/psi/Desktop/second_semester/LZW/Program/text.txt", "c"];
 
 
 if (args.Length != 2)
@@ -36,7 +36,7 @@ else if (args[1] == "u")
     }
 
     var input = File.ReadAllText(args[0]);
-    var result = Decompress2(input);
+    var result = Decompress(input);
     var stream = File.CreateText(args[0][..args[0].LastIndexOf('.')]);
 
     try
