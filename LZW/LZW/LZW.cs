@@ -7,7 +7,7 @@ using Trie;
 
 public static class LZW
 {
-    public static string Compress(string input)
+      public static string Compress(string input)
     {
         var dictionary = new Trie();
 
@@ -23,17 +23,23 @@ public static class LZW
 
         output += '$';
 
-        var tail = input[0].ToString();
+        var length = 20;
+        //var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Size)));
+        var freeSpace = (int)Math.Pow(2, length) - dictionary.Size;
 
-        for (var i = 1; i < input.Length; ++i)
+        var tail = string.Empty;
+
+        foreach (var c in input)
         {
-            var c = input[i];
-
-            if (dictionary.Find(tail + c) == -1)
+            if (dictionary.Add(tail + c))
             {
-                output += dictionary.Find(tail).ToString() + ' ';
-                dictionary.Add(tail + c);
+                output += GetBinNumber(tail);               
                 tail = c.ToString();
+
+                if (--freeSpace <= 0)
+                {
+                    freeSpace = -(int)Math.Pow(2, length++) + (int)Math.Pow(2, length);
+                }
             }
             else
             {
@@ -41,41 +47,92 @@ public static class LZW
             }
         }
 
-        return output + dictionary.Find(tail);
+        return output + GetBinNumber(tail);
+
+        string GetBinNumber(string seq)
+        {
+            var significant = Convert.ToString(dictionary.Find(seq), 2);
+            var zeros = new string('0', length - significant.Length);
+            return zeros + significant;
+        }
     }
 
 
     public static string Decompress(string input)
-{
-    var dictionary = new Dictionary<int, string>();
-
-    var separatorIndex = input.IndexOf('$');
-
-    for (var i = 0; i < separatorIndex; ++i)
     {
-        dictionary[i] = input[i].ToString();
-    }
+        var dictionary = new Dictionary<int, string>();
 
-    var seqs = input[(separatorIndex + 1)..].Split(' ');
+        var separatorIndex = input.IndexOf('$');
 
-    var tail = dictionary[int.Parse(seqs[0])]; 
-    var output = tail;
-
-    for (var i = 1; i < seqs.Length; ++i)
-    {
-        var code = int.Parse(seqs[i]);
-        var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
-
-        output += current;
-
-        if (!dictionary.ContainsValue(tail + current[0]))
+        for (var i = 0; i < separatorIndex; ++i)
         {
-            dictionary[dictionary.Count] = tail + current[0];
+            dictionary[i] = input[i].ToString();
         }
 
-        tail = current;
+        var seqs = input[(separatorIndex + 1)..].Split(' ');
+
+        var tail = dictionary[int.Parse(seqs[0])]; 
+        var output = tail;
+
+        for (var i = 1; i < seqs.Length; ++i)
+        {
+            var code = int.Parse(seqs[i]);
+            var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
+
+            output += current;
+
+            if (!dictionary.ContainsValue(tail + current[0]))
+            {
+                dictionary[dictionary.Count] = tail + current[0];
+            }
+
+            tail = current;
+        }
+
+        return output;
     }
 
-    return output;
+    public static string Decompress2(string input)
+    {
+        var dictionary = new Dictionary<int, string>();
+
+        var separatorIndex = input.IndexOf('$');
+
+        for (var i = 0; i < separatorIndex; ++i)
+        {
+            dictionary[i] = input[i].ToString();
+        }
+
+        var length = 20;
+        //var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Count)));
+        var freeSpace = (int)Math.Pow(2, length) - dictionary.Count;
+
+        var tail = dictionary[Convert.ToInt32(input[(separatorIndex + 1)..(separatorIndex + 1 + length)], 2)];
+
+        var output = tail;
+
+        for (var i = separatorIndex + 1 +length; i + length <= input.Length; i += length)
+        {
+            var code = Convert.ToInt32(input[i..(i + length)], 2);
+
+            var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
+
+            output += current;
+
+            if (--freeSpace <= 0)
+            {
+                freeSpace = -(int)Math.Pow(2, length++) + (int)Math.Pow(2, length);
+            }
+
+            if (!dictionary.ContainsValue(tail + current[0]))
+            {
+                dictionary[dictionary.Count] = tail + current[0];
+            }
+
+            tail = current;
+        }
+
+        return output;
+    }
 }
-}
+
