@@ -57,42 +57,7 @@ public static class LZW
         }
     }
 
-
     public static string Decompress(string input)
-    {
-        var dictionary = new Dictionary<int, string>();
-
-        var separatorIndex = input.IndexOf('$');
-
-        for (var i = 0; i < separatorIndex; ++i)
-        {
-            dictionary[i] = input[i].ToString();
-        }
-
-        var seqs = input[(separatorIndex + 1)..].Split(' ');
-
-        var tail = dictionary[int.Parse(seqs[0])]; 
-        var output = tail;
-
-        for (var i = 1; i < seqs.Length; ++i)
-        {
-            var code = int.Parse(seqs[i]);
-            var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
-
-            output += current;
-
-            if (!dictionary.ContainsValue(tail + current[0]))
-            {
-                dictionary[dictionary.Count] = tail + current[0];
-            }
-
-            tail = current;
-        }
-
-        return output;
-    }
-
-    public static string Decompress2(string input)
     {
         var dictionary = new Dictionary<int, string>();
 
