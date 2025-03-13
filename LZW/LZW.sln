@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWTxLZW", "BWTxLZW\BWTxLZW.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWTxLZW.Tests", "BWTxLZW.Tests\BWTxLZW.Tests.csproj", "{5F754C40-9709-408A-9947-357A51A6A63D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWT.Tests", "BWT.Tests\BWT.Tests.csproj", "{B0BE95FB-FA18-4FEF-9A3E-FFD4F6BB74C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +56,9 @@ Global
 		{5F754C40-9709-408A-9947-357A51A6A63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F754C40-9709-408A-9947-357A51A6A63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F754C40-9709-408A-9947-357A51A6A63D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0BE95FB-FA18-4FEF-9A3E-FFD4F6BB74C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0BE95FB-FA18-4FEF-9A3E-FFD4F6BB74C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0BE95FB-FA18-4FEF-9A3E-FFD4F6BB74C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0BE95FB-FA18-4FEF-9A3E-FFD4F6BB74C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
