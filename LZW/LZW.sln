@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trie", "Trie\Trie.csproj", "{26CFA21E-A91C-4D09-AFA6-87D781F21017}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LZW.FileProcessing", "LZW.FileProcessing\LZW.FileProcessing.csproj", "{C2FC4568-C4BD-43EE-AEDB-E3AB8A679302}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{26CFA21E-A91C-4D09-AFA6-87D781F21017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26CFA21E-A91C-4D09-AFA6-87D781F21017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26CFA21E-A91C-4D09-AFA6-87D781F21017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2FC4568-C4BD-43EE-AEDB-E3AB8A679302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2FC4568-C4BD-43EE-AEDB-E3AB8A679302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2FC4568-C4BD-43EE-AEDB-E3AB8A679302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2FC4568-C4BD-43EE-AEDB-E3AB8A679302}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
