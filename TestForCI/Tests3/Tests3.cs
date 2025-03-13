@@ -1,4 +1,4 @@
-﻿namespace Tests;
+﻿namespace Tests3;
 
 public class Tests
 {
