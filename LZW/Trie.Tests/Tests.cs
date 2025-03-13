@@ -1,15 +1,13 @@
 ﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
 // under MIT license
 // </copyright>
-namespace Tests;
-
-using Trie;
+namespace Trie.Tests;
 
 /// <summary>
 /// Tests class Trie.
 /// </summary>
 [TestFixture]
-public class TrieTests
+public class Tests
 {
     private static readonly string[] InputData = ["first", "second", "third", "fourth", "fifth"];
     private Trie trie;

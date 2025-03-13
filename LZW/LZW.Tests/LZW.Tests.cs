@@ -1,6 +1,5 @@
 ﻿namespace LZW.Tests;
 
-using NUnit;
 using static LZW;
 
 [TestFixture]
