@@ -1,3 +1,3 @@
-﻿using static LZW.InputProcessing;
+﻿using LZW;
 
-ProcessInput(args);
+InputProcessing.ProcessInput(args);

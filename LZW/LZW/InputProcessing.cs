@@ -45,6 +45,8 @@ public static class InputProcessing
         {
             stream.Close();
         }
+
+        CompressionStatistics.Print(path);
     }
 
     private static void Decompress(string path)
