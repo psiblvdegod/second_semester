@@ -2,7 +2,7 @@
 // under MIT license
 // </copyright>
 
-namespace LZW;
+namespace BWTxLZW;
 
 /// <summary>
 /// Contains methods which allow analyse efficiency of compression made with LZW algorithm.

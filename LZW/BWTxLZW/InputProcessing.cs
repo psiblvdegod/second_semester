@@ -2,7 +2,7 @@
 // under MIT license
 // </copyright>
 
-namespace LZW;
+namespace BWTxLZW;
 
 /// <summary>
 /// Contains methods which processes user input allowing work with files using LZW algorithm.
@@ -41,7 +41,7 @@ public static class InputProcessing
     {
         var input = File.ReadAllText(path);
 
-        var result = LZW.Compress(input);
+        var result = BWTxLZW.Compress(input);
 
         var newFilePath = $"{path}.zipped";
 
@@ -67,7 +67,7 @@ public static class InputProcessing
         }
 
         var input = File.ReadAllText(path);
-        var result = LZW.Decompress(input);
+        var result = BWTxLZW.Decompress(input);
 
         var newFilePath = path[..path.LastIndexOf('.')];
         var stream = File.CreateText(newFilePath);

@@ -2,6 +2,6 @@
 // under MIT license
 // </copyright>
 
-using LZW;
+using BWTxLZW;
 
 InputProcessing.ProcessInput(args);
