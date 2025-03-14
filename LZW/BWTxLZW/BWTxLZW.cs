@@ -16,16 +16,27 @@ public static class BWTxLZW
     /// Compresses string using LZW and BWT algorithms.
     /// </summary>
     /// <param name="input">String which will be compressed.</param>
-    /// <returns>Transformed string and it's position in the table of shifts.</returns>
-    public static (string Output, int Position) Compress(string input)
-        => BWT.Transform(LZW.Compress(input));
+    /// <returns>Compressed string.</returns>
+    public static string Compress(string input)
+    {
+        var (output, position) = BWT.Transform(LZW.Compress(input));
+
+        var separator = '%';
+
+        return string.Concat(position, separator, output);
+    }
 
     /// <summary>
     /// Decompresses string which has been transformed with Compress() method.
     /// </summary>
     /// <param name="input">String which will be decompressed.</param>
-    /// <param name="position">Position of input string in the shifts table.</param>
     /// <returns>Initial string.</returns>
-    public static string Decompress(string input, int position)
-        => LZW.Decompress(BWT.Detransform(input, position));
+    public static string Decompress(string input)
+    {
+        var separatorIndex = input.IndexOf('%');
+
+        var position = int.Parse(input[..separatorIndex]);
+
+        return LZW.Decompress(BWT.Detransform(input[(separatorIndex + 1)..], position));
+    }
 }

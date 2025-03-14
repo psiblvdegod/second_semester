@@ -32,7 +32,7 @@ public static class LZW
 
         output += '$';
 
-        var length = 20;
+        var length = 16;
         //var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Size)));
         var freeSpace = (int)Math.Pow(2, length) - dictionary.Size;
 
@@ -82,7 +82,7 @@ public static class LZW
             dictionary[i] = input[i].ToString();
         }
 
-        var length = 20;
+        var length = 16;
         //var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Count)));
         var freeSpace = (int)Math.Pow(2, length) - dictionary.Count;
 
