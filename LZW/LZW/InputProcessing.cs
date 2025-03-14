@@ -1,7 +1,18 @@
+// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+// under MIT license
+// </copyright>
+
 namespace LZW;
 
+/// <summary>
+/// Contains methods which processes user input allowing work with files using LZW algorithm.
+/// </summary>
 public static class InputProcessing
 {
+    /// <summary>
+    /// Detransforms string which has been transformed with Burrows-Wheeler algorithm.
+    /// </summary>
+    /// <param name="args">Should contain 2 params : path to file and switch --c or --u.</param>
     public static void ProcessInput(string[] args)
     {
         if (args.Length != 2)
@@ -24,7 +35,6 @@ public static class InputProcessing
         {
             throw new ArgumentException("Invalid switch passed.");
         }
-
     }
 
     private static void Compress(string path)

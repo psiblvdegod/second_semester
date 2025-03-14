@@ -2,15 +2,13 @@
 // under MIT license
 // </copyright>
 
-namespace Tests;
+namespace BWT.Tests;
 
-using BWT;
 using NUnit;
 
 /// <summary>
 /// Tests for functions from BWT.cs.
 /// </summary>
-
 [TestFixture]
 public class BWT_Tests
 {

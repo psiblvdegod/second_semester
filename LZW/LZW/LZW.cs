@@ -1,13 +1,22 @@
-﻿namespace LZW;
+﻿// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+// under MIT license
+// </copyright>
 
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-using System.Transactions;
+namespace LZW;
+
 using Trie;
 
+/// <summary>
+/// Contains methods which allow compress and decompess files using LZW algorithm.
+/// </summary>
 public static class LZW
 {
-      public static string Compress(string input)
+    /// <summary>
+    /// Compresses string using LZW algorithm.
+    /// </summary>
+    /// <param name="input">String which will be transformed.</param>
+    /// <returns>Compressed string.</returns>
+    public static string Compress(string input)
     {
         var dictionary = new Trie();
 
@@ -33,7 +42,7 @@ public static class LZW
         {
             if (dictionary.Add(tail + c))
             {
-                output += GetBinNumber(tail);               
+                output += GetBinNumber(tail);
                 tail = c.ToString();
 
                 if (--freeSpace <= 0)
@@ -57,6 +66,11 @@ public static class LZW
         }
     }
 
+    /// <summary>
+    /// Decompresses string using LZW algorithm.
+    /// </summary>
+    /// <param name="input">Compressed string.</param>
+    /// <returns>Initial string.</returns>
     public static string Decompress(string input)
     {
         var dictionary = new Dictionary<int, string>();
@@ -100,4 +114,3 @@ public static class LZW
         return output;
     }
 }
-

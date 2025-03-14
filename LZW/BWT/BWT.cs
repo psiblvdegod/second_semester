@@ -4,10 +4,6 @@
 
 namespace BWT;
 
-using System.Collections;
-using System.Formats.Asn1;
-using System.Runtime.CompilerServices;
-
 /// <summary>
 /// Contains methods, which allow do Burrows-Wheeler transform.
 /// </summary>

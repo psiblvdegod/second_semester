@@ -1,10 +1,21 @@
+// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+// under MIT license
+// </copyright>
+
 namespace LZW;
 
+/// <summary>
+/// Contains methods which allow analyse efficiency of compression made with LZW algorithm.
+/// </summary>
 public static class CompressionStatistics
 {
-    public static void Print(string pathOfInitial)
+    /// <summary>
+    /// Prints compression statistics.
+    /// </summary>
+    /// <param name="pathToInitialFile">Path to file which was used to create compressed file.</param>
+    public static void Print(string pathToInitialFile)
     {
-        var infoOfInitial = new FileInfo(pathOfInitial);
+        var infoOfInitial = new FileInfo(pathToInitialFile);
 
         if (!infoOfInitial.Exists)
         {
@@ -13,7 +24,7 @@ public static class CompressionStatistics
             return;
         }
 
-        var pathOfCompressed = $"{pathOfInitial}.zipped";
+        var pathOfCompressed = $"{pathToInitialFile}.zipped";
         var infoOfCompressed = new FileInfo(pathOfCompressed);
 
         if (!infoOfCompressed.Exists)
