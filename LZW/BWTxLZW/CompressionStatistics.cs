@@ -10,18 +10,17 @@ namespace BWTxLZW;
 public static class CompressionStatistics
 {
     /// <summary>
-    /// Prints compression statistics.
+    /// Calculates compression ratio of file, compressed using some algorithm.
     /// </summary>
     /// <param name="pathToInitialFile">Path to file which was used to create compressed file.</param>
-    public static void Print(string pathToInitialFile)
+    /// <returns>returns compression ratio.</returns>
+    public static double GetCompressionRatio(string pathToInitialFile)
     {
         var infoOfInitial = new FileInfo(pathToInitialFile);
 
         if (!infoOfInitial.Exists)
         {
-            Console.WriteLine("Compression statistics can not be obtained.");
-            Console.WriteLine("Initial file not found.");
-            return;
+            throw new FileNotFoundException("Initial file not found.");
         }
 
         var pathOfCompressed = $"{pathToInitialFile}.zipped";
@@ -29,13 +28,9 @@ public static class CompressionStatistics
 
         if (!infoOfCompressed.Exists)
         {
-            Console.WriteLine("Compression statistics can not be obtained.");
-            Console.WriteLine("Compressed file not found.");
-            return;
+            throw new FileNotFoundException("Compressed file not found.");
         }
 
-        var result = (double)infoOfInitial.Length / infoOfCompressed.Length;
-
-        Console.WriteLine($"Compression ratio: {result}");
+        return (double)infoOfInitial.Length / infoOfCompressed.Length;
     }
 }

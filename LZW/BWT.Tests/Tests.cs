@@ -4,13 +4,11 @@
 
 namespace BWT.Tests;
 
-using NUnit;
-
 /// <summary>
 /// Tests for functions from BWT.cs.
 /// </summary>
 [TestFixture]
-public class BWT_Tests
+public class Tests
 {
     [Test]
     public void Transform_OrdinaryInput()

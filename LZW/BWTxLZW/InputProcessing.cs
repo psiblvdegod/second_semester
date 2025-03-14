@@ -23,11 +23,11 @@ public static class InputProcessing
         ArgumentNullException.ThrowIfNullOrEmpty(args[0]);
         ArgumentNullException.ThrowIfNullOrEmpty(args[1]);
 
-        if (args[1] == "c")
+        if (args[1] == "--c")
         {
             Compress(args[0]);
         }
-        else if (args[1] == "u")
+        else if (args[1] == "--u")
         {
             Decompress(args[0]);
         }
@@ -56,7 +56,7 @@ public static class InputProcessing
             stream.Close();
         }
 
-        CompressionStatistics.Print(path);
+        Console.WriteLine(CompressionStatistics.GetCompressionRatio(path));
     }
 
     private static void Decompress(string path)
