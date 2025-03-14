@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWT.Tests", "BWT.Tests\BWT.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trie.Tests", "Trie.Tests\Trie.Tests.csproj", "{787D6BB8-2E8A-4001-9AAD-3BF946039FE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWTEffectTest", "BWTEffectTest\BWTEffectTest.csproj", "{62BE3E83-11DB-483E-97A9-67A23E742DF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{787D6BB8-2E8A-4001-9AAD-3BF946039FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{787D6BB8-2E8A-4001-9AAD-3BF946039FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{787D6BB8-2E8A-4001-9AAD-3BF946039FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62BE3E83-11DB-483E-97A9-67A23E742DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62BE3E83-11DB-483E-97A9-67A23E742DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62BE3E83-11DB-483E-97A9-67A23E742DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62BE3E83-11DB-483E-97A9-67A23E742DF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
