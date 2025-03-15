@@ -1,4 +1,4 @@
-﻿// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+﻿// <copyright file = "LZW.cs" author = "psiblvdegod" date = "2025">
 // under MIT license
 // </copyright>
 
@@ -66,6 +66,15 @@ public static class LZW
         }
     }
 
+    public static byte[] Compress(byte[] input)
+    {
+        var stringRepresentation = Convert.ToBase64String(input);
+
+        var compressedStringRepresentation = Compress(stringRepresentation);
+
+        return Convert.FromBase64String(compressedStringRepresentation);
+    }
+
     /// <summary>
     /// Decompresses string using LZW algorithm.
     /// </summary>
@@ -90,7 +99,7 @@ public static class LZW
 
         var output = tail;
 
-        for (var i = separatorIndex + 1 +length; i + length <= input.Length; i += length)
+        for (var i = separatorIndex + 1 + length; i + length <= input.Length; i += length)
         {
             var code = Convert.ToInt32(input[i..(i + length)], 2);
 
@@ -112,5 +121,14 @@ public static class LZW
         }
 
         return output;
+    }
+
+    public static byte[] Decompress(byte[] input)
+    {
+        var stringRepresentation = Convert.ToBase64String(input);
+
+        var compressedStringRepresentation = Decompress(stringRepresentation);
+
+        return Convert.FromBase64String(compressedStringRepresentation);
     }
 }

@@ -1,6 +1,9 @@
 ﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
 // under MIT license
 // </copyright>
+
+#pragma warning disable SA1600
+
 namespace Trie.Tests;
 
 /// <summary>

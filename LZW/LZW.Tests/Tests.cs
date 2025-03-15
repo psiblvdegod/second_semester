@@ -1,6 +1,8 @@
-﻿// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+﻿// <copyright file = "Tests.cs" author = "psiblvdegod" date = "2025">
 // under MIT license
 // </copyright>
+
+#pragma warning disable SA1600
 
 namespace LZW.Tests;
 
