@@ -35,7 +35,6 @@ public static class LZW
         output += '$';
 
         var length = 16;
-        //var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Size)));
         var freeSpace = (int)Math.Pow(2, length) - dictionary.Size;
 
         var tail = string.Empty;
@@ -96,7 +95,6 @@ public static class LZW
         }
 
         var length = 16;
-        //var length = (int)Math.Max(1, Math.Ceiling(Math.Log2(dictionary.Count)));
         var freeSpace = (int)Math.Pow(2, length) - dictionary.Count;
 
         var tail = dictionary[Convert.ToInt32(input[(separatorIndex + 1)..(separatorIndex + 1 + length)], 2)];

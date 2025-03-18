@@ -43,4 +43,18 @@ public class Tests
 
         Assert.That(decompessOutput, Is.EqualTo(input));
     }
+
+    [Test]
+    public static void Compress_Then_Decompress_OnBigText()
+    {
+        var path = "../../../../DataForTests/TestData.txt";
+
+        var input = File.ReadAllText(path);
+
+        var compressOutput = LZW.Compress(input);
+
+        var decompessOutput = LZW.Decompress(compressOutput);
+
+        Assert.That(decompessOutput, Is.EqualTo(input));
+    }
 }

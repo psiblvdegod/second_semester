@@ -19,6 +19,8 @@ public static class BWTxLZW
     /// <returns>Compressed string.</returns>
     public static string Compress(string input)
     {
+        ArgumentException.ThrowIfNullOrEmpty(input);
+
         var (output, position) = BWT.Transform(LZW.Compress(input));
 
         var separator = '%';
@@ -33,6 +35,8 @@ public static class BWTxLZW
     /// <returns>Initial string.</returns>
     public static string Decompress(string input)
     {
+        ArgumentException.ThrowIfNullOrEmpty(input);
+
         var separatorIndex = input.IndexOf('%');
 
         var position = int.Parse(input[..separatorIndex]);
