@@ -18,6 +18,8 @@ public static class LZW
     /// <returns>Compressed string.</returns>
     public static string Compress(string input)
     {
+        ArgumentException.ThrowIfNullOrEmpty(input);
+
         var dictionary = new Trie();
 
         var output = string.Empty;
@@ -82,6 +84,8 @@ public static class LZW
     /// <returns>Initial string.</returns>
     public static string Decompress(string input)
     {
+        ArgumentException.ThrowIfNullOrEmpty(input);
+
         var dictionary = new Dictionary<int, string>();
 
         var separatorIndex = input.IndexOf('$');
