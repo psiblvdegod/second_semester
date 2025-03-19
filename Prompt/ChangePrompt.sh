@@ -1,6 +1,6 @@
-git_status="$(git status --porcelain)"
 red="\e[1m\e[31m"
 end="\e[0m"
+git_status=$(git status --porcelain 2>/dev/null)
 
 if [ $? -eq 0 ]; then
 	number_of_modified=$(echo "$git_status" | grep -E '^ M' | wc -l)
