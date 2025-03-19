@@ -1,12 +1,16 @@
-GIT_STATUS=$(git status)
+git_status="$(git status --porcelain)"
+red="\e[1m\e[31m"
+end="\e[0m"
 
-if [ $? != 0 ]; then
-    echo "Репозиторий в порядке."
+if [ $? -eq 0 ]; then
+	number_of_modified=$(echo "$git_status" | grep -E '^ M' | wc -l)
+	number_of_untracked=$(echo "$git_status"| grep -E '^\?\?' | wc -l)
+	prompt="modified:$red$number_of_modified$end untracked:$red$number_of_untracked$end $ "
 else
-	available_space=$(df -h --output=avail | awk 'NR==2')
+	size=$(df -h --output=size | awk 'NR==2' | tr -d ' ')
+	used=$(df -h --output=used | awk 'NR==2' | tr -d ' ')
 	number_of_files=$(ls -1 | wc -l)
-	prompt="s:\e[31m$available_space\e[0m f:\e[32m$number_of_files\e[0m" 
-
+	prompt="usage:$red$used/$size$end files:$red$number_of_files$end $ "
 fi
 
-echo -e $prompt
+echo -e "$prompt"
