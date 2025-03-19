@@ -9,6 +9,7 @@ fi
 cp $ChangePromptPath $bashDir
 
 CodeForbashrc='export ChangePromptPath=$PWD/ChangePrompt.sh
+export PS1=$($ChangePromptPath)
 
 cd() {
     builtin cd "$@"
