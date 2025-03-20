@@ -1,4 +1,4 @@
-ChangePromptPath=./ChangePrompt.sh
+ChangePromptPath=./.ChangePrompt.sh
 bashDir=~/
 
 if [ ! -f $ChangePromptPath ] || [ ! -f $bashDir/.bashrc ]; then
@@ -8,7 +8,9 @@ fi
 
 cp $ChangePromptPath $bashDir
 
-CodeForbashrc='export ChangePromptPath=$PWD/ChangePrompt.sh
+chmod +x $ChangePromptPath
+
+CodeForbashrc='export ChangePromptPath=$PWD/.ChangePrompt.sh
 export PS1=$($ChangePromptPath)
 
 cd() {
