@@ -15,9 +15,3 @@ if [ ! -f $GeneratePromptPath ] || [ ! -f $bashrcPath ]; then
 fi
 
 cat "$GeneratePromptPath" >> "$bashrcPath"
-
-echo '
-cd() {
-    builtin cd "$@"
-    export PS1=$(GeneratePrompt)
-}' >> $bashrcPath

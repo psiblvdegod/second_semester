@@ -1,3 +1,8 @@
+# author : psiblvdegod
+# date : 2025
+# under MIT license
+
+# calculates and echo required value for $PS1
 GeneratePrompt() {
 	red="\e[1m\e[31m"
 	blue="\e[1m\e[34m"
@@ -19,3 +24,11 @@ GeneratePrompt() {
 
 	echo -e "$prompt"
 }
+
+# changes $PS1 using GeneratePrompt() every time cd is called
+cd() {
+    builtin cd "$@"
+    export PS1=$(GeneratePrompt)
+}
+
+cd .
