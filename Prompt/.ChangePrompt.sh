@@ -12,8 +12,8 @@ if [ $? -eq 0 ]; then
 else
 	size=$(df -h --output=size | awk 'NR==2' | tr -d ' ')
 	used=$(df -h --output=used | awk 'NR==2' | tr -d ' ')
-	number_of_files=$(ls -1 | wc -l)
-	prompt="${blue}disk:${end} usage:$red$used/$size$end files:$red$number_of_files$end\n$blue>$end "
+	files=$(($(ls -a -1 | wc -l) - 2))
+	prompt="${blue}disk:${end} usage:$red$used/$size$end files:$red$files$end\n$blue>$end "
 fi
 
 echo -e "$prompt"
