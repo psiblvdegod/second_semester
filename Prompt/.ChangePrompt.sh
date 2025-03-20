@@ -7,7 +7,8 @@ if [ $? -eq 0 ]; then
 	modified=$(echo "$GitStatus" | grep -E '^ M' | wc -l)
 	untracked=$(echo "$GitStatus"| grep -E '^\?\?' | wc -l)
 	deleted=$(echo "$GitStatus" | grep -E '^ D' | wc -l)
-	prompt="${blue}git:${end} modified:$red$modified$end untracked:$red$untracked$end deleted:$red$deleted$end\n$blue>$end "
+	new=$(echo "$GitStatus" | grep -E '^A' | wc -l)
+	prompt="${blue}git:${end} modified:$red$modified$end untracked:$red$untracked$end deleted:$red$deleted$end new:$red$new$end\n$blue>$end "
 else
 	size=$(df -h --output=size | awk 'NR==2' | tr -d ' ')
 	used=$(df -h --output=used | awk 'NR==2' | tr -d ' ')
