@@ -1,3 +1,11 @@
+# file : .GeneratePrompt.sh
+# author : psiblvdegod
+# date : 2025
+# under MIT license
+
+# calculates and echo value for $PS1.
+# is required for Main.sh.
+
 red="\e[1m\e[31m"
 blue="\e[1m\e[34m"
 end="\e[0m"
