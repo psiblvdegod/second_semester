@@ -6,18 +6,23 @@ namespace Graph;
 
 public class Graph
 {
-    private List<Vertex> vertices = [];
+    private Dictionary<int, Vertex> vertices = [];
 
     public int VerticesAmount {get => vertices.Count;}
     
-    private class Vertex(int number)
+    private class Vertex
     {
-        public int number {get;}
+        public Vertex(int number)
+        {
+            this.Number = number;
+        }
+    
+        public int Number {get;}
         public List<(Vertex vertex, int weight)> linked = [];
     }
 
-    public void Add(int number)
-        => this.vertices.Add(new Vertex(number));
+    public void Add()
+        => this.vertices[this.VerticesAmount] = new Vertex(this.VerticesAmount);
 
     public void Link(int first, int second, int weight)
     {
@@ -33,7 +38,7 @@ public class Graph
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(first, this.VerticesAmount);
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(second, this.VerticesAmount);
 
-        if (this.vertices[first].linked.Find(x => x.vertex.number == second) == default)
+        if (this.vertices[first].linked.Find(x => x.vertex.Number == second) == default)
         {
             throw new InvalidOperationException("Vertices was never linked.");
         }
@@ -41,7 +46,6 @@ public class Graph
         this.vertices[first].linked.RemoveAt(second);
         this.vertices[second].linked.RemoveAt(first);
     }
-
     public string GetTopology()
     {
         var result = string.Empty;
@@ -52,7 +56,7 @@ public class Graph
 
             foreach (var (vertex, weight) in this.vertices[i].linked)
             {
-                result += $"{vertex.number}({weight}) ";
+                result += $"{vertex.Number}({weight}) ";
             }
 
             result += "\n";

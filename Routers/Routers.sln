@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj", "{4B6EAB92-B4E0-4504-992E-C51AB1F5D4AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph.Tests", "Graph.Tests\Graph.Tests.csproj", "{254FA33B-F4CF-4BE2-B60F-F512AA78CD12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{4B6EAB92-B4E0-4504-992E-C51AB1F5D4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B6EAB92-B4E0-4504-992E-C51AB1F5D4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B6EAB92-B4E0-4504-992E-C51AB1F5D4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{254FA33B-F4CF-4BE2-B60F-F512AA78CD12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{254FA33B-F4CF-4BE2-B60F-F512AA78CD12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{254FA33B-F4CF-4BE2-B60F-F512AA78CD12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{254FA33B-F4CF-4BE2-B60F-F512AA78CD12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
