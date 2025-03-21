@@ -13,11 +13,12 @@ public class Graph()
             this.Add();
         }
     }
-    private readonly Dictionary<int, Vertex> vertices = [];
+
+    protected readonly Dictionary<int, Vertex> vertices = [];
 
     public int VerticesAmount {get => vertices.Count;}
     
-    private class Vertex(int number)
+    protected class Vertex(int number)
     {
         public int Number { get; } = number;
         public List<(Vertex vertex, int weight)> linked = [];
@@ -59,26 +60,8 @@ public class Graph()
         {
             return -1;
         }
-        
+
         return weight;
 
-    }
-    public string GetTopology()
-    {
-        var result = string.Empty;
-
-        for (var i = 0; i < this.VerticesAmount; ++i)
-        {
-            result += $"{i} : ";
-
-            foreach (var (vertex, weight) in this.vertices[i].linked)
-            {
-                result += $"{vertex.Number}({weight}) ";
-            }
-
-            result += "\n";
-        }
-
-        return result;
     }
 }

@@ -20,22 +20,6 @@ public class Tests
         Assert.That(graph.GetWeight(0, 1), Is.EqualTo(expectedResult));
     }
 
-
-    [Test]
-    public void GetTopology_OnTwoVertices()
-    {
-        var graph = new Graph();
-
-        graph.Add();
-        graph.Add();
-
-        graph.Link(0, 1, 5);
-
-        var expectedResult = "0 : 1(5) \n1 : 0(5) \n";
-
-        Assert.That(graph.GetTopology, Is.EqualTo(expectedResult));
-    }
-
     [Test]
     public void AddAndLink_WithConstructorWhichCreatesSpecifiedAmountOfVertices()
     {
