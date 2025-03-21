@@ -4,20 +4,22 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Graph;
 
-public class Graph
+public class Graph()
 {
-    private Dictionary<int, Vertex> vertices = [];
+    public Graph(int VerticesAmount) : this()
+    {
+        for (var i = 0; i < VerticesAmount; ++i)
+        {
+            this.Add();
+        }
+    }
+    private readonly Dictionary<int, Vertex> vertices = [];
 
     public int VerticesAmount {get => vertices.Count;}
     
-    private class Vertex
+    private class Vertex(int number)
     {
-        public Vertex(int number)
-        {
-            this.Number = number;
-        }
-    
-        public int Number {get;}
+        public int Number { get; } = number;
         public List<(Vertex vertex, int weight)> linked = [];
     }
 
@@ -45,6 +47,21 @@ public class Graph
 
         this.vertices[first].linked.RemoveAt(second);
         this.vertices[second].linked.RemoveAt(first);
+    }
+
+    public int GetWeight(int first, int second)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(first, this.VerticesAmount);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(second, this.VerticesAmount);
+
+        var (vertex, weight) = this.vertices[first].linked.Find(x => x.vertex.Number == second);
+        if (vertex == default)
+        {
+            return -1;
+        }
+        
+        return weight;
+
     }
     public string GetTopology()
     {
