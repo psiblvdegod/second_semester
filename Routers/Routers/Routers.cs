@@ -1,32 +1,18 @@
 ﻿namespace Routers;
 
 using Graph;
-using Microsoft.VisualBasic;
 
 public class Routers : Graph 
 {
-    public Routers() : base() {}
-
-    public Routers(int RoutersAmount) : base(RoutersAmount) {}
-
-    public Routers(string topology) : this()
+    public Routers(string topology) : base(topology.Split('\n').Length) // O4ENb PLOHO
     {
-        var lines = topology.Split('\n');
-
-        for (var i = 0; i < lines.Length; ++i)
-        {
-            this.Add();
-        }
-
-        foreach (var line in lines)
+        foreach (var line in topology.Split('\n'))
         {
             var records = Array.ConvertAll(line.Split(' '), int.Parse);
 
-            var vertex = records[0];
-
             for (var i = 1; i + 1 < records.Length; i += 2)
             {
-                this.Link(vertex, records[i], records[i + 1]);
+                this.Link(records[0], records[i], records[i + 1]);
             }
         }
     }

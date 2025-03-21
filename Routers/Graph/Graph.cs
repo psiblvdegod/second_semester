@@ -10,7 +10,7 @@ public class Graph()
     {
         for (var i = 0; i < VerticesAmount; ++i)
         {
-            this.Add();
+            this.vertices[this.VerticesAmount] = new Vertex(this.VerticesAmount);
         }
     }
 
@@ -23,9 +23,6 @@ public class Graph()
         public int Number { get; } = number;
         public List<(Vertex vertex, int weight)> linked = [];
     }
-
-    public void Add()
-        => this.vertices[this.VerticesAmount] = new Vertex(this.VerticesAmount);
 
     public void Link(int first, int second, int weight)
     {
@@ -56,12 +53,24 @@ public class Graph()
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(second, this.VerticesAmount);
 
         var (vertex, weight) = this.vertices[first].linked.Find(x => x.vertex.Number == second);
+        
         if (vertex == default)
         {
             return -1;
         }
 
         return weight;
+    }
 
+    public List<(int vertex, int weight)> GetLinked(int number)
+    {
+        var result = new List<(int vertex, int weight)>();
+
+        foreach (var (vertex, weight) in this.vertices[number].linked)
+        {
+            result.Add((vertex.Number, weight));
+        }
+
+        return result;
     }
 }

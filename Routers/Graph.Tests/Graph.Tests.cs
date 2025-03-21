@@ -6,12 +6,9 @@ namespace Graph.Tests;
 public class Tests
 {
     [Test]
-    public void AddAndLink_OnTwoVertices()
+    public void Link_OnTwoVertices()
     {
-        var graph = new Graph();
-
-        graph.Add();
-        graph.Add();
+        var graph = new Graph(2);
 
         graph.Link(0, 1, 5);
 

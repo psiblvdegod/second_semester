@@ -4,22 +4,7 @@
 public class Tests
 {
     [Test]
-    public void GetTopology_OnTwoVertices()
-    {
-        var graph = new Routers();
-
-        graph.Add();
-        graph.Add();
-
-        graph.Link(0, 1, 5);
-
-        var expectedResult = "0 1 5\n1 0 5\n";
-
-        Assert.That(graph.GetTopology, Is.EqualTo(expectedResult));
-    }
-
-    [Test]
-    public void ConstructorOnSpecifiedTopologyThenGetTopology()
+    public void ConstructorThenGetTopology_OnSpecifiedTopology()
     {
         var topology = "0 1 5\n1 2 10\n2 0 15";
 
