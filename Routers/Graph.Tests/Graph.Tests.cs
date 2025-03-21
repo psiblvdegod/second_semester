@@ -6,7 +6,7 @@ namespace Graph.Tests;
 public class Tests
 {
     [Test]
-    public void Add()
+    public void Add_And_Link_On_Two_Vertices()
     {
         var graph = new Graph();
 
@@ -14,22 +14,10 @@ public class Tests
 
         graph.Add();
 
-        graph.Add();
-
-        graph.Add();
-
         graph.Link(0, 1, 5);
 
-        graph.Link(2, 1, 10);
+        var expectedResult = "0 : 1(5) \n1 : 0(5) \n";
 
-        graph.Link(3, 1, 15);
-
-        graph.Link(0, 2, 20);
-
-        graph.Link(0, 3, 25);
-
-        Console.WriteLine(graph.GetTopology());
-
-        Assert.Pass();
+        Assert.That(graph.GetTopology, Is.EqualTo(expectedResult));
     }
 }
