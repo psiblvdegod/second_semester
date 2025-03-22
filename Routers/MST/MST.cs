@@ -4,7 +4,7 @@ using Routers;
 
 public static class MST
 {
-    public static Dictionary<int, (int, int)> Build(string topology)
+    public static (string MST, int totalLength) Build(string topology)
     {
         var graph = new Routers(topology);
 
@@ -12,38 +12,65 @@ public static class MST
 
         var queue = new PriorityQueue<int, int>();
 
-        var result = new Dictionary<int, (int otkyda, int weight)>();
+        var result = new Dictionary<int, (int linked, int weight)>();
 
-        queue.Enqueue(0, 0);
+        var start = int.Parse(topology[..topology.IndexOf(' ')]);
 
-        result[0] = (0, 0);
+        queue.Enqueue(start, 0);
+
 
         while (queue.Count > 0)
         {
-            var currentV = queue.Dequeue();
+            var current = queue.Dequeue();
 
-            isVisited[currentV] = true;
+            isVisited[current] = true;
 
-            foreach (var (linkedV, linkedW) in graph.GetLinked(currentV))
+            foreach (var (linked, weight) in graph.GetLinked(current))
             {
-                if (isVisited.ContainsKey(linkedV))
+                if (isVisited.ContainsKey(linked))
                 {
                     continue;
                 }
             
-                queue.Enqueue(linkedV, linkedW);
+                queue.Enqueue(linked, weight);
 
-                if (!result.ContainsKey(linkedV) || result[linkedV].weight < linkedW)
+                if (!result.ContainsKey(linked) || result[linked].weight < weight)
                 {
-                    result[linkedV] = (currentV, linkedW);
+                    result[linked] = (current, weight);
                 }
-                else if (result[currentV].weight < linkedW)
+                else if (result[current].weight < weight)
                 {
-                    result[currentV] = (linkedV, linkedW);
+                    result[current] = (linked, weight);
                 }
             }
         }
 
-        return result;
+        var MST = DictionaryToTopology(result);
+
+        return (MST, GetTotalLengthOfMST(MST));
+
+        string DictionaryToTopology(Dictionary<int, (int linked, int weight)> dictionary)
+        {
+            var output = string.Empty;
+
+            foreach (var record in dictionary.OrderBy(x => x.Value.linked))
+            {
+                output += $"{record.Value.linked} {record.Key} {record.Value.weight}\n";
+            }
+
+            return output;
+        }
+
+        int GetTotalLengthOfMST(string topology)
+        {
+            var result = 0;
+
+            foreach (var line in topology[..^1].Split('\n'))
+            {
+                result += int.Parse(line.Split(' ')[^1]);
+            }
+
+            return result;
+        }
     }
 }
