@@ -6,6 +6,19 @@ namespace Graph;
 
 public class Graph()
 {
+    public Graph(string topology) : this()
+    {
+        foreach (var line in topology.Split('\n'))
+        {
+            var records = Array.ConvertAll(line.Split(' '), int.Parse);
+
+            for (var i = 1; i + 1 < records.Length; i += 2)
+            {
+                this.Link(records[0], records[i], records[i + 1]);
+            }
+        }
+    }
+
     protected readonly Dictionary<int, Vertex> vertices = [];
 
     public int VerticesAmount {get => vertices.Count;}

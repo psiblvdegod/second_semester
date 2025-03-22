@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Routers\Routers.csproj" />
+    <ProjectReference Include="..\Graph\Graph.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

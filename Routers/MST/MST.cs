@@ -1,6 +1,6 @@
 ﻿namespace MST;
 
-using Routers;
+using Graph;
 
 public static class MST
 {
@@ -8,7 +8,7 @@ public static class MST
     {
         ValidateInput(topology);
 
-        var graph = new Routers(topology);
+        var graph = new Graph(topology);
         var isVisited = new Dictionary<int, bool>();
         var queue = new PriorityQueue<int, int>();
         var result = new Dictionary<int, (int linked, int weight)>();
