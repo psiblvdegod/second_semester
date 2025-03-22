@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MST", "MST\MST.csproj", "{3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MST.Tests", "MST.Tests\MST.Tests.csproj", "{C51AD6D2-EE2C-42BA-AB70-8EEC85C39E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MST.FileProcessing", "MST.FileProcessing\MST.FileProcessing.csproj", "{1F285BA6-CF30-49E3-890F-B5BFF726A09C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

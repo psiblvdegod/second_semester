@@ -26,4 +26,28 @@ public class Tests
 
         Assert.That(actualResult.totalLength, Is.EqualTo(expectedResult));
     }
+
+    [Test]
+    public void Build_Test3()
+    {
+        var topology = "10 20 30\n10 40 50\n20 40 70";
+
+        var expectedResult = 120;
+
+        var actualResult = MST.Build(topology).totalLength;
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void Build_Test4()
+    {
+        var topology = "1 2 -3 3 -4 5 -1\n2 3 -5\n3 4 -2 5 -6\n4 5 -7";
+
+        var expectedResult = -10;
+
+        var actualResult = MST.Build(topology).totalLength;
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
 }

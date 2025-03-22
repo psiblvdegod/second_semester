@@ -1,5 +1,6 @@
 ﻿namespace MST;
 
+using System.Security.Cryptography.X509Certificates;
 using Graph;
 
 public static class MST
@@ -10,7 +11,7 @@ public static class MST
 
         var graph = new Graph(topology);
         var isVisited = new Dictionary<int, bool>();
-        var queue = new PriorityQueue<int, int>();
+        var queue = new PriorityQueue<int, int>(Comparer<int>.Create((x,y) => y.CompareTo(x)));
         var result = new Dictionary<int, (int linked, int weight)>();
 
         var start = int.Parse(topology[..topology.IndexOf(' ')]);
@@ -74,7 +75,7 @@ public static class MST
             ArgumentException.ThrowIfNullOrEmpty(topology);
             ArgumentException.ThrowIfNullOrWhiteSpace(topology);
 
-            var validCharacters = "\n 0123456789";
+            var validCharacters = "\n -0123456789";
 
             foreach (var c in topology)
             {
