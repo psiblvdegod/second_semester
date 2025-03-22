@@ -6,23 +6,19 @@ public static class MST
 {
     public static (string MST, int totalLength) Build(string topology)
     {
+        ValidateInput(topology);
+
         var graph = new Routers(topology);
-
         var isVisited = new Dictionary<int, bool>();
-
         var queue = new PriorityQueue<int, int>();
-
         var result = new Dictionary<int, (int linked, int weight)>();
 
         var start = int.Parse(topology[..topology.IndexOf(' ')]);
-
         queue.Enqueue(start, 0);
-
 
         while (queue.Count > 0)
         {
             var current = queue.Dequeue();
-
             isVisited[current] = true;
 
             foreach (var (linked, weight) in graph.GetLinked(current))
@@ -49,7 +45,7 @@ public static class MST
 
         return (MST, GetTotalLengthOfMST(MST));
 
-        string DictionaryToTopology(Dictionary<int, (int linked, int weight)> dictionary)
+        static string DictionaryToTopology(Dictionary<int, (int linked, int weight)> dictionary)
         {
             var output = string.Empty;
 
@@ -61,7 +57,7 @@ public static class MST
             return output;
         }
 
-        int GetTotalLengthOfMST(string topology)
+        static int GetTotalLengthOfMST(string topology)
         {
             var result = 0;
 
@@ -71,6 +67,22 @@ public static class MST
             }
 
             return result;
+        }
+
+        static void ValidateInput(string topology)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(topology);
+            ArgumentException.ThrowIfNullOrWhiteSpace(topology);
+
+            var validCharacters = "\n 0123456789";
+
+            foreach (var c in topology)
+            {
+                if (!validCharacters.Contains(c))
+                {
+                    throw new ArgumentException("Invalid symbol.");
+                }
+            }
         }
     }
 }

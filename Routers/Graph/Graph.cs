@@ -31,18 +31,6 @@ public class Graph()
         this.vertices[second].linked.Add((this.vertices[first], weight));
     }
 
-    public int GetWeight(int first, int second)
-    {
-        var (vertex, weight) = this.vertices[first].linked.Find(x => x.vertex.Number == second);
-
-        if ((vertex, weight) == default)
-        {
-            return -1;
-        }
-
-        return weight;
-    }
-
     public List<(int vertex, int weight)> GetLinked(int number)
     {
         var result = new List<(int vertex, int weight)>();

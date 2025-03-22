@@ -1,6 +1,5 @@
 ﻿namespace MST.FileProcessing;
 
-public class Class1
+public static class FileProcessing
 {
-
 }
