@@ -47,21 +47,6 @@ public class Graph()
         this.vertices[second].linked.RemoveAt(first);
     }
 
-    public int GetWeight(int first, int second)
-    {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(first, this.VerticesAmount);
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(second, this.VerticesAmount);
-
-        var (vertex, weight) = this.vertices[first].linked.Find(x => x.vertex.Number == second);
-        
-        if (vertex == default)
-        {
-            return -1;
-        }
-
-        return weight;
-    }
-
     public List<(int vertex, int weight)> GetLinked(int number)
     {
         var result = new List<(int vertex, int weight)>();

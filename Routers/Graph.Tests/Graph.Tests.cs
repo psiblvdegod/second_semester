@@ -12,26 +12,25 @@ public class Tests
 
         graph.Link(0, 1, 5);
 
-        var expectedResult = 5;
+        (int, int)[] expectedResultFor0 = [(1, 5)];
+        (int, int)[] expectedResultFor1 = [(0, 5)];
 
-        Assert.That(graph.GetWeight(0, 1), Is.EqualTo(expectedResult));
+        Assert.That(graph.GetLinked(0), Is.EqualTo(expectedResultFor0));
+        Assert.That(graph.GetLinked(1), Is.EqualTo(expectedResultFor1));
     }
 
     [Test]
-    public void AddAndLink_WithConstructorWhichCreatesSpecifiedAmountOfVertices()
+    public void Link_OrdinaryInput()
     {
         var graph = new Graph(5);
 
         graph.Link(0, 1, 5);
-        graph.Link(1, 2, 10);
-        graph.Link(2, 3, 15);
-        graph.Link(3, 4, 20);
+        graph.Link(0, 2, 10);
+        graph.Link(0, 3, 15);
+        graph.Link(0, 4, 20);
 
-        int[] expectedResult = [5, 10, 15, 20];
+        (int, int)[] expectedResult = [(1, 5), (2, 10), (3, 15), (4, 20)];
 
-        for (var i = 0; i < graph.VerticesAmount - 1; ++i)
-        {
-            Assert.That(graph.GetWeight(i , i + 1), Is.EqualTo(expectedResult[i]));
-        }
+        Assert.That(graph.GetLinked(0), Is.EqualTo(expectedResult));
     }
 }
