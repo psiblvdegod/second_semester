@@ -6,14 +6,6 @@ namespace Graph;
 
 public class Graph()
 {
-    public Graph(int VerticesAmount) : this()
-    {
-        for (var i = 0; i < VerticesAmount; ++i)
-        {
-            this.vertices[this.VerticesAmount] = new Vertex(this.VerticesAmount);
-        }
-    }
-
     protected readonly Dictionary<int, Vertex> vertices = [];
 
     public int VerticesAmount {get => vertices.Count;}
@@ -26,25 +18,29 @@ public class Graph()
 
     public void Link(int first, int second, int weight)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(first, this.VerticesAmount);
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(second, this.VerticesAmount);
+        if (!this.vertices.ContainsKey(first))
+        {
+            this.vertices[first] = new Vertex(first);
+        }
+        if (!this.vertices.ContainsKey(second))
+        {
+            this.vertices[second] = new Vertex(second);
+        }
 
         this.vertices[first].linked.Add((this.vertices[second], weight));
         this.vertices[second].linked.Add((this.vertices[first], weight));
     }
 
-    public void Unlink(int first, int second)
+    public int GetWeight(int first, int second)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(first, this.VerticesAmount);
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(second, this.VerticesAmount);
+        var (vertex, weight) = this.vertices[first].linked.Find(x => x.vertex.Number == second);
 
-        if (this.vertices[first].linked.Find(x => x.vertex.Number == second) == default)
+        if ((vertex, weight) == default)
         {
-            throw new InvalidOperationException("Vertices was never linked.");
+            return -1;
         }
 
-        this.vertices[first].linked.RemoveAt(second);
-        this.vertices[second].linked.RemoveAt(first);
+        return weight;
     }
 
     public List<(int vertex, int weight)> GetLinked(int number)

@@ -4,43 +4,42 @@ using Routers;
 
 public static class MST
 {
-    public static Dictionary<(int, int), int> Build(string topology)
+    public static Dictionary<int, (int, int)> Build(string topology)
     {
         var graph = new Routers(topology);
 
-        var isVisited = new bool[graph.VerticesAmount];
+        var isVisited = new Dictionary<int, bool>();
 
-        var queue = new PriorityQueue<(int vertex, int weight), int>();
+        var queue = new PriorityQueue<int, int>();
 
-        var result = new Dictionary<(int first, int second), int>();
+        var result = new Dictionary<int, (int otkyda, int weight)>();
 
-        for (var i = 0; i < graph.VerticesAmount; ++i)
-        {
-            for (var j = i; j < graph.VerticesAmount; ++j)
-            {
-                result[(i,j)] = 0;
-            }
-        }
+        queue.Enqueue(0, 0);
 
-        queue.Enqueue((0, 0), 0);
+        result[0] = (0, 0);
 
         while (queue.Count > 0)
         {
-            var (currentV, currentW) = queue.Dequeue();
+            var currentV = queue.Dequeue();
 
             isVisited[currentV] = true;
 
             foreach (var (linkedV, linkedW) in graph.GetLinked(currentV))
             {
-                if (!isVisited[linkedV])
+                if (isVisited.ContainsKey(linkedV))
                 {
-                    queue.Enqueue((linkedV, linkedW), linkedW);
+                    continue;
+                }
+            
+                queue.Enqueue(linkedV, linkedW);
 
-                    if (result[(currentV, linkedV)] < linkedW)
-                    {
-                        result[(currentV, linkedV)] = linkedW;
-                        result[(linkedV, currentV)] = linkedW;
-                    }
+                if (!result.ContainsKey(linkedV) || result[linkedV].weight < linkedW)
+                {
+                    result[linkedV] = (currentV, linkedW);
+                }
+                else if (result[currentV].weight < linkedW)
+                {
+                    result[currentV] = (linkedV, linkedW);
                 }
             }
         }

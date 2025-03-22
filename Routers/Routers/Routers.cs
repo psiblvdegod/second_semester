@@ -4,7 +4,7 @@ using Graph;
 
 public class Routers : Graph 
 {
-    public Routers(string topology) : base(topology.Split('\n').Length) // O4ENb PLOHO
+    public Routers(string topology) : base()
     {
         foreach (var line in topology.Split('\n'))
         {

@@ -8,7 +8,7 @@ public class Tests
     [Test]
     public void Link_OnTwoVertices()
     {
-        var graph = new Graph(2);
+        var graph = new Graph();
 
         graph.Link(0, 1, 5);
 
@@ -22,7 +22,7 @@ public class Tests
     [Test]
     public void Link_OrdinaryInput()
     {
-        var graph = new Graph(5);
+        var graph = new Graph();
 
         graph.Link(0, 1, 5);
         graph.Link(0, 2, 10);
