@@ -55,9 +55,9 @@ public class Tests
     public void Build_OnTopologyWitchDiscribesDisconnectedGraph_ShouldThrowException()
     {
         var topology1 = "1 2 3\n3 4 5\n";
-
         var topology2 = "1 2 3\n2 3 4\n1 3 5\n4 5 6\n5 6 7\n4 6 8\n";
 
         Assert.Throws<Graph.InvalidTopologyException>(() => MST.Build(topology1));
+        Assert.Throws<Graph.InvalidTopologyException>(() => MST.Build(topology2));
     }
 }
