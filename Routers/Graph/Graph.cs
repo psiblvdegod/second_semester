@@ -8,21 +8,18 @@ public class Graph()
 {
     public Graph(string topology) : this()
     {
-        foreach (var line in topology.Split('\n'))
-        {
-            var records = Array.ConvertAll(line.Split(' '), int.Parse);
+        ValidateTopology(topology);
 
-            for (var i = 1; i + 1 < records.Length; i += 2)
-            {
-                this.Link(records[0], records[i], records[i + 1]);
-            }
+        foreach (var line in topology[..^1].Split('\n'))
+        {
+            var edge = line.Split(' ').Select(int.Parse).ToArray();
+
+            this.Link(edge[0], edge[1], edge[2]);
         }
     }
 
     protected readonly Dictionary<int, Vertex> vertices = [];
 
-    public int VerticesAmount {get => vertices.Count;}
-    
     protected class Vertex(int number)
     {
         public int Number { get; } = number;
@@ -54,5 +51,33 @@ public class Graph()
         }
 
         return result;
+    }
+
+    private static void ValidateTopology(string topology)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(topology);
+
+        if (topology[^1] != '\n')
+        {
+            throw new InvalidTopologyException("line-break character at the end is missing.");
+        }
+
+        foreach (var line in topology[..^1].Split('\n'))
+        {
+            var edge = line.Split(' ');
+
+            if (edge.Length != 3)
+            {
+                throw new InvalidTopologyException($"{line} cannot be recognized as an edge.");
+            }
+
+            foreach (var record in edge)
+            {
+                if (!int.TryParse(record, out _))
+                {
+                    throw new InvalidTopologyException($"{record} cannot be recognised as a number of vertex or as a weight of edge.");
+                }
+            }
+        }
     }
 }

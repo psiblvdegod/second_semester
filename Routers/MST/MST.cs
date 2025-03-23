@@ -7,8 +7,6 @@ public static class MST
 {
     public static (string MST, int totalLength) Build(string topology)
     {
-        ValidateInput(topology);
-
         var graph = new Graph(topology);
         var isVisited = new Dictionary<int, bool>();
         var queue = new PriorityQueue<int, int>(Comparer<int>.Create((x,y) => y.CompareTo(x)));
@@ -44,7 +42,7 @@ public static class MST
 
         var MST = DictionaryToTopology(result);
 
-        return (MST, GetTotalLengthOfMST(MST));
+        return (MST, GetTotalLength(MST));
 
         static string DictionaryToTopology(Dictionary<int, (int linked, int weight)> dictionary)
         {
@@ -58,7 +56,7 @@ public static class MST
             return output;
         }
 
-        static int GetTotalLengthOfMST(string topology)
+        static int GetTotalLength(string topology)
         {
             var result = 0;
 
@@ -68,22 +66,6 @@ public static class MST
             }
 
             return result;
-        }
-
-        static void ValidateInput(string topology)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(topology);
-            ArgumentException.ThrowIfNullOrWhiteSpace(topology);
-
-            var validCharacters = "\n -0123456789";
-
-            foreach (var c in topology)
-            {
-                if (!validCharacters.Contains(c))
-                {
-                    throw new ArgumentException("Invalid symbol.");
-                }
-            }
         }
     }
 }
