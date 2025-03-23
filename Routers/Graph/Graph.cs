@@ -20,6 +20,8 @@ public class Graph()
 
     protected readonly Dictionary<int, Vertex> vertices = [];
 
+    public int VerticesAmount { get => vertices.Count; }
+
     protected class Vertex(int number)
     {
         public int Number { get; } = number;

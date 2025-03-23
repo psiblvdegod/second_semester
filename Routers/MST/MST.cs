@@ -40,6 +40,11 @@ public static class MST
             }
         }
 
+        if (graph.VerticesAmount != isVisited.Count)
+        {
+            throw new InvalidTopologyException("graph with given topology is disconnected.");
+        }
+
         var MST = DictionaryToTopology(result);
 
         return (MST, GetTotalLength(MST));
