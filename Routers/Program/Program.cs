@@ -1,6 +1,4 @@
-﻿using MST;
-
-if (args.Length != 1)
+﻿if (args.Length != 1)
 {
     Console.Error.WriteLine("Incorrect number of command line arguments.");
     return 1;

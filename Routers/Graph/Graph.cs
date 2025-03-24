@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.ComponentModel;
+using System.Dynamic;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 
@@ -38,6 +39,13 @@ public class Graph()
         {
             this.vertices[second] = new Vertex(second);
         }
+        if (this.vertices[first].linked.Find(x => x.vertex.Number == second) != default)
+        {
+
+        }
+
+        this.vertices[first].linked.RemoveAll(x => x.vertex.Number == second);
+        this.vertices[second].linked.RemoveAll(x => x.vertex.Number == first);
 
         this.vertices[first].linked.Add((this.vertices[second], weight));
         this.vertices[second].linked.Add((this.vertices[first], weight));
@@ -45,6 +53,11 @@ public class Graph()
 
     public List<(int vertex, int weight)> GetLinked(int number)
     {
+        if (!this.vertices.ContainsKey(number))
+        {
+            throw new ArgumentException("vertex does not exist");
+        }
+
         var result = new List<(int vertex, int weight)>();
 
         foreach (var (vertex, weight) in this.vertices[number].linked)
@@ -57,7 +70,10 @@ public class Graph()
 
     private static void ValidateTopology(string topology)
     {
-        ArgumentException.ThrowIfNullOrEmpty(topology);
+        if (string.IsNullOrWhiteSpace(topology))
+        {
+            throw new InvalidTopologyException("topology is empty or null");
+        }
 
         if (topology[^1] != '\n')
         {
@@ -73,11 +89,11 @@ public class Graph()
                 throw new InvalidTopologyException($"{line} cannot be recognized as an edge.");
             }
 
-            foreach (var record in edge)
+            foreach (var operand in edge)
             {
-                if (!int.TryParse(record, out _))
+                if (!int.TryParse(operand, out _))
                 {
-                    throw new InvalidTopologyException($"{record} cannot be recognised as a number of vertex or as a weight of edge.");
+                    throw new InvalidTopologyException($"{operand} cannot be recognised as a number of vertex or as a weight of edge.");
                 }
             }
         }
