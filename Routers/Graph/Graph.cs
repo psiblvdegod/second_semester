@@ -39,10 +39,6 @@ public class Graph()
         {
             this.vertices[second] = new Vertex(second);
         }
-        if (this.vertices[first].linked.Find(x => x.vertex.Number == second) != default)
-        {
-
-        }
 
         this.vertices[first].linked.RemoveAll(x => x.vertex.Number == second);
         this.vertices[second].linked.RemoveAll(x => x.vertex.Number == first);
