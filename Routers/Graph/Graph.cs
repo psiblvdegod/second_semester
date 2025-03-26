@@ -1,9 +1,4 @@
-﻿using System.ComponentModel;
-using System.Dynamic;
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-
-namespace Graph;
+﻿namespace Graph;
 
 public class Graph()
 {

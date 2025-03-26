@@ -1,4 +1,4 @@
-﻿if (args.Length != 1)
+﻿if (args.Length != 2)
 {
     Console.Error.WriteLine("Incorrect number of command line arguments.");
     return 1;
@@ -18,6 +18,6 @@ catch (Graph.InvalidTopologyException ex)
     return 2;
 }
 
-File.WriteAllText($"{args[0]}.optimal", output);
+File.WriteAllText($"{args[1]}", output);
 
 return 0;

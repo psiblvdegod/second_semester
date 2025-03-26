@@ -1,6 +1,5 @@
 ﻿namespace MST;
 
-using System.Security.Cryptography.X509Certificates;
 using Graph;
 
 public static class MST
