@@ -8,8 +8,8 @@ public class Game : ICharacter
 {
     public static readonly string Obstructions = "_-+|";
 
-    private int x = 1;
-    private int y = 1;
+    private int x;
+    private int y;
 
     public (int x, int y) Position
     {
@@ -27,6 +27,18 @@ public class Game : ICharacter
         for (int i = 0; i < data.Length; ++i)
         {
             Map[i] = data[i].ToCharArray();
+        }
+
+        for (var y = 0; y < Map.GetLength(0); ++y)
+        {
+            for (int x = 0; x < Map[y].Length; ++x)
+            {
+                if (Map[y][x] == '@')
+                {
+                    this.x = x;
+                    this.y = y;
+                }
+            }
         }
     }
     
