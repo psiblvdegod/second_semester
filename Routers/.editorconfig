@@ -1,0 +1,4 @@
+[*.cs]
+
+# the only thing helped get rid of useless warning
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none

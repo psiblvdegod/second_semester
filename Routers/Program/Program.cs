@@ -1,4 +1,8 @@
-﻿if (args.Length != 2)
+﻿// <copyright file="Program.cs" author="psilbvdegod" date="2025">
+// under MIT license.
+// </copyright>
+
+if (args.Length != 2)
 {
     Console.Error.WriteLine("Incorrect number of command line arguments.");
     return 1;
@@ -8,7 +12,7 @@ var input = File.ReadAllText(args[0]);
 
 var output = string.Empty;
 
-try 
+try
 {
     (output, _) = MST.MST.Build(input);
 }

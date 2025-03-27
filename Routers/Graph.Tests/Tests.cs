@@ -1,7 +1,10 @@
-﻿using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
+﻿// <copyright file="Graph.cs" author="psilbvdegod" date="2025">
+// under MIT license.
+// </copyright>
 
 namespace Graph.Tests;
+
+#pragma warning disable SA1600
 
 [TestFixture]
 public class Tests
