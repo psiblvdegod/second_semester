@@ -40,8 +40,6 @@ public class Game
         {
             var key = Console.ReadKey().Key;
 
-            // var key = ConsoleKey.RightArrow;
-
             switch (key)
             {
                 case ConsoleKey.LeftArrow:

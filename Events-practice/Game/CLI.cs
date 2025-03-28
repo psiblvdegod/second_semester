@@ -14,34 +14,34 @@ public class CLI((int x, int y) startPoint) : ICharacter
 
    public void MoveRight()
     {
-        --Console.CursorLeft;
         Console.Write(" ");
         Console.Write(Character);
+        --Console.CursorLeft;
     }
 
     public void MoveDown()
     {
-        --Console.CursorLeft;
         Console.Write(" ");
         ++Console.CursorTop;
         --Console.CursorLeft;
         Console.Write(Character);
+        --Console.CursorLeft;
     }
     public void MoveLeft()
     {
-        --Console.CursorLeft;
         Console.Write(" ");
         Console.CursorLeft -= 2;
         Console.Write(Character);
+        --Console.CursorLeft;
     }
 
     public void MoveUp()
     {
-        --Console.CursorLeft;
         Console.Write(" ");
         Console.CursorTop--;
         Console.CursorLeft--;
         Console.Write(Character);
+        --Console.CursorLeft;
     }
 
     public void Clear()
