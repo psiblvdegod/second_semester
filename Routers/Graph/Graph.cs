@@ -51,11 +51,9 @@ public class Graph()
             this.vertices[second] = new Vertex(second);
         }
 
-        this.vertices[first].Linked.RemoveAll(x => x.Vertex.Number == second);
-        this.vertices[second].Linked.RemoveAll(x => x.Vertex.Number == first);
+        this.vertices[first].LinkTo(this.vertices[second], weight);
 
-        this.vertices[first].Linked.Add((this.vertices[second], weight));
-        this.vertices[second].Linked.Add((this.vertices[first], weight));
+        this.vertices[second].LinkTo(this.vertices[first], weight);
     }
 
     /// <summary>
@@ -73,7 +71,7 @@ public class Graph()
 
         var result = new List<(int Vertex, int Weight)>();
 
-        foreach (var (vertex, weight) in this.vertices[number].Linked)
+        foreach (var (vertex, weight) in this.vertices[number].GetLinked())
         {
             result.Add((vertex.Number, weight));
         }
@@ -114,8 +112,17 @@ public class Graph()
 
     private class Vertex(int number)
     {
-        public List<(Vertex Vertex, int Weight)> Linked = [];
+        private readonly List<(Vertex Vertex, int Weight)> linked = [];
 
         public int Number { get; } = number;
+
+        public List<(Vertex Vertex, int Weight)> GetLinked()
+            => this.linked;
+
+        public void LinkTo(Vertex vertex, int weight)
+        {
+            this.linked.RemoveAll(x => x.Vertex.Number == vertex.Number);
+            this.linked.Add((vertex, weight));
+        }
     }
 }
