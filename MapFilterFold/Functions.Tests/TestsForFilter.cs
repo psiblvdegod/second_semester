@@ -1,6 +1,5 @@
 namespace Functions.Tests;
 
-using System.Security.Cryptography.X509Certificates;
 using static Functions;
 
 [TestFixture]
