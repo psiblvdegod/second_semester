@@ -2,15 +2,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Game;
 
-public class CLI((int x, int y) startPoint) : ICharacter
+public class CLI((int x, int y) startPoint) : IMove
 {
     public char Character { get; } = '@';
-
-    private readonly int x = startPoint.x;
-
-    private readonly int y = startPoint.y;
-
-    public (int x, int y) Position { get => (this.x, this.y); }
 
    public void MoveRight()
     {
@@ -49,7 +43,7 @@ public class CLI((int x, int y) startPoint) : ICharacter
 
     public void SetCursor()
     {
-        Console.CursorLeft = this.x;
-        Console.CursorTop = this.y;
+        Console.CursorLeft = startPoint.x;
+        Console.CursorTop = startPoint.y;
     }
 }

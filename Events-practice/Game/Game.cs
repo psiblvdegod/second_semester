@@ -15,19 +15,25 @@ public class Game
 
         var CLI = new CLI(map.Position);
 
+        var validator = new Validator(map);
+
         Start += CLI.Clear;
         Start += map.Print;
-        Start += CLI.SetCursor;
+        Start += CLI.SetCursor; // bad af
 
+        Left += validator.MoveLeft;
         Left += map.MoveLeft;
         Left += CLI.MoveLeft;
 
+        Right += validator.MoveRight;
         Right += map.MoveRight;
         Right += CLI.MoveRight;
 
+        Down += validator.MoveDown;
         Down += map.MoveDown;
         Down += CLI.MoveDown;
 
+        Up += validator.MoveUp;
         Up += map.MoveUp;
         Up += CLI.MoveUp;
     }
@@ -40,27 +46,29 @@ public class Game
         {
             var key = Console.ReadKey().Key;
 
-            switch (key)
+            try
             {
-                case ConsoleKey.LeftArrow:
-                    Left();
-                break;
+                switch (key)
+                {
+                    case ConsoleKey.LeftArrow:
+                        Left();
+                    break;
 
-                case ConsoleKey.RightArrow:
-                    Right();
-                break;
+                    case ConsoleKey.RightArrow:
+                        Right();
+                    break;
 
-                case ConsoleKey.UpArrow:
-                    Up();
-                break;
+                    case ConsoleKey.UpArrow:
+                        Up();
+                    break;
 
-                case ConsoleKey.DownArrow:
-                    Down();
-                break;
-
-                case ConsoleKey.Spacebar:
-                    End();
-                return;
+                    case ConsoleKey.DownArrow:
+                        Down();
+                    break;
+                }
+            }
+            catch (InvalidOperationException)
+            {
             }
         }
     }

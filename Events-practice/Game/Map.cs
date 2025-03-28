@@ -3,9 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace Game;
 
-public class Map : ICharacter
+public class Map : IMove
 {
-    private char[][] map;
+    public char[][] map { get; }
 
     public char Character { get; } = '@';
 
@@ -50,17 +50,6 @@ public class Map : ICharacter
 
     public void MoveLeft()
     {
-        /*
-        if (this.Position.x == 0)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y][x - 1] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-        */
-
         (map[y][x - 1], map[y][x]) = (map[y][x], map[y][x - 1]);
 
         this.x--;
@@ -68,17 +57,6 @@ public class Map : ICharacter
 
     public void MoveRight()
     {
-        /*
-        if (this.Position.x == Map[this.Position.y].Length - 1)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y][x + 1] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-        */
-
         (map[y][x + 1], map[y][x]) = (map[y][x], map[y][x + 1]);
 
         ++this.x;
@@ -86,17 +64,6 @@ public class Map : ICharacter
 
     public void MoveUp()
     {
-        /*
-        if (this.Position.y == 0)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y - 1][x] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-        */
-
         (map[y - 1][x], map[y][x]) = (map[y][x], map[y - 1][x]);
 
         --this.y;
@@ -104,17 +71,6 @@ public class Map : ICharacter
 
     public void MoveDown()
     {
-        /*
-        if (this.Position.y == this.Map.Length - 1)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y + 1][x] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-        */
-
         (map[y + 1][x], map[y][x]) = (map[y][x], map[y + 1][x]);
 
         ++this.y;

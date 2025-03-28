@@ -1,6 +1,6 @@
 namespace Game;
 
-public interface ICharacter
+public interface IMove
 {
     public void MoveLeft();
 
