@@ -1,11 +1,15 @@
-﻿// <copyright file="Graph.cs" author="psilbvdegod" date="2025">
+﻿// <copyright file="Tests.cs" author="psilbvdegod" date="2025">
 // under MIT license.
 // </copyright>
 
-namespace Graph.Tests;
-
+// SA1600: Element should be documented.
 #pragma warning disable SA1600
 
+namespace Graph.Tests;
+
+/// <summary>
+/// Tests methods from class Graph.
+/// </summary>
 [TestFixture]
 public class Tests
 {
@@ -39,7 +43,7 @@ public class Tests
     }
 
     [Test]
-    public void Link_OnExistingEdge()
+    public void Link_OnExistingEdge_ShouldDeleteOldEdgeAndCreateNewOne()
     {
         var graph = new Graph();
 

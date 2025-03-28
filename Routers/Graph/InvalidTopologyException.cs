@@ -1,4 +1,4 @@
-// <copyright file="Graph.Exception.cs" author="psiblvdegod">
+// <copyright file="InvalidTopologyException.cs" author="psiblvdegod">
 // under MIT License.
 // </copyright>
 

@@ -1,4 +1,14 @@
+# <summary>
+# Disables unnecessary StyleCop warnings.
+# </summary>
+
 [*.cs]
 
-# the only thing helped get rid of useless warning
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+# SA1636: File header copyright text should match
+dotnet_diagnostic.SA1636.severity = none
+
+# SA1640: File header should have valid company text
+dotnet_diagnostic.SA1640.severity = none
+
+# SA0001: XML comment analysis is disabled due to project configuration
+dotnet_diagnostic.SA0001.severity = none
