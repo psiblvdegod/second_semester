@@ -1,71 +1,35 @@
-﻿using System.Runtime.Versioning;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.VisualBasic;
+﻿namespace Game;
 
-namespace Game;
-
-public class Game : ICharacter
+public class Game
 {
-    private int x;
-    private int y;
-
-    public (int x, int y) Position
-    {
-        get => (this.x, this.y);
-    }
-
-    private char[][] Map;
-
-
     public event Action Start;
+    public event Action End = () => { };
     public event Action Left;
     public event Action Right;
     public event Action Up;
     public event Action Down;
-    public event Action End;
 
-    public Game(string map)
+    public Game(string path)
     {
-        var data = map.Split('\n');
+        var map = new Map(File.ReadAllText(path));
 
-        Map = new char[data.Length][];
+        var CLI = new CLI(map.Position);
 
-        for (int i = 0; i < data.Length; ++i)
-        {
-            Map[i] = data[i].ToCharArray();
-        }
+        Start += CLI.Clear;
+        Start += map.Print;
+        Start += CLI.SetCursor;
 
-        for (var y = 0; y < Map.GetLength(0); ++y)
-        {
-            for (int x = 0; x < Map[y].Length; ++x)
-            {
-                if (Map[y][x] == '0')
-                {
-                    this.x = x;
-                    this.y = y;
-                }
-            }
-        }
+        Left += map.MoveLeft;
+        Left += CLI.MoveLeft;
 
-        Left += this.MoveLeft;
+        Right += map.MoveRight;
+        Right += CLI.MoveRight;
 
-        Left += this.PrintMap;
+        Down += map.MoveDown;
+        Down += CLI.MoveDown;
 
-        Right += this.MoveRight;
-
-        Right += this.PrintMap;
-
-        Up += this.MoveUp;
-
-        Up += this.PrintMap;
-
-        Down += this.MoveDown;
-
-        Down += this.PrintMap;
-
-        Start += PrintMap;
-
-        End += this.Die;
+        Up += map.MoveUp;
+        Up += CLI.MoveUp;
     }
 
     public void Run()
@@ -76,109 +40,30 @@ public class Game : ICharacter
         {
             var key = Console.ReadKey().Key;
 
+            // var key = ConsoleKey.RightArrow;
+
             switch (key)
             {
-                case (ConsoleKey.LeftArrow):
+                case ConsoleKey.LeftArrow:
                     Left();
                 break;
 
-                case (ConsoleKey.RightArrow):
+                case ConsoleKey.RightArrow:
                     Right();
                 break;
 
-                case (ConsoleKey.UpArrow):
+                case ConsoleKey.UpArrow:
                     Up();
                 break;
 
-                case (ConsoleKey.DownArrow):
+                case ConsoleKey.DownArrow:
                     Down();
                 break;
 
-                case (ConsoleKey.Spacebar):
+                case ConsoleKey.Spacebar:
                     End();
                 return;
             }
         }
     }
-    
-    public void PrintMap()
-    {
-        foreach (var line in Map)
-        {
-            Console.WriteLine(line);
-        }
-    }
-
-    public void MoveLeft()
-    {
-        if (this.Position.x == 0)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y][x - 1] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-
-        (Map[y][x - 1], Map[y][x]) = (Map[y][x], Map[y][x - 1]);
-
-        this.x--;
-    }
-
-    public void MoveRight()
-    {
-        if (this.Position.x == Map[this.Position.y].Length - 1)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y][x + 1] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-
-        (Map[y][x + 1], Map[y][x]) = (Map[y][x], Map[y][x + 1]);
-
-        ++this.x;
-    }
-
-    public void MoveUp()
-    {
-        if (this.Position.y == 0)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y - 1][x] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-
-        (Map[y - 1][x], Map[y][x]) = (Map[y][x], Map[y - 1][x]);
-
-        --this.y;
-    }
-
-    public void MoveDown()
-    {
-        if (this.Position.y == this.Map.Length - 1)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-        if (Map[y + 1][x] != ' ')
-        {
-            throw new InvalidOperationException("attempt to go throw the wall.");
-        }
-
-        (Map[y + 1][x], Map[y][x]) = (Map[y][x], Map[y + 1][x]);
-
-        ++this.y;
-    }
-
-    public void Die()
-    {
-        if (this.Position.x == 0)
-        {
-            throw new InvalidOperationException("attempt to go beyond the map.");
-        }
-    }
 }
-
