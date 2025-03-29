@@ -38,7 +38,7 @@ public class TestsForMap
     {
         IEnumerable<CustomType> elements = [new(1.23, false), new(3.14, true), new(-6.66, true)];
 
-        Func<CustomType, CustomType> func = a => new(Math.Floor(a.x), !a.y);
+        Func<CustomType, CustomType> func = a => new(Math.Floor(a.D), !a.B);
 
         IEnumerable<CustomType> expectedResult = [new(1.0, true), new(3, false), new(-7, false)];
 
@@ -47,9 +47,17 @@ public class TestsForMap
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
 
-    readonly struct CustomType (double x, bool y)
+    [Test]
+    public void Map_OnIEnumerablesOfIntAsIEnumerable()
     {
-        public readonly double x = x;
-        public readonly bool y = y;
+        IEnumerable<IEnumerable<int>> elements = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
+
+        Func<IEnumerable<int>, IEnumerable<int>> func = e => e.Order();
+
+        IEnumerable<IEnumerable<int>> expectedResult = [[0, 4, 5], [-4, -2, 12], [-5, 0, 9]];
+
+        var actualResult = Map(elements, func);
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
 }

@@ -42,7 +42,8 @@ public class TestsForFold
     {
         IEnumerable<CustomType> elements = [new(1.23, false), new(3.14, true), new(-6.66, true)];
 
-        Func<CustomType, CustomType, CustomType> func = (a, b) => a.y || b.y ? new(a.x + b.x, false) : new(a.x * b.x, true);
+        Func<CustomType, CustomType, CustomType> func =
+            (a, b) => a.B || b.B ? new(a.D + b.D, false) : new(a.D * b.D, true);
 
         CustomType initialValue = new(1, false);
 
@@ -53,9 +54,32 @@ public class TestsForFold
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
 
-    readonly struct CustomType (double x, bool y)
+    [Test]
+    public void Fold_OnIEnumerablesOfIntAsIEnumerable()
     {
-        public readonly double x = x;
-        public readonly bool y = y;
+        IEnumerable<IEnumerable<int>> elements = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
+
+        Func<IEnumerable<int>, IEnumerable<int>, IEnumerable<int>> func =
+            (left, right) =>
+            {
+                IEnumerable<int> result = [];
+                var leftAsArray = left.ToArray();
+                var rightAsArray = right.ToArray();
+
+                for (var i = 0; i < leftAsArray.Length && i < rightAsArray.Length; ++i)
+                {
+                    result = result.Append(leftAsArray[i] + rightAsArray[i]);
+                }
+
+                return result.AsEnumerable();
+            };
+
+        IEnumerable<int> initialValue = [0, 0, 0];
+
+        IEnumerable<int> expectedResult = [11, 1, 7];
+
+        var actualResult = Fold(elements, initialValue, func);
+
+        Assert.That(expectedResult, Is.EqualTo(actualResult));
     }
 }

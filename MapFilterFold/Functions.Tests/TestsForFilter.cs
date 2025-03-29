@@ -10,7 +10,7 @@ public class TestsForFilter
     {
         List<int> list = [0, 1, -2, -3, 4];
 
-        IEnumerable<int> expectedResult = [-3];
+        IEnumerable<int> expectedResult = [list[3]];
 
         Predicate<int> predicate = x => x < 0 && x % 2 != 0;
 
@@ -24,9 +24,9 @@ public class TestsForFilter
     {
         string[] array = ["first", "second", "third"];
 
-        IEnumerable<string> expectedResult = ["first"];
-
         Predicate<string> predicate = s => s.Contains('s') && s.Length < 6;
+
+        IEnumerable<string> expectedResult = [array[0]];
 
         var actualResult = Filter(array, predicate);
 
@@ -38,18 +38,26 @@ public class TestsForFilter
     {
         IEnumerable<CustomType> elements = [new(1.23, false), new(3.14, true), new(-6.66, true)];
 
-        IEnumerable<CustomType> expectedResult = [new(3.14, true)];
+        Predicate<CustomType> predicate = e => e.D > 0 && e.B;
 
-        Predicate<CustomType> predicate = e => e.x > 0 && e.y;
+        IEnumerable<CustomType> expectedResult = [elements.ToArray()[1]];
 
         var actualResult = Filter(elements, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
 
-    readonly struct CustomType (double x, bool y)
+    [Test]
+    public void Filted_OnIEnumerablesOfIntAsIEnumerable()
     {
-        public readonly double x = x;
-        public readonly bool y = y;
+        IEnumerable<IEnumerable<int>> elements = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
+
+        Predicate<IEnumerable<int>> predicate = e => e.Count(x => x % 2 == 0) > 1;
+            
+        IEnumerable<IEnumerable<int>> expectedResult = [elements.ToArray()[0], elements.ToArray()[1]];
+
+        var actualResult = Filter(elements, predicate);
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
 }
