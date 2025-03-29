@@ -4,6 +4,7 @@
 
 namespace LZW;
 
+using System.Text;
 using Trie;
 
 /// <summary>
@@ -67,14 +68,13 @@ public static class LZW
         }
     }
 
+    /// <summary>
+    /// Compresses byte sequence using LZW algorithm.
+    /// </summary>
+    /// <param name="input">Byte sequence which will be compressed.</param>
+    /// <returns>Compressed byte sequence.</returns>
     public static byte[] Compress(byte[] input)
-    {
-        var stringRepresentation = Convert.ToBase64String(input);
-
-        var compressedStringRepresentation = Compress(stringRepresentation);
-
-        return Convert.FromBase64String(compressedStringRepresentation);
-    }
+        => Encoding.GetEncoding("ISO-8859-1").GetBytes(Compress(Encoding.GetEncoding("ISO-8859-1").GetString(input)));
 
     /// <summary>
     /// Decompresses string using LZW algorithm.
@@ -125,12 +125,11 @@ public static class LZW
         return output;
     }
 
+    /// <summary>
+    /// Decompresses byte sequence using LZW algorithm.
+    /// </summary>
+    /// <param name="input">Compressed byte sequence.</param>
+    /// <returns>Initial byte sequence.</returns>
     public static byte[] Decompress(byte[] input)
-    {
-        var stringRepresentation = Convert.ToBase64String(input);
-
-        var compressedStringRepresentation = Decompress(stringRepresentation);
-
-        return Convert.FromBase64String(compressedStringRepresentation);
-    }
+        => Encoding.GetEncoding("ISO-8859-1").GetBytes(Decompress(Encoding.GetEncoding("ISO-8859-1").GetString(input)));
 }

@@ -13,12 +13,12 @@ namespace LZW.Tests;
 public class Tests
 {
     [Test]
-    public static void Compress_On_EmptyString()
-        => Assert.That(() => LZW.Compress(string.Empty), Throws.ArgumentException);
+    public static void Compress_On_EmptyString_ShouldThrowException()
+        => Assert.Throws<ArgumentException>(() => LZW.Compress(string.Empty));
 
     [Test]
-    public static void Decompress_On_EmptyString()
-        => Assert.That(() => LZW.Decompress(string.Empty), Throws.ArgumentException);
+    public static void Decompress_On_EmptyString_ShouldThrowException()
+        => Assert.Throws<ArgumentException>(() => LZW.Decompress(string.Empty));
 
     [Test]
     public static void Compress_Then_Decompress_OnOrdinaryInput()
@@ -27,9 +27,9 @@ public class Tests
 
         var compressOutput = LZW.Compress(input);
 
-        var decompessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = LZW.Decompress(compressOutput);
 
-        Assert.That(decompessOutput, Is.EqualTo(input));
+        Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
 
     [Test]
@@ -39,9 +39,9 @@ public class Tests
 
         var compressOutput = LZW.Compress(input);
 
-        var decompessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = LZW.Decompress(compressOutput);
 
-        Assert.That(decompessOutput, Is.EqualTo(input));
+        Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
 
     [Test]
@@ -53,8 +53,34 @@ public class Tests
 
         var compressOutput = LZW.Compress(input);
 
-        var decompessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = LZW.Decompress(compressOutput);
 
-        Assert.That(decompessOutput, Is.EqualTo(input));
+        Assert.That(decomrpessOutput, Is.EqualTo(input));
+    }
+
+    [Test]
+    public static void Compress_Then_Decompress_OnByteArray()
+    {
+        byte[] input = [72, 101, 108, 108, 111, 255];
+
+        var compressOutput = LZW.Compress(input);
+
+        var decomrpessOutput = LZW.Decompress(compressOutput);
+
+        Assert.That(decomrpessOutput, Is.EqualTo(input));
+    }
+
+    [Test]
+    public static void Compress_Then_Decompress_OnBigBinaryFile()
+    {
+        var path = "../../../../DataForTests/TestData";
+
+        var input = File.ReadAllBytes(path);
+
+        var compressOutput = LZW.Compress(input);
+
+        var decomrpessOutput = LZW.Decompress(compressOutput);
+
+        Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
 }

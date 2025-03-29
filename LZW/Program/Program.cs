@@ -1,4 +1,4 @@
-﻿// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
+﻿// <copyright file = "Program.cs" author = "psiblvdegod" date = "2025">
 // under MIT license
 // </copyright>
 
