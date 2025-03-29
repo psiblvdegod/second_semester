@@ -1,16 +1,24 @@
-﻿var firstPath = "../DataForTests/TestData.txt";
+﻿var pathForFirstMeasure = "../DataForTests/TestData.txt";
+var resultOfFirstMeasure = MeasureOnText(pathForFirstMeasure);
 
-var firstInput = File.ReadAllText(firstPath);
+var pathForSecondMeasure = "../DataForTests/TestData";
+var resultOfSecondMeasure = MeasureOnBinary(pathForSecondMeasure);
 
-var firstResult = MeasureOnText(firstInput);
+Console.WriteLine($"first measure: text is {resultOfFirstMeasure} times bigger with no BWT.");
+Console.WriteLine($"second measure: text is {resultOfSecondMeasure} times bigger with no BWT.");
 
-Console.WriteLine($"text when BWT was not used is {firstResult} times bigger.");
-
-static double MeasureOnText(string input)
+static double MeasureOnText(string path)
 {
+    var input = File.ReadAllText(path);
     var outputWithNoBWT = LZW.LZW.Compress(input);
-
     var outputWithBWT = BWTxLZW.BWTxLZW.Compress(input);
+    return (double)outputWithNoBWT.Length / outputWithBWT.Length;
+}
 
+static double MeasureOnBinary(string path)
+{
+    var input = File.ReadAllBytes(path);
+    var outputWithNoBWT = LZW.LZW.Compress(input);
+    var outputWithBWT = BWTxLZW.BWTxLZW.Compress(input);
     return (double)outputWithNoBWT.Length / outputWithBWT.Length;
 }

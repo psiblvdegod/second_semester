@@ -4,4 +4,4 @@
 
 using BWTxLZW;
 
-InputProcessing.ProcessInput(args);
+InputProcessing.Run(args);

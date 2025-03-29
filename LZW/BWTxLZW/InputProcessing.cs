@@ -13,15 +13,15 @@ public static class InputProcessing
     /// Detransforms string which has been transformed with Burrows-Wheeler algorithm.
     /// </summary>
     /// <param name="args">Should contain 2 params : path to file and switch --c or --u.</param>
-    public static void ProcessInput(string[] args)
+    public static void Run(string[] args)
     {
         if (args.Length != 2)
         {
             throw new ArgumentException("Incorrect number of arguments.");
         }
 
-        ArgumentNullException.ThrowIfNullOrEmpty(args[0]);
-        ArgumentNullException.ThrowIfNullOrEmpty(args[1]);
+        ArgumentException.ThrowIfNullOrEmpty(args[0]);
+        ArgumentException.ThrowIfNullOrEmpty(args[1]);
 
         if (args[1] == "--c")
         {
@@ -45,16 +45,7 @@ public static class InputProcessing
 
         var newFilePath = $"{path}.zipped";
 
-        var stream = File.CreateText(newFilePath);
-
-        try
-        {
-            stream.Write(result);
-        }
-        finally
-        {
-            stream.Close();
-        }
+        File.WriteAllText(newFilePath, result);
 
         Console.WriteLine(CompressionStatistics.GetCompressionRatio(path));
     }
@@ -70,15 +61,6 @@ public static class InputProcessing
         var result = BWTxLZW.Decompress(input);
 
         var newFilePath = path[..path.LastIndexOf('.')];
-        var stream = File.CreateText(newFilePath);
-
-        try
-        {
-            stream.Write(result);
-        }
-        finally
-        {
-            stream.Close();
-        }
+        File.WriteAllText(newFilePath, result);
     }
 }
