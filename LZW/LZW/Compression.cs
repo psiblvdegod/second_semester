@@ -1,4 +1,4 @@
-﻿// <copyright file = "LZW.cs" author = "psiblvdegod" date = "2025">
+﻿// <copyright file = "Compression.cs" author = "psiblvdegod" date = "2025">
 // under MIT license
 // </copyright>
 
@@ -10,7 +10,7 @@ using Trie;
 /// <summary>
 /// Contains methods which allow compress and decompess files using LZW algorithm.
 /// </summary>
-public static class LZW
+public static class Compression
 {
     /// <summary>
     /// Compresses string using LZW algorithm.

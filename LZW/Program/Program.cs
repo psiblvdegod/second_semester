@@ -2,6 +2,6 @@
 // under MIT license
 // </copyright>
 
-using BWTxLZW;
+using FileCompression;
 
 InputProcessing.Run(args);

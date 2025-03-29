@@ -1,4 +1,4 @@
-﻿// <copyright file = "BWTxLZW.cs" author = "psiblvdegod" date = "2025">
+﻿// <copyright file = "Compression.cs" author = "psiblvdegod" date = "2025">
 // under MIT license
 // </copyright>
 
@@ -11,7 +11,7 @@ using LZW;
 /// <summary>
 /// Contains methods from namespace LZW, improved by Burrows-Wheeler transform.
 /// </summary>
-public static class BWTxLZW
+public static class Compression
 {
     /// <summary>
     /// Compresses string using LZW and BWT algorithms.
@@ -22,7 +22,7 @@ public static class BWTxLZW
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
 
-        var (output, position) = BWT.Transform(LZW.Compress(input));
+        var (output, position) = BWT.Transform(LZW.Compression.Compress(input));
 
         var separator = '%';
 
@@ -50,7 +50,7 @@ public static class BWTxLZW
 
         var position = int.Parse(input[..separatorIndex]);
 
-        return LZW.Decompress(BWT.Detransform(input[(separatorIndex + 1)..], position));
+        return LZW.Compression.Decompress(BWT.Detransform(input[(separatorIndex + 1)..], position));
     }
 
     /// <summary>

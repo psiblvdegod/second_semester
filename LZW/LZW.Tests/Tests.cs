@@ -6,6 +6,8 @@
 
 namespace LZW.Tests;
 
+using static LZW.Compression;
+
 /// <summary>
 /// Tests methods from LZW.cs.
 /// </summary>
@@ -14,20 +16,20 @@ public class Tests
 {
     [Test]
     public static void Compress_On_EmptyString_ShouldThrowException()
-        => Assert.Throws<ArgumentException>(() => LZW.Compress(string.Empty));
+        => Assert.Throws<ArgumentException>(() => Compress(string.Empty));
 
     [Test]
     public static void Decompress_On_EmptyString_ShouldThrowException()
-        => Assert.Throws<ArgumentException>(() => LZW.Decompress(string.Empty));
+        => Assert.Throws<ArgumentException>(() => Decompress(string.Empty));
 
     [Test]
     public static void Compress_Then_Decompress_OnOrdinaryInput()
     {
         var input = "some_simple_string_to_compress";
 
-        var compressOutput = LZW.Compress(input);
+        var compressOutput = Compress(input);
 
-        var decomrpessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = Decompress(compressOutput);
 
         Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
@@ -37,9 +39,9 @@ public class Tests
     {
         var input = "1";
 
-        var compressOutput = LZW.Compress(input);
+        var compressOutput = Compress(input);
 
-        var decomrpessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = Decompress(compressOutput);
 
         Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
@@ -51,9 +53,9 @@ public class Tests
 
         var input = File.ReadAllText(path);
 
-        var compressOutput = LZW.Compress(input);
+        var compressOutput = Compress(input);
 
-        var decomrpessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = Decompress(compressOutput);
 
         Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
@@ -63,9 +65,9 @@ public class Tests
     {
         byte[] input = [72, 101, 108, 108, 111, 255];
 
-        var compressOutput = LZW.Compress(input);
+        var compressOutput = Compress(input);
 
-        var decomrpessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = Decompress(compressOutput);
 
         Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
@@ -77,9 +79,9 @@ public class Tests
 
         var input = File.ReadAllBytes(path);
 
-        var compressOutput = LZW.Compress(input);
+        var compressOutput = Compress(input);
 
-        var decomrpessOutput = LZW.Decompress(compressOutput);
+        var decomrpessOutput = Decompress(compressOutput);
 
         Assert.That(decomrpessOutput, Is.EqualTo(input));
     }
