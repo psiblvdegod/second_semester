@@ -7,15 +7,15 @@ namespace ParseTree;
 
 public class Tree
 {
-    private Node root;
+    private readonly Node root;
 
-    private static Dictionary<string, Operator> supportedOperators = new()
+    private static Dictionary<string, Func<int,int,int>> supportedOperators = new()
     {
-        ["+"] = new Operator((x, y) => x + y),
-        ["-"] = new Operator((x, y) => x - y),
-        ["*"] = new Operator((x, y) => x * y),
-        ["/"] = new Operator((x, y) => x / y),
-        ["pow"] = new Operator((x, y) => (int)Math.Pow(x, y))
+        ["+"] = (x, y) => x + y,
+        ["-"] = (x, y) => x - y,
+        ["*"] = (x, y) => x * y,
+        ["/"] = (x, y) => x / y,
+        ["pow"] = (x, y) => (int)Math.Pow(x, y)
     };
 
     public static void AddOperationToSupportedOnes(string token, Func<int,int,int> operation)
@@ -25,7 +25,7 @@ public class Tree
             throw new InvalidOperationException("token is already occupied.");
         }
 
-        supportedOperators[token] = new Operator(operation);
+        supportedOperators[token] = operation;
     }
 
     public Tree(string expression) 
@@ -74,6 +74,9 @@ public class Tree
         }
     }
 
+    public int Calculate()
+        => root.Calculate();
+
     private static Node Parse(string token)
     {
         if (int.TryParse(token, out int parsed))
@@ -82,7 +85,7 @@ public class Tree
         }
         else if (supportedOperators.ContainsKey(token))
         {
-            return supportedOperators[token];
+            return new Operator(supportedOperators[token]);
         }
         else
         {
