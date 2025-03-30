@@ -8,7 +8,7 @@ Homeworks and practices of second semester of TP at SPBU MM \
 
 ---
 
-[![CI Status](https://github.com/psilblvdegod/second_semester/actions/workflows/ci.yml/badge.svg)](https://github.com/psiblvdegod/second_semester/actions)
+[![GitHub Actions CI](https://github.com/psilblvdegod/second_semester/actions/workflows/ci.yml/badge.svg)](https://github.com/psiblvdegod/second_semester/actions/workflows/ci.yml)
 
 ---
 
