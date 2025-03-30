@@ -1,11 +1,18 @@
 namespace ParseTree;
 
-public class Operator<T>(Func<T,T,T> operation) : Node<T>
+public class Operator(Func<int, int, int> operation) : Node
 {
-    Func<T,T,T> Operation { get; } = operation;
-    Node<T> LeftChild {get; set;}
-    Node<T> RightChild {get; set;}
+    Func<int,int,int> Operation { get; } = operation;
+    public Node? LeftChild {get; set;}
+    public Node? RightChild {get; set;}
 
-    public override T Calculate()
-        => Operation(LeftChild.Calculate(), RightChild.Calculate());
+    public override int Calculate()
+    {
+        if (LeftChild is null || RightChild is null)
+        {
+            throw new InvalidOperationException();
+        }
+    
+        return Operation(LeftChild.Calculate(), RightChild.Calculate());
+    }
 }

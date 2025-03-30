@@ -1,6 +1,6 @@
 namespace ParseTree;
 
-public abstract class Node<T>
+public abstract class Node
 {
-    public abstract T Calculate();
+    public abstract int Calculate();
 }

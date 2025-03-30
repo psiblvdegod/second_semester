@@ -1,9 +1,9 @@
 ﻿namespace ParseTree;
 
-public class Leaf<T>(T data) : Node<T>
+public class Leaf(int data) : Node
 {
-    private readonly T data = data;
+    private readonly int data = data;
 
-    public override T Calculate()
+    public override int Calculate()
         => data;
 }
