@@ -6,4 +6,7 @@ public class Leaf(int data) : Node
 
     public override int Calculate()
         => data;
+
+    public override void Print()
+        => Console.WriteLine($"{data}");
 }

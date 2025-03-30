@@ -53,6 +53,11 @@ public class Tree
 
         foreach (var token in tokens[1..])
         {
+            if (stack.Count == 0)
+            {
+                throw new InvalidExpressionException();
+            }
+
             var current = stack.Peek();
 
             var parsed = Parse(token);
@@ -72,6 +77,11 @@ public class Tree
                 stack.Push(@operator);
             }
         }
+
+        if (stack.Count != 0)
+        {
+            throw new InvalidExpressionException();
+        }
     }
 
     public int Calculate()
@@ -85,7 +95,7 @@ public class Tree
         }
         else if (supportedOperators.ContainsKey(token))
         {
-            return new Operator(supportedOperators[token]);
+            return new Operator(supportedOperators[token], token);
         }
         else
         {
