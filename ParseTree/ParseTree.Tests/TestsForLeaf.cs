@@ -1,7 +1,14 @@
-using Microsoft.VisualBasic;
+// <copyright file="TestsForLeaf.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
 namespace ParseTree.Tests;
 
+#pragma warning disable SA1600
+
+/// <summary>
+/// Tests methods of class Leaf .
+/// </summary>
 [TestFixture]
 public class TestsForLeaf
 {
@@ -23,7 +30,7 @@ public class TestsForLeaf
         var data = 1;
         Leaf leaf = new(data);
         var expectedResult = $"{data}\n";
-        
+
         var output = new StringWriter();
         Console.SetOut(output);
 

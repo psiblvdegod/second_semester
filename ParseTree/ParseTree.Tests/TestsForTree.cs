@@ -1,8 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography.X509Certificates;
+﻿// <copyright file="TestsForTree.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
 namespace ParseTree.Tests;
 
+#pragma warning disable SA1600
+
+/// <summary>
+/// Tests methods of class Tree.
+/// </summary>
 public class TestsForTree
 {
     [Test]
@@ -78,9 +84,6 @@ public class TestsForTree
     [Test]
     public void AddOperationToSupportedOnes_OnExistingOperation_ShouldThrowException()
     {
-        Assert.Throws<InvalidOperationException>
-        (
-            () => Tree.AddOperationToSupportedOnes("+", (x, y) => x + y)
-        );
+        Assert.Throws<InvalidOperationException>(() => Tree.AddOperationToSupportedOnes("+", (x, y) => x + y));
     }
 }

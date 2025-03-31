@@ -1,55 +1,51 @@
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.VisualBasic;
+// <copyright file="Tree.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
 namespace ParseTree;
 
+/// <summary>
+/// Implements parse tree data structure that allows store expression and calculates it.
+/// </summary>
 public class Tree
 {
-    private readonly Node root;
-
-    private static Dictionary<string, Func<int,int,int>> supportedOperators = new()
+    private static Dictionary<string, Func<int, int, int>> supportedOperators = new()
     {
         ["+"] = (x, y) => x + y,
         ["-"] = (x, y) => x - y,
         ["*"] = (x, y) => x * y,
         ["/"] = (x, y) => x / y,
-        ["pow"] = (x, y) => (int)Math.Pow(x, y)
+        ["pow"] = (x, y) => (int)Math.Pow(x, y),
     };
 
-    public static void AddOperationToSupportedOnes(string token, Func<int,int,int> operation)
-    {
-        if (supportedOperators.ContainsKey(token))
-        {
-            throw new InvalidOperationException("token is already occupied.");
-        }
+    private readonly Node root;
 
-        supportedOperators[token] = operation;
-    }
-
-    public Tree(string expression) 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Tree"/> class.
+    /// </summary>
+    /// <param name="expression">Expression that will be parsed to build tree.</param>
+    public Tree(string expression)
     {
         var tokens = expression.Split(' ');
 
-        root = Parse(tokens[0]);
+        this.root = Parse(tokens[0]);
 
-        if (tokens.Length == 1 && root is Leaf)
+        if (tokens.Length == 1 && this.root is Leaf)
         {
             return;
         }
-        else if (tokens.Length == 1 && root is not Leaf)
+        else if (tokens.Length == 1 && this.root is not Leaf)
         {
             throw new InvalidExpressionException();
         }
-        else if (tokens.Length != 1 && root is not Operator)
+        else if (tokens.Length != 1 && this.root is not Operator)
         {
             throw new InvalidExpressionException();
         }
 
         var stack = new Stack<Operator>();
 
-        stack.Push((Operator)root);
+        stack.Push((Operator)this.root);
 
         foreach (var token in tokens[1..])
         {
@@ -84,8 +80,28 @@ public class Tree
         }
     }
 
+    /// <summary>
+    /// Adds operation to supported ones so it will be available in expressions used to build parse tree.
+    /// </summary>
+    /// <param name="token">Token which will be used to call new operation in expressions. Token must be unique for each operation.</param>
+    /// <param name="operation">Operation which will be called when expression contains appropriate token.</param>
+    /// <exception cref="InvalidOperationException">Is thrown if token is already occupied.</exception>
+    public static void AddOperationToSupportedOnes(string token, Func<int, int, int> operation)
+    {
+        if (supportedOperators.ContainsKey(token))
+        {
+            throw new InvalidOperationException("token is already occupied.");
+        }
+
+        supportedOperators[token] = operation;
+    }
+
+    /// <summary>
+    /// Calculates expression that is stored in tree.
+    /// </summary>
+    /// <returns>Expression calculating result.</returns>
     public int Calculate()
-        => root.Calculate();
+        => this.root.Calculate();
 
     private static Node Parse(string token)
     {
