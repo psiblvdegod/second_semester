@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParseTree", "ParseTree\Pars
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParseTree.Tests", "ParseTree.Tests\ParseTree.Tests.csproj", "{9F31F3D3-1E2D-4555-8CCC-0F6C7D21A42C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{8C3EBC9D-3205-44D1-BCB8-67B71D7CAC91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,5 +30,13 @@ Global
 		{9F31F3D3-1E2D-4555-8CCC-0F6C7D21A42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F31F3D3-1E2D-4555-8CCC-0F6C7D21A42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F31F3D3-1E2D-4555-8CCC-0F6C7D21A42C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF2DE2C8-7D26-4299-8FB4-9F57B6B813EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF2DE2C8-7D26-4299-8FB4-9F57B6B813EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF2DE2C8-7D26-4299-8FB4-9F57B6B813EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF2DE2C8-7D26-4299-8FB4-9F57B6B813EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C3EBC9D-3205-44D1-BCB8-67B71D7CAC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C3EBC9D-3205-44D1-BCB8-67B71D7CAC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C3EBC9D-3205-44D1-BCB8-67B71D7CAC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C3EBC9D-3205-44D1-BCB8-67B71D7CAC91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
