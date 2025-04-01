@@ -1,0 +1,27 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BWT", "BWT\BWT.csproj", "{B200949B-C907-414C-8623-04817D1263DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DBAC6140-D5EB-45F1-BFB6-E3DAE87D4ECD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B200949B-C907-414C-8623-04817D1263DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B200949B-C907-414C-8623-04817D1263DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B200949B-C907-414C-8623-04817D1263DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B200949B-C907-414C-8623-04817D1263DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBAC6140-D5EB-45F1-BFB6-E3DAE87D4ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBAC6140-D5EB-45F1-BFB6-E3DAE87D4ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBAC6140-D5EB-45F1-BFB6-E3DAE87D4ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBAC6140-D5EB-45F1-BFB6-E3DAE87D4ECD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
