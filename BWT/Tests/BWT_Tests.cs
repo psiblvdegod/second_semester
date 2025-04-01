@@ -2,10 +2,12 @@
 // under MIT license
 // </copyright>
 
+// SA1600 : Elements should be documented.
+#pragma warning disable SA1600
+
 namespace Tests;
 
 using BWT;
-using NUnit;
 
 /// <summary>
 /// Tests for functions from BWT.cs.
@@ -13,88 +15,88 @@ using NUnit;
 public class BWT_Tests
 {
     [Test]
-    public void Transform_OrdinaryInput()
+    public void GetTransformedStringAndPosition_OrdinaryInput()
     {
         var input = "ABACABA";
         var expectedOutput = "BCABAAA";
         var expectedPosition = 2;
 
-        Assert.That(BWT.Transform(input), Is.EqualTo((expectedOutput, expectedPosition)));
+        Assert.That(BWT.GetTransformedStringAndPosition(input), Is.EqualTo((expectedOutput, expectedPosition)));
     }
 
     [Test]
-    public void Transform_OneSymbolAsInput()
+    public void GetTransformedStringAndPosition_OneSymbolAsInput()
     {
         var input = "C";
         var expectedOutput = "C";
         var expectedPosition = 0;
 
-        Assert.That(BWT.Transform(input), Is.EqualTo((expectedOutput, expectedPosition)));
+        Assert.That(BWT.GetTransformedStringAndPosition(input), Is.EqualTo((expectedOutput, expectedPosition)));
     }
 
     [Test]
-    public void Transform_StrOfIdentialCharsAsInput()
+    public void GetTransformedStringAndPosition_StrOfIdentialCharsAsInput()
     {
         var input = "1111";
         var expectedOutput = "1111";
         var expectedPosition = 0;
 
-        Assert.That(BWT.Transform(input), Is.EqualTo((expectedOutput, expectedPosition)));
+        Assert.That(BWT.GetTransformedStringAndPosition(input), Is.EqualTo((expectedOutput, expectedPosition)));
     }
 
     [Test]
-    public void Transform_EmptyStringAsInput()
+    public void GetTransformedStringAndPosition_EmptyStringAsInput()
     {
-        Assert.Throws<ArgumentException>(() => BWT.Transform(string.Empty));
+        Assert.Throws<ArgumentException>(() => BWT.GetTransformedStringAndPosition(string.Empty));
     }
 
     [Test]
-    public void Detransform_OrdinaryInput()
+    public void GetDetransformedString_OrdinaryInput()
     {
         var input = "BCABAAA";
         var position = 2;
         var expectedOutput = "ABACABA";
 
-        Assert.That(BWT.Detransform(input, position), Is.EqualTo(expectedOutput));
+        Assert.That(BWT.GetDetransformedString(input, position), Is.EqualTo(expectedOutput));
     }
 
     [Test]
-    public void Detransform_OneSymbolAsInput()
+    public void GetDetransformedString_OneSymbolAsInput()
     {
         var input = "C";
         var position = 0;
         var expectedOutput = "C";
 
-        Assert.That(BWT.Detransform(input, position), Is.EqualTo(expectedOutput));
+        Assert.That(BWT.GetDetransformedString(input, position), Is.EqualTo(expectedOutput));
     }
 
     [Test]
-    public void Detransform_StrOfIdentialCharsAsInput()
+    public void GetDetransformedString_StrOfIdentialCharsAsInput()
     {
         var input = "4444";
         var position = 0;
         var expectedOutput = "4444";
 
-        Assert.That(BWT.Detransform(input, position), Is.EqualTo(expectedOutput));
+        Assert.That(BWT.GetDetransformedString(input, position), Is.EqualTo(expectedOutput));
     }
 
     [Test]
-    public void Detransform_EmptyStringAsInput()
+    public void GetDetransformedString_EmptyStringAsInput()
     {
-        Assert.Throws<ArgumentException>(() => BWT.Detransform(string.Empty, 0));
+        Assert.Throws<ArgumentException>(() => BWT.GetDetransformedString(string.Empty, 0));
     }
 
     [Test]
-    public void Detransform_IncorrectPosition()
+    public void GetDetransformedString_IncorrectPosition()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => BWT.Detransform("123", 123));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BWT.GetDetransformedString("123", 123));
     }
 
     [Test]
-    public void Transform_Then_Detransform()
+    public void GetTransformedStringAndPosition_Then_GetDetransformedString()
     {
         var input = "BANANA";
-        (string output, int position) = BWT.Transform(input);
-        Assert.That(BWT.Detransform(output, position), Is.EqualTo(input));
+        (string output, int position) = BWT.GetTransformedStringAndPosition(input);
+        Assert.That(BWT.GetDetransformedString(output, position), Is.EqualTo(input));
     }
 }

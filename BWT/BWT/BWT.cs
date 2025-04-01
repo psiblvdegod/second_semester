@@ -4,10 +4,6 @@
 
 namespace BWT;
 
-using System.Collections;
-using System.Formats.Asn1;
-using System.Runtime.CompilerServices;
-
 /// <summary>
 /// Contains methods, which allow do Burrows-Wheeler transform.
 /// </summary>
@@ -18,7 +14,7 @@ public static class BWT
     /// </summary>
     /// <param name="input">String which will be transformed.</param>
     /// <returns>Transformed string and it's position in the table of shifts.</returns>
-    public static (string Output, int Position) Transform(string input)
+    public static (string Output, int Position) GetTransformedStringAndPosition(string input)
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
 
@@ -47,7 +43,7 @@ public static class BWT
     /// <param name="input">String which will be detransformed.</param>
     /// <param name="position">Position of input string in the shifts table.</param>
     /// <returns>Initial string.</returns>
-    public static string Detransform(string input, int position)
+    public static string GetDetransformedString(string input, int position)
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
 
@@ -126,35 +122,26 @@ public static class BWT
     {
         public int Compare(int left, int right)
         {
-            var j = right;
+            var i = right;
 
-            for (var i = left; i < input.Length; ++i, ++j)
+            var resultForFirstPart = CompareSlice(left, input.Length);
+
+            return resultForFirstPart != 0 ? resultForFirstPart : CompareSlice(0, left);
+
+            int CompareSlice(int start, int end)
             {
-                if (j == input.Length)
+                for (var j = start; j < end; ++j, ++i)
                 {
-                    j = 0;
+                    i = i == input.Length ? 0 : i;
+
+                    if (input[j] != input[i])
+                    {
+                        return input[j] - input[i];
+                    }
                 }
 
-                if (input[i] != input[j])
-                {
-                    return input[i] - input[j];
-                }
+                return 0;
             }
-
-            for (var i = 0; i < left; ++i, ++j)
-            {
-                if (j == input.Length)
-                {
-                    j = 0;
-                }
-
-                if (input[i] != input[j])
-                {
-                    return input[i] - input[j];
-                }
-            }
-
-            return 0;
         }
     }
 }
