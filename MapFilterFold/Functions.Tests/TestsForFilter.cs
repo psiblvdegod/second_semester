@@ -2,7 +2,7 @@
 // under MIT License.
 // </copyright>
 
-// SA1600 : Elements should be documented.
+// SA1600: Elements should be documented.
 #pragma warning disable SA1600
 
 namespace Functions.Tests;

@@ -32,7 +32,7 @@ public static class Functions
     /// Creates transformed sequence removing elements for which predicate is true.
     /// </summary>
     /// <typeparam name="T">Type of elements in the sequence.</typeparam>
-    /// <param name="elements">Sequence which is used create transformed one.</param>
+    /// <param name="elements">Sequence which is used to create transformed one.</param>
     /// <param name="predicate">Predicate which determines elements to be deleted.</param>
     /// <returns>Transformed sequence.</returns>
     public static IEnumerable<T> Filter<T>(IEnumerable<T> elements, Predicate<T> predicate)
@@ -58,7 +58,7 @@ public static class Functions
     /// <param name="elements">Sequence which is used to calculate.</param>
     /// <param name="initialValue">Value which is passed to function as left operand at the first call.</param>
     /// <param name="func">Function which is used to calculate.</param>
-    /// <returns>Returns result of doing traversal.</returns>
+    /// <returns>Result of doing traversal.</returns>
     public static T Fold<T>(IEnumerable<T> elements, T initialValue, Func<T, T, T> func)
     {
         var result = initialValue;

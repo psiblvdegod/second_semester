@@ -1,6 +1,11 @@
-﻿namespace Functions.Tests;
+﻿// <copyright file="TestsForMap.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
-using static Functions;
+// SA1600: Elements should be documented.
+#pragma warning disable SA1600
+
+namespace Functions.Tests;
 
 [TestFixture]
 public class TestsForMap
@@ -14,7 +19,7 @@ public class TestsForMap
 
         List<int> expectedResult = [0, 1, -4, -9, 16];
 
-        var actualResult = Map(list, func);
+        var actualResult = Functions.Map(list, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -28,7 +33,7 @@ public class TestsForMap
 
         string[] expectedResult = ["first5", "second6", "third5"];
 
-        var actualResult = Map(array, func);
+        var actualResult = Functions.Map(array, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -42,7 +47,7 @@ public class TestsForMap
 
         IEnumerable<CustomType> expectedResult = [new(1.0, true), new(3, false), new(-7, false)];
 
-        var actualResult = Map(elements, func);
+        var actualResult = Functions.Map(elements, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -56,7 +61,7 @@ public class TestsForMap
 
         IEnumerable<IEnumerable<int>> expectedResult = [[0, 4, 5], [-4, -2, 12], [-5, 0, 9]];
 
-        var actualResult = Map(elements, func);
+        var actualResult = Functions.Map(elements, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
