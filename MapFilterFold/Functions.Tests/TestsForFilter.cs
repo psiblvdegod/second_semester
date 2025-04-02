@@ -1,6 +1,11 @@
-namespace Functions.Tests;
+// <copyright file="TestsForFilter.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
-using static Functions;
+// SA1600 : Elements should be documented.
+#pragma warning disable SA1600
+
+namespace Functions.Tests;
 
 [TestFixture]
 public class TestsForFilter
@@ -14,7 +19,7 @@ public class TestsForFilter
 
         Predicate<int> predicate = x => x < 0 && x % 2 != 0;
 
-        var actualResult = Filter(list, predicate);
+        var actualResult = Functions.Filter(list, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -28,7 +33,7 @@ public class TestsForFilter
 
         IEnumerable<string> expectedResult = [array[0]];
 
-        var actualResult = Filter(array, predicate);
+        var actualResult = Functions.Filter(array, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -42,7 +47,7 @@ public class TestsForFilter
 
         IEnumerable<CustomType> expectedResult = [elements.ToArray()[1]];
 
-        var actualResult = Filter(elements, predicate);
+        var actualResult = Functions.Filter(elements, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -53,10 +58,10 @@ public class TestsForFilter
         IEnumerable<IEnumerable<int>> elements = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
 
         Predicate<IEnumerable<int>> predicate = e => e.Count(x => x % 2 == 0) > 1;
-            
+
         IEnumerable<IEnumerable<int>> expectedResult = [elements.ToArray()[0], elements.ToArray()[1]];
 
-        var actualResult = Filter(elements, predicate);
+        var actualResult = Functions.Filter(elements, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }

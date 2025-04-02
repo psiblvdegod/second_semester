@@ -1,6 +1,8 @@
-namespace Functions.Tests;
+// <copyright file="TestsForFold.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
-using static Functions;
+namespace Functions.Tests;
 
 [TestFixture]
 public class TestsForFold
@@ -12,11 +14,11 @@ public class TestsForFold
 
         Func<int, int, int> func = (x, y) => y - x;
 
-        var initialValue = 1; 
+        var initialValue = 1;
 
         var expectedResult = 3;
 
-        var actualResult = Fold(list, initialValue, func);
+        var actualResult = Functions.Fold(list, initialValue, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -32,7 +34,7 @@ public class TestsForFold
 
         var expectedResult = "thirdsecondfirst";
 
-        var actualResult = Fold(array, initialValue, func);
+        var actualResult = Functions.Fold(array, initialValue, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -49,7 +51,7 @@ public class TestsForFold
 
         CustomType expectedResult = new(-2.29, false);
 
-        var actualResult = Fold(elements, initialValue, func);
+        var actualResult = Functions.Fold(elements, initialValue, func);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -78,7 +80,7 @@ public class TestsForFold
 
         IEnumerable<int> expectedResult = [11, 1, 7];
 
-        var actualResult = Fold(elements, initialValue, func);
+        var actualResult = Functions.Fold(elements, initialValue, func);
 
         Assert.That(expectedResult, Is.EqualTo(actualResult));
     }
