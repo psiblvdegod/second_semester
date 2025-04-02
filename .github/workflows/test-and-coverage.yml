@@ -1,4 +1,4 @@
-name: dotnet CI
+name: dotnet tests and coverage
 
 on:
   push:
@@ -23,12 +23,16 @@ jobs:
           with:
             dotnet-version: '9.x'
 
+          run: dotnet restore
+
         - name: build
           run: for f in $(find . -name "*.sln"); do dotnet build $f; done
         - name: test
-          run: for f in $(find . -name "*.sln"); do dotnet test --collect:"XPlat Code Coverage" $f; done
+          run: for f in $(find . -name "*.sln"); do |
+            dotnet test --collect:"XPlat Code Coverage"
+            reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html
         
-        - uses: actions/upload-artifact@v3
+        - uses: actions/upload-artifact@v4
           with:
             name: coverage-report
             path: coveragereport
