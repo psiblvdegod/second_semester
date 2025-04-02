@@ -22,11 +22,9 @@ jobs:
         - uses: actions/setup-dotnet@v4
           with:
             dotnet-version: '9.x'
-        
-            
 
         - name: Run tests with coverage
-          run: dotnet tool install -g dotnet-reportgenerator-globaltool
+          run: do dotnet tool install -g dotnet-reportgenerator-globaltool; done
           run: for f in $(find . -name "*.sln"); do dotnet test --collect:"XPlat Code Coverage" $f; done
           run: for f in $(find . -name "*.sln"); do reportgenerator -reports:./TestResults/**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html $f; done
 
