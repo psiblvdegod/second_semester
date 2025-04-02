@@ -1,0 +1,38 @@
+name: dotnet CI
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+  pull_request:
+    branches:
+      - '**'
+      - '!main'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 1
+
+        - uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: '9.x'
+
+        - name: Run tests with coverage
+          run: for f in $(find . -name "*.sln"); do dotnet test --collect:"XPlat Code Coverage" $f; done
+        
+        - name: Generate coverage report
+          run: |
+            dotnet tool install -g dotnet-reportgenerator-globaltool
+            reportgenerator -reports:./TestResults/**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html
+
+        - name: Upload coverage report
+          uses: actions/upload-artifact@v4
+          with:
+            name: coverage-report
+            path: coveragereport
