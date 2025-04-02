@@ -1,37 +1,25 @@
-name: dotnet tests and coverage
+name: test and coverage
 
-on:
-  push:
-    branches:
-      - '**'
-      - '!main'
-  pull_request:
-    branches:
-      - '**'
-      - '!main'
+on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 1
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.x
 
-        - uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: '9.x'
+        run: dotnet restore
 
-        - name: build
-          run: for f in $(find . -name "*.sln"); do dotnet build $f; done
-        - name: test
-          run: for f in $(find . -name "*.sln"); do |
-            dotnet test --collect:"XPlat Code Coverage"
-            reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html
-        
-        - uses: actions/upload-artifact@v4
-          with:
-            name: coverage-report
-            path: coveragereport
+        run: |
+          dotnet test --collect:"XPlat Code Coverage" --settings coverlet.runsettings
+          reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html
+
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coveragereport
 
