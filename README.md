@@ -4,9 +4,9 @@ Homeworks and practices of second semester of TP at SPBU MM
 - author: Balyshev A.M
 - language: C#
 - date: 2025
-
+---
 ![CI Status](https://github.com/psiblvdegod/second_semester/actions/workflows/ci.yml/badge.svg)
-
+---
 ### How to run
 
 - Ensure you have `dotnet-sdk-9.0` installed
