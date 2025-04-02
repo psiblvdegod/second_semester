@@ -23,8 +23,6 @@ jobs:
           with:
             dotnet-version: '9.x'
 
-          run: dotnet restore
-
         - name: build
           run: for f in $(find . -name "*.sln"); do dotnet build $f; done
         - name: test
