@@ -4,6 +4,7 @@ Homeworks and practices of second semester of TP at SPBU MM
 - author: Balyshev A.M
 - language: C#
 - date: 2025
+
 ---
 ![CI Status](https://github.com/psiblvdegod/second_semester/actions/workflows/ci.yml/badge.svg)
 ---
