@@ -1,3 +1,5 @@
+// AI generated.
+
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
@@ -9,7 +11,5 @@ class App : Application
         {   
             desktop.MainWindow = new MainWindow(SharedData.Data);
         }
-
-        base.OnFrameworkInitializationCompleted();
     }
 }

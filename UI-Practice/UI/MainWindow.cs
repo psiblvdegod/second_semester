@@ -14,10 +14,10 @@ class MainWindow : Window
 
         var grid = new Grid();
 
-        int maxColumns = data.Max(row => row.Length);
+        int width = data.Max(row => row.Length);
         
         // Добавляем столбцы
-        for (int j = 0; j < maxColumns; j++)
+        for (int j = 0; j < width; j++)
         {
             grid.ColumnDefinitions.Add(new ColumnDefinition());
         }
@@ -45,17 +45,18 @@ class MainWindow : Window
                         VerticalAlignment = VerticalAlignment.Center
                     }
                 };
+
+                // Устанавливает позицию в сетке
                 Grid.SetRow(cell, i);
                 Grid.SetColumn(cell, j);
                 grid.Children.Add(cell);
             }
         }
-
-        // Добавляем поясняющий текст
-        var title = new TextBlock
+         var title = new TextBlock
         {
-            Text = $"Массив {data.Length}x{maxColumns} (строк x столбцов)",
-            FontSize = 18,
+            Text = "Game\n",
+            FontSize = 18
+
         };
 
         this.Content = new StackPanel
