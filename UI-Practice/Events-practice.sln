@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{0D21C6BD-B56E-41F9-A3E3-4BE2C6812AE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{103D0EE0-EDAA-4D02-8E42-08D4EBB4FA6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0D21C6BD-B56E-41F9-A3E3-4BE2C6812AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D21C6BD-B56E-41F9-A3E3-4BE2C6812AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D21C6BD-B56E-41F9-A3E3-4BE2C6812AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{103D0EE0-EDAA-4D02-8E42-08D4EBB4FA6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{103D0EE0-EDAA-4D02-8E42-08D4EBB4FA6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{103D0EE0-EDAA-4D02-8E42-08D4EBB4FA6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{103D0EE0-EDAA-4D02-8E42-08D4EBB4FA6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
