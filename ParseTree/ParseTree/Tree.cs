@@ -9,7 +9,7 @@ namespace ParseTree;
 /// </summary>
 public class Tree
 {
-    private static Dictionary<string, Func<int, int, int>> supportedOperators = new()
+    private static readonly Dictionary<string, Func<int, int, int>> SupportedOperators = new()
     {
         ["+"] = (x, y) => x + y,
         ["-"] = (x, y) => x - y,
@@ -26,6 +26,8 @@ public class Tree
     /// <param name="expression">Expression that will be parsed to build tree.</param>
     public Tree(string expression)
     {
+        ArgumentException.ThrowIfNullOrEmpty(expression);
+
         var tokens = expression.Split(' ');
 
         this.root = Parse(tokens[0]);
@@ -88,12 +90,12 @@ public class Tree
     /// <exception cref="InvalidOperationException">Is thrown if token is already occupied.</exception>
     public static void AddOperationToSupportedOnes(string token, Func<int, int, int> operation)
     {
-        if (supportedOperators.ContainsKey(token))
+        if (SupportedOperators.ContainsKey(token))
         {
             throw new InvalidOperationException("token is already occupied.");
         }
 
-        supportedOperators[token] = operation;
+        SupportedOperators[token] = operation;
     }
 
     /// <summary>
@@ -109,9 +111,9 @@ public class Tree
         {
             return new Leaf(parsed);
         }
-        else if (supportedOperators.ContainsKey(token))
+        else if (SupportedOperators.ContainsKey(token))
         {
-            return new Operator(supportedOperators[token], token);
+            return new Operator(SupportedOperators[token], token);
         }
         else
         {

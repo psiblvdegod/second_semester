@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\ParseTree.FileProcessing\ParseTree.FileProcessing.csproj" />
     <ProjectReference Include="..\ParseTree\ParseTree.csproj" />
   </ItemGroup>
 
