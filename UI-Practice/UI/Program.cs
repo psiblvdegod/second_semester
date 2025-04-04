@@ -3,23 +3,32 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
-char[][] data =
-[
-    ['1', '2', '3'],
-    ['4', '5'],
-    ['6', '7', '8', '9'],
-];
 
-SharedData.Data = data;
+
+SharedData.Data = GetDataFromFile("./map.txt");
 
 BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
 
-
-
 static AppBuilder BuildAvaloniaApp()
     => AppBuilder.Configure<App>().UsePlatformDetect();
+
+
+char[][] GetDataFromFile(string path)
+{
+    var data = File.ReadAllText(path).Split('\n');
+
+    var result = new char[data.Length][];
+
+    for (var i = 0; i < data.Length; ++i)
+    {
+        result[i] = data[i].ToCharArray();
+    }
+
+    return result;
+}
 
 static class SharedData
 {
     public static char[][]? Data {get; set;}
 }
+

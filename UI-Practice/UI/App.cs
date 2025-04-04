@@ -5,6 +5,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 
 class App : Application
 {
+    public MainWindow? window;
+
     public override void OnFrameworkInitializationCompleted()
     {
         var desktop = (IClassicDesktopStyleApplicationLifetime?)ApplicationLifetime;
@@ -14,10 +16,10 @@ class App : Application
             Environment.FailFast(string.Empty);
         }
 
-        var window =  new MainWindow(SharedData.Data);
+        this.window =  new MainWindow(SharedData.Data);
  
         desktop.MainWindow = window;
 
-        window.SetCell(0, 0, 'A');
+        
     }
 }
