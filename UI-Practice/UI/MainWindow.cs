@@ -3,18 +3,21 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Tmds.DBus.Protocol;
 
 public class MainWindow : Window
 {
     private Grid grid = new();
 
-    public MainWindow(char[][]? data)
+    public MainWindow(char[][] data)
     {
-        this.Title = "zxc";
-        this.Width = 600;
-        this.Height = 400;
+        this.Title = "Game";
+        this.Width = 1000;
+        this.Height = 800;
 
         int width = data.Max(row => row.Length);
+
+        int height = data.Length;
         
         // Добавляем столбцы
         for (int j = 0; j < width; j++)
@@ -23,13 +26,13 @@ public class MainWindow : Window
         }
 
         // Добавляем строки
-        for (int i = 0; i < data.Length; i++)
+        for (int i = 0; i < height; i++)
         {
             grid.RowDefinitions.Add(new RowDefinition());
         }
 
         // Заполняем Grid
-        for (int i = 0; i < data.Length; i++)
+        for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < data[i].Length; j++)
             {

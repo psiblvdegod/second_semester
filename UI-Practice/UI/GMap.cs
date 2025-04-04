@@ -12,7 +12,8 @@ public class GMap((int x, int y) position, MainWindow window) : Game.IMove
     public void MoveDown()
     {
        window.SetCell(Position.x, Position.y, ' ');
-       window.SetCell(Position.x, Position.y - 1, '@');
+       window.SetCell(Position.x, Position.y + 1, '@');
+       ++this.Position.y;
     }
 
     public void MoveLeft()

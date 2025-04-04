@@ -1,8 +1,5 @@
-// AI generated.
-
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using UI;
 
 class App : Application
 {
@@ -10,6 +7,11 @@ class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        if (SharedData.Data is null)
+        {
+            Environment.FailFast("data is empty");
+        }
+
         var desktop = (IClassicDesktopStyleApplicationLifetime?)ApplicationLifetime;
 
         if (desktop is null)
@@ -20,5 +22,7 @@ class App : Application
         this.window =  new MainWindow(SharedData.Data);
  
         desktop.MainWindow = window;
+
+        
     }
 }

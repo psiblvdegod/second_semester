@@ -1,14 +1,14 @@
-﻿// AI generated.
-
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
 SharedData.Data = GetDataFromFile("./map.txt");
 
-AppBuilder.Configure<App>().UsePlatformDetect().StartWithClassicDesktopLifetime(args);
+AppBuilder.Configure<App>()
+    .UsePlatformDetect()
+    .StartWithClassicDesktopLifetime(args);
 
 
-char[][] GetDataFromFile(string path)
+static char[][] GetDataFromFile(string path)
 {
     var data = File.ReadAllText(path).Split('\n');
 
@@ -26,4 +26,3 @@ static class SharedData
 {
     public static char[][]? Data {get; set;}
 }
-
