@@ -2,6 +2,7 @@
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using UI;
 
 class App : Application
 {
@@ -19,7 +20,5 @@ class App : Application
         this.window =  new MainWindow(SharedData.Data);
  
         desktop.MainWindow = window;
-
-        
     }
 }

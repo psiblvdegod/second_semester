@@ -3,14 +3,9 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 
-
-
 SharedData.Data = GetDataFromFile("./map.txt");
 
-BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-
-static AppBuilder BuildAvaloniaApp()
-    => AppBuilder.Configure<App>().UsePlatformDetect();
+AppBuilder.Configure<App>().UsePlatformDetect().StartWithClassicDesktopLifetime(args);
 
 
 char[][] GetDataFromFile(string path)
