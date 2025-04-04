@@ -3,9 +3,8 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Microsoft.VisualBasic;
 
-class MainWindow : Window
+public class MainWindow : Window
 {
     private Grid grid = new();
 
@@ -53,12 +52,7 @@ class MainWindow : Window
         };
     }
 
-    public void ChangeSymbol(int x, int y, char symbol)
-    {
-        
-    }
-
-    private void SetCell(int x, int y, char symbol)
+    public void SetCell(int x, int y, char symbol)
     {
         var cell = new Border
                 {

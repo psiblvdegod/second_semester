@@ -7,9 +7,17 @@ class App : Application
 {
     public override void OnFrameworkInitializationCompleted()
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {   
-            desktop.MainWindow = new MainWindow(SharedData.Data);
+        var desktop = (IClassicDesktopStyleApplicationLifetime?)ApplicationLifetime;
+
+        if (desktop is null)
+        {
+            Environment.FailFast(string.Empty);
         }
+
+        var window =  new MainWindow(SharedData.Data);
+ 
+        desktop.MainWindow = window;
+
+        window.SetCell(0, 0, 'A');
     }
 }
