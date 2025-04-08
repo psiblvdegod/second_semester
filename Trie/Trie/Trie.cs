@@ -22,7 +22,7 @@ public class Trie
     /// <summary>
     /// Initializes a new instance of the <see cref="Trie"/> class filling it with passed sequence.
     /// </summary>
-    /// <param name="elements">The sequence from which the Trie is created.</param>
+    /// <param name="elements">The sequence from which the Trie will be created.</param>
     public Trie(IEnumerable<string> elements)
         : this()
     {
@@ -51,10 +51,11 @@ public class Trie
 
         List<Vertex> path = [];
         var current = this.root;
-        path.Add(current);
 
         foreach (var c in element)
         {
+            path.Add(current);
+
             var next = current.Find(c);
 
             if (next is null)
@@ -63,7 +64,6 @@ public class Trie
                 current.Link(next);
             }
 
-            path.Add(next);
             current = next;
         }
 
@@ -93,10 +93,11 @@ public class Trie
 
         List<Vertex> path = [];
         var current = this.root;
-        path.Add(current);
 
         foreach (var c in element)
         {
+            path.Add(current);
+
             var next = current.Find(c);
 
             if (next is null)
@@ -104,7 +105,6 @@ public class Trie
                 return false;
             }
 
-            path.Add(next);
             current = next;
         }
 

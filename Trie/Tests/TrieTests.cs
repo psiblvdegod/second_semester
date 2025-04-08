@@ -1,6 +1,10 @@
-﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
+﻿// <copyright file="TrieTests.cs" author="psiblvdegod" date ="2025">
 // under MIT license
 // </copyright>
+
+// SA1600: Elements should be documented.
+#pragma warning disable SA1600
+
 namespace Tests;
 
 using Trie;
@@ -28,12 +32,15 @@ public class TrieTests
 
         for (var i = 0; i < sequence.Count; ++i)
         {
-            Assert.That(trie.Add(sequence[i]));
+            var errorCode = trie.Add(sequence[i]);
+
+            Assert.That(errorCode, Is.True);
+            Assert.That(trie.Size, Is.EqualTo(i + 1));
         }
 
         for (var i = 0; i < sequence.Count; ++i)
         {
-            Assert.That(trie.DoesContain(sequence[i]));
+            Assert.That(trie.DoesContain(sequence[i]), Is.True);
         }
     }
 
@@ -42,7 +49,10 @@ public class TrieTests
     {
         var trie = new Trie(["element"]);
 
-        Assert.That(!trie.Add("element"));
+        var errorCode = !trie.Add("element");
+
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(1));
     }
 
     [Test]
@@ -71,8 +81,12 @@ public class TrieTests
     {
         var trie = new Trie(["element"]);
 
-        Assert.That(trie.Remove("element"));
+        Assert.That(trie.Size, Is.EqualTo(1));
 
+        var errorCode = trie.Remove("element");
+
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(0));
         Assert.That(!trie.DoesContain("element"));
     }
 
@@ -81,7 +95,9 @@ public class TrieTests
     {
         var trie = new Trie();
 
-        Assert.That(!trie.Remove("element"));
+        var errorCode = !trie.Remove("element");
+
+        Assert.That(errorCode, Is.True);
     }
 
     [Test]
@@ -97,15 +113,25 @@ public class TrieTests
     {
         var trie = new Trie();
 
-        Assert.That(trie.CountWordsWithSuchPrefix("prefix"), Is.EqualTo(0));
+        var input = "second";
+
+        var expectedResult = 0;
+
+        Assert.That(trie.CountWordsWithSuchPrefix(input), Is.EqualTo(expectedResult));
     }
 
     [Test]
     public void CountWordsWithSuchPrefix_OrdinaryInput()
     {
-        var trie = new Trie(["first_1", "second_1", "second_2", "third_1", "third_2", "third_3"]);
+        IEnumerable<string> data = ["first_1", "second_1", "second_2", "third_1", "third_2", "third_3"];
 
-        Assert.That(trie.CountWordsWithSuchPrefix("second"), Is.EqualTo(2));
+        var trie = new Trie(data);
+
+        var input = "second";
+
+        var expectedResult = 2;
+
+        Assert.That(trie.CountWordsWithSuchPrefix(input), Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -121,15 +147,21 @@ public class TrieTests
     {
         var trie = new Trie();
 
-        Assert.That(trie.Size, Is.EqualTo(0));
+        var expectedResult = 0;
+
+        Assert.That(trie.Size, Is.EqualTo(expectedResult));
     }
 
     [Test]
     public void Size_Ordinary()
     {
-        var trie = new Trie(["1", "2", "3", "4", "5"]);
+        IEnumerable<string> data = ["1", "2", "3", "4", "5"];
 
-        Assert.That(trie.Size, Is.EqualTo(5));
+        var trie = new Trie(data);
+
+        var expectedResult = data.Count();
+
+        Assert.That(trie.Size, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -137,12 +169,80 @@ public class TrieTests
     {
         var trie = new Trie();
 
-        trie.Add("element");
+        bool errorCode;
 
+        errorCode = trie.Add("element");
+
+        Assert.That(errorCode, Is.True);
         Assert.That(trie.Size, Is.EqualTo(1));
 
-        trie.Remove("element");
+        errorCode = trie.Remove("element");
+        Assert.That(errorCode, Is.True);
 
         Assert.That(trie.Size, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void AddAndRemove_WithLotsOfAsserts()
+    {
+        var trie = new Trie();
+
+        bool errorCode;
+
+        errorCode = trie.Add("ABC");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(1));
+        Assert.That(trie.DoesContain("A"), Is.False);
+        Assert.That(trie.DoesContain("AB"), Is.False);
+        Assert.That(trie.DoesContain("ABC"));
+
+        errorCode = trie.Add("AB");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(2));
+        Assert.That(trie.DoesContain("AB"));
+        Assert.That(trie.DoesContain("ABC"));
+
+        errorCode = trie.Remove("AB");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(1));
+        Assert.That(trie.DoesContain("AB"), Is.False);
+        Assert.That(trie.DoesContain("ABC"));
+
+        errorCode = !trie.Remove("AB");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(1));
+        Assert.That(trie.DoesContain("AB"), Is.False);
+        Assert.That(trie.DoesContain("ABC"));
+
+        errorCode = trie.Remove("ABC");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(0));
+        Assert.That(trie.DoesContain("AB"), Is.False);
+        Assert.That(trie.DoesContain("ABC"), Is.False);
+    }
+
+    [Test]
+    public void AddAndRemove_OnRootSymbol()
+    {
+        var trie = new Trie();
+
+        Assert.That(trie.DoesContain("/"), Is.False);
+
+        bool errorCode;
+
+        errorCode = !trie.Remove("/");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(0));
+        Assert.That(trie.DoesContain("/"), Is.False);
+
+        errorCode = trie.Add("/");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(1));
+        Assert.That(trie.DoesContain("/"));
+
+        errorCode = trie.Remove("/");
+        Assert.That(errorCode, Is.True);
+        Assert.That(trie.Size, Is.EqualTo(0));
+        Assert.That(trie.DoesContain("/"), Is.False);
     }
 }
