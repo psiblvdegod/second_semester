@@ -2,9 +2,9 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9CF47860-2CEA-F379-09D8-9AEF27965D12}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PQueue", "PQueue\PQueue.csproj", "{0EAB1B8A-F15B-4EAB-9465-1FBF48B3CA47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PQueue.Tests", "PQueue.Tests\PQueue.Tests.csproj", "{B8A3899F-4081-4C2B-AD14-11E8CE9E3A10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,10 @@ Global
 		{0EAB1B8A-F15B-4EAB-9465-1FBF48B3CA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EAB1B8A-F15B-4EAB-9465-1FBF48B3CA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EAB1B8A-F15B-4EAB-9465-1FBF48B3CA47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8A3899F-4081-4C2B-AD14-11E8CE9E3A10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8A3899F-4081-4C2B-AD14-11E8CE9E3A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8A3899F-4081-4C2B-AD14-11E8CE9E3A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8A3899F-4081-4C2B-AD14-11E8CE9E3A10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
