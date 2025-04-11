@@ -1,9 +1,15 @@
-// AI generated.
-
+using System.ComponentModel;
+using System.Reflection.Metadata.Ecma335;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Tmds.DBus.Protocol;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using UI;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Game;
 
 public class MainWindow : Window
 {
@@ -37,19 +43,12 @@ public class MainWindow : Window
             }
         }
 
-        var title = new TextBlock
-        {
-            Text = "Game\n",
-            FontSize = 18
-
-        };
-
         this.Content = new StackPanel
         {
-            Children = { title, grid },
+            Children = { grid, CreateButtons() },
             HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
+            VerticalAlignment = VerticalAlignment.Center,
+        };   
     }
 
     public void SetCell(int x, int y, char symbol)
@@ -71,5 +70,43 @@ public class MainWindow : Window
             Grid.SetRow(cell, x);
             Grid.SetColumn(cell, y);
             grid.Children.Add(cell);
+    }
+
+    private StackPanel CreateButtons()
+    {
+        var stackPanel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 20,
+        };
+
+        var dataForButton = "WASD";
+
+        foreach (var c in dataForButton)
+        {
+            var button = new Button
+            {
+                Content = c,
+                Width = 50,
+                Height = 50,
+                Background = Brushes.Black, 
+                Foreground = Brushes.White  
+            };
+
+            stackPanel.Children.Add(button);
+        }
+
+        return stackPanel;
+    }
+
+    public void SubButtons(EventHandler<RoutedEventArgs> handler)
+    {
+        foreach(var c in ((StackPanel)this.Content).Children)
+        {
+            if (c is Button button)
+            {
+                button.Click += handler;
+            }
+        }
     }
 }
