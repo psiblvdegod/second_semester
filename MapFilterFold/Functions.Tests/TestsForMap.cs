@@ -7,6 +7,9 @@
 
 namespace Functions.Tests;
 
+/// <summary>
+/// Tests Functions.Map().
+/// </summary>
 [TestFixture]
 public class TestsForMap
 {
@@ -41,11 +44,14 @@ public class TestsForMap
     [Test]
     public void Map_OnCustomTypeAsIEnumerable()
     {
-        IEnumerable<CustomType> elements = [new(1.23, false), new(3.14, true), new(-6.66, true)];
+        IEnumerable<CustomType> elements =
+            [new(1.23, false), new(3.14, true), new(-6.66, true)];
 
-        Func<CustomType, CustomType> func = a => new(Math.Floor(a.D), !a.B);
+        Func<CustomType, CustomType> func =
+            a => new(Math.Floor(a.D), !a.B);
 
-        IEnumerable<CustomType> expectedResult = [new(1.0, true), new(3, false), new(-7, false)];
+        IEnumerable<CustomType> expectedResult =
+            [new(1.0, true), new(3, false), new(-7, false)];
 
         var actualResult = Functions.Map(elements, func);
 
@@ -55,11 +61,13 @@ public class TestsForMap
     [Test]
     public void Map_OnIEnumerablesOfIntAsIEnumerable()
     {
-        IEnumerable<IEnumerable<int>> elements = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
+        IEnumerable<IEnumerable<int>> elements =
+            [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
 
         Func<IEnumerable<int>, IEnumerable<int>> func = e => e.Order();
 
-        IEnumerable<IEnumerable<int>> expectedResult = [[0, 4, 5], [-4, -2, 12], [-5, 0, 9]];
+        IEnumerable<IEnumerable<int>> expectedResult =
+            [[0, 4, 5], [-4, -2, 12], [-5, 0, 9]];
 
         var actualResult = Functions.Map(elements, func);
 

@@ -7,6 +7,9 @@
 
 namespace Functions.Tests;
 
+/// <summary>
+/// Tests Functions.Fold().
+/// </summary>
 [TestFixture]
 public class TestsForFold
 {
