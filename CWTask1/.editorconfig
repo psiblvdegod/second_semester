@@ -1,0 +1,9 @@
+[*.cs]
+
+# SA1636: File header copyright text should match
+dotnet_diagnostic.SA1636.severity = none
+
+# SA1640: File header should have valid company text
+dotnet_diagnostic.SA1640.severity = none
+
+dotnet_diagnostic.SA0001.severity = none
