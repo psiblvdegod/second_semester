@@ -1,6 +1,3 @@
-
-using Avalonia.Controls.Notifications;
-
 namespace UI;
 
 public class GMap((int x, int y) position, MainWindow window) : Game.IMove
@@ -12,22 +9,28 @@ public class GMap((int x, int y) position, MainWindow window) : Game.IMove
     public void MoveDown()
     {
        window.SetCell(Position.x, Position.y, ' ');
-       window.SetCell(Position.x, Position.y + 1, '@');
-       ++this.Position.y;
+       window.SetCell(Position.x + 1, Position.y, '@');
+       ++this.Position.x;
     }
 
     public void MoveLeft()
     {
-        throw new NotImplementedException();
+        window.SetCell(Position.x, Position.y, ' ');
+        window.SetCell(Position.x, Position.y - 1, '@');
+        --this.Position.y;
     }
 
     public void MoveRight()
     {
-        throw new NotImplementedException();
+        window.SetCell(Position.x, Position.y, ' ');
+        window.SetCell(Position.x, Position.y + 1, '@');
+        ++this.Position.y;
     }
 
     public void MoveUp()
     {
-        throw new NotImplementedException();
+        window.SetCell(Position.x, Position.y, ' ');
+        window.SetCell(Position.x - 1, Position.y, '@');
+        --this.Position.x;
     }
 }

@@ -19,19 +19,16 @@ public class MainWindow : Window
 
         int height = data.Length;
         
-        // Добавляем столбцы
         for (int j = 0; j < width; j++)
         {
             grid.ColumnDefinitions.Add(new ColumnDefinition());
         }
 
-        // Добавляем строки
         for (int i = 0; i < height; i++)
         {
             grid.RowDefinitions.Add(new RowDefinition());
         }
 
-        // Заполняем Grid
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < data[i].Length; j++)
