@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -80,5 +79,16 @@ public static class UIInitialization
         };
 
         return image;
+    }
+
+    public static Control CreateSpace()
+    {
+        var control = new Control
+        {
+            Height = CellSize,
+            Width = CellSize
+        };
+
+        return control;
     }
 }

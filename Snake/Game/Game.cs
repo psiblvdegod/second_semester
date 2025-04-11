@@ -1,8 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.Layout;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using static Game.UIInitialization;
 
 namespace Game;
@@ -23,18 +19,27 @@ public class Game : IMove
 
     public void MoveUp()
     {
+        Window.SetCell(Position.x, Position.y, CreateSpace());
+        --Position.y;
+        Window.SetCell(Position.x, Position.y, character);
     }
     public void MoveLeft()
     {
-        throw new NotImplementedException();
+        Window.SetCell(Position.x, Position.y, CreateSpace());
+        --Position.x;
+        Window.SetCell(Position.x, Position.y, character);
     }
 
     public void MoveDown()
     {
-        throw new NotImplementedException();
+        Window.SetCell(Position.x, Position.y, CreateSpace());
+        ++Position.y;
+        Window.SetCell(Position.x, Position.y, character);
     }
     public void MoveRight()
     {
-        throw new NotImplementedException();
+        Window.SetCell(Position.x, Position.y, CreateSpace());
+        ++Position.x;
+        Window.SetCell(Position.x, Position.y, character);
     }
 }

@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Layout;
 using static Game.UIInitialization;
 
 namespace Game;

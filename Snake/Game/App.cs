@@ -1,6 +1,4 @@
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Tmds.DBus.Protocol;
 
 namespace Game;
 
