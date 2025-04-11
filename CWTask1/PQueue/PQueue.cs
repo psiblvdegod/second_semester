@@ -39,3 +39,17 @@ public class PQueue<T> : IPQueue<T>
     public bool IsEmpty()
         => elements.Count == 0;
 }
+
+public class BinaryHeap<T>
+{
+    private class Node(T data, int priority)
+    {
+        public T Data { get; } = data;
+
+        public int Priority { get; } = priority;
+
+        public Node? LeftChild {get; set;} = null;
+
+        public Node? RightChild {get; set;} = null;
+    }
+}

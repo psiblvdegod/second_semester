@@ -11,12 +11,13 @@ public class BinaryHeap<T> : IBinaryHeap<T>
         if (root is null)
         {
             this.root = new Node(priority);
+            this.root.Enqueue(data);
             return;
         }
 
         var current = this.root;
 
-        while (current != null)
+        while (true)
         {
             if (priority > current.Priority)
             {
@@ -44,14 +45,23 @@ public class BinaryHeap<T> : IBinaryHeap<T>
             else
             {
                 current.Enqueue(data);
+                return;
             }
         }
     }
 
-    public (T data, int priority) GetMin()
+    public T GetMin()
     {
-        throw new NotImplementedException();
+        if (root is null)
+        {
+            throw new InvalidOperationException("heap is empty");
+        }
+
+        return root.Dequeue();
     }
+
+    public bool IsEmpty()
+        => root is null || root.IsEmpty();
 
     private class Node(int priority)
     {
@@ -65,16 +75,27 @@ public class BinaryHeap<T> : IBinaryHeap<T>
 
         public void Enqueue(T data)
         {
-            elements = [.. elements, data];
+            this.elements = [.. this.elements, data];
         }
 
         public T Dequeue()
         {
-            var result = elements[0];
+            if (this.elements.Length == 0)
+            {
+                throw new InvalidOperationException("there is no elements in the node");
+            }
 
-            elements = elements[1..];
+            var result = this.elements[0];
+
+            if (this.elements.Length > 1)
+            {
+                this.elements = this.elements[1..];
+            }
 
             return result;
         }
+
+        public bool IsEmpty()
+            => this.elements.Length == 0;
     }
 }
