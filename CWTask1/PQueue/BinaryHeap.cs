@@ -52,12 +52,37 @@ public class BinaryHeap<T> : IBinaryHeap<T>
 
     public T GetMin()
     {
+        throw new NotImplementedException();
+
         if (root is null)
         {
             throw new InvalidOperationException("heap is empty");
         }
 
-        return root.Dequeue();
+        var result = root.Dequeue();
+
+        if (!root.IsEmpty())
+        {
+            return result;
+        }
+
+        if (root.RightChild is null)
+        {
+            root = root.LeftChild;
+            return result;
+        }
+        else if (root.LeftChild is null)
+        {
+            root = root.RightChild;
+            return result;
+        }
+        else 
+        {
+            var leftBranch = root.LeftChild;
+            root = root.RightChild;
+
+
+        }
     }
 
     public bool IsEmpty()
@@ -87,7 +112,11 @@ public class BinaryHeap<T> : IBinaryHeap<T>
 
             var result = this.elements[0];
 
-            if (this.elements.Length > 1)
+            if (this.elements.Length == 1)
+            {
+                this.elements = [];
+            }
+            else
             {
                 this.elements = this.elements[1..];
             }
