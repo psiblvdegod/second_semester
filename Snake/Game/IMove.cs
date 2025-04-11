@@ -1,6 +1,6 @@
 ﻿namespace Game;
 
-interface IMove
+public interface IMove
 {
     public void MoveUp();
 
