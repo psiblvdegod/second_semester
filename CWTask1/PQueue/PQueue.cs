@@ -5,9 +5,9 @@
 namespace PQueue;
 
 /// <summary>
-/// Implements Binary Heap data structure.
+/// Implements PQueue data structure.
 /// </summary>
-/// <typeparam name="T">Type of elements in binary heap.</typeparam>
+/// <typeparam name="T">Type of elements in queue.</typeparam>
 public class PQueue<T> : IPQueue<T>
 {
     private Node? root = null;
