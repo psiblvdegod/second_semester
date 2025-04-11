@@ -5,31 +5,31 @@
 namespace Functions;
 
 /// <summary>
-/// Contains methods which apply delegates on IEnumerable.
+/// Contains methods which apply passed functions on IEnumerable.
 /// </summary>
 public static class Functions
 {
     /// <summary>
-    /// Creates transformed sequence applying function to each element.
+    /// Creates sequence applying passed function to each element in the initial sequence.
     /// </summary>
     /// <typeparam name="T">Type of elements in sequence.</typeparam>
-    /// <param name="elements">Sequence which is used create transformed one.</param>
+    /// <param name="elements">Sequence which is used to create transformed one.</param>
     /// <param name="func">Function which will be applied to each element of the sequence.</param>
     /// <returns>Transformed sequence.</returns>
     public static IEnumerable<T> Map<T>(IEnumerable<T> elements, Func<T, T> func)
     {
-        IEnumerable<T> result = [];
+        List<T> result = new(elements.Count());
 
         foreach (var element in elements)
         {
-            result = result.Append(func(element));
+            result.Add(func(element));
         }
 
         return result;
     }
 
     /// <summary>
-    /// Creates transformed sequence removing elements for which predicate is true.
+    /// Creates sequence removing elements from initial sequence for which passed predicate is true.
     /// </summary>
     /// <typeparam name="T">Type of elements in the sequence.</typeparam>
     /// <param name="elements">Sequence which is used to create transformed one.</param>
@@ -37,13 +37,13 @@ public static class Functions
     /// <returns>Transformed sequence.</returns>
     public static IEnumerable<T> Filter<T>(IEnumerable<T> elements, Predicate<T> predicate)
     {
-        IEnumerable<T> result = [];
+        List<T> result = new(elements.Count());
 
         foreach (var element in elements)
         {
             if (predicate(element))
             {
-                result = result.Append(element);
+                result.Add(element);
             }
         }
 
@@ -51,8 +51,7 @@ public static class Functions
     }
 
     /// <summary>
-    /// Calculates result of doing sequence traversal and applying function to each element.
-    /// Uses previous function output (or initialValue when call is the first one) as the left operand and the current sequence element as the right operand.
+    /// Calculates result of doing sequence traversal and applying passed function to each element.
     /// </summary>
     /// <typeparam name="T">Type of elements in the sequence.</typeparam>
     /// <param name="elements">Sequence which is used to calculate.</param>
