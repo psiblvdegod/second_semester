@@ -15,7 +15,24 @@ public class PQueue<T> : IPQueue<T>
     /// <inheritdoc/>
     public T Dequeue()
     {
-        throw new NotImplementedException();
+        var current = this.root;
+
+        while (true)
+        {
+            if (current is null)
+            {
+                throw new InvalidOperationException("queue is empty");
+            }
+
+            if (current.IsEmpty())
+            {
+                current = current.LeftChild;
+            }
+            else
+            {
+                return current.Dequeue();
+            }
+        }
     }
 
     /// <inheritdoc/>
