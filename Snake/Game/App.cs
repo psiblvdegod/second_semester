@@ -19,6 +19,7 @@ public class App : Avalonia.Application
     {
         ConfigureDesktop();
         base.OnFrameworkInitializationCompleted();
+        var game = new Game(Window);
     }
 
     private void ConfigureDesktop()
