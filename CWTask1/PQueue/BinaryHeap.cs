@@ -1,14 +1,21 @@
-using System.ComponentModel.Design.Serialization;
+// <copyright file="BinaryHeap.cs" author="psiblvdegod">
+// under MIT License.
+// </copyright>
 
 namespace PQueue;
 
+/// <summary>
+/// Implements Binary Heap data structure.
+/// </summary>
+/// <typeparam name="T">Type of elements in binary heap.</typeparam>
 public class BinaryHeap<T> : IBinaryHeap<T>
 {
     private Node? root = null;
 
+    /// <inheritdoc/>
     public void Add(T data, int priority)
     {
-        if (root is null)
+        if (this.root is null)
         {
             this.root = new Node(priority);
             this.root.Enqueue(data);
@@ -27,9 +34,8 @@ public class BinaryHeap<T> : IBinaryHeap<T>
                     current.RightChild.Enqueue(data);
                     return;
                 }
-                
-                current = current.RightChild;
 
+                current = current.RightChild;
             }
             else if (priority < current.Priority)
             {
@@ -39,7 +45,7 @@ public class BinaryHeap<T> : IBinaryHeap<T>
                     current.LeftChild.Enqueue(data);
                     return;
                 }
-                
+
                 current = current.LeftChild;
             }
             else
@@ -50,43 +56,15 @@ public class BinaryHeap<T> : IBinaryHeap<T>
         }
     }
 
+    /// <inheritdoc/>
     public T GetMin()
     {
         throw new NotImplementedException();
-
-        if (root is null)
-        {
-            throw new InvalidOperationException("heap is empty");
-        }
-
-        var result = root.Dequeue();
-
-        if (!root.IsEmpty())
-        {
-            return result;
-        }
-
-        if (root.RightChild is null)
-        {
-            root = root.LeftChild;
-            return result;
-        }
-        else if (root.LeftChild is null)
-        {
-            root = root.RightChild;
-            return result;
-        }
-        else 
-        {
-            var leftBranch = root.LeftChild;
-            root = root.RightChild;
-
-
-        }
     }
 
+    /// <inheritdoc/>
     public bool IsEmpty()
-        => root is null || root.IsEmpty();
+        => this.root is null || this.root.IsEmpty();
 
     private class Node(int priority)
     {
@@ -94,9 +72,9 @@ public class BinaryHeap<T> : IBinaryHeap<T>
 
         public int Priority { get; } = priority;
 
-        public Node? LeftChild {get; set;} = null;
+        public Node? LeftChild { get; set; } = null;
 
-        public Node? RightChild {get; set;} = null;
+        public Node? RightChild { get; set; } = null;
 
         public void Enqueue(T data)
         {
