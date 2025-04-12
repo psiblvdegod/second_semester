@@ -19,19 +19,18 @@ public class MainWindow : Window
     {
         Grid.SetColumn(value, x);
         Grid.SetRow(value, y);
-        ClearOld();
         this.grid.Children.Add(value);
+    }
 
-        void ClearOld()
+    public Control? PopCell(int x, int y)
+    {
+        var cell = grid.Children.FirstOrDefault
+            (c => Grid.GetColumn(c) == x && Grid.GetRow(c) == y);
+        if (cell is not null)
         {
-            var old = grid.Children.FirstOrDefault
-                (c => Grid.GetColumn(c) == x && Grid.GetRow(c) == y);
-
-            if (old != null)
-            {
-                grid.Children.Remove(old);
-            }
+            grid.Children.Remove(cell);
         }
+        return cell;
     }
 
     public void AddButtons(StackPanel buttons)

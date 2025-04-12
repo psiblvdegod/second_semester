@@ -25,28 +25,62 @@ public class Game(MainWindow window) : IMove
 
     public void MoveUp()
     {
-        Window.SetCell(Position.x, Position.y, CreateSpace());
+        Window.PopCell(Position.x, Position.y);
+        var cell = Window.PopCell(Position.x, Position.y - 1);
+
+        if (cell is not null)
+        {
+            Window.SetCell(Position.x, Position.y, cell);
+        }
+
+        Window.SetCell(Position.x, Position.y - 1, character);
+
         --Position.y;
-        Window.SetCell(Position.x, Position.y, character);
     }
+
     public void MoveLeft()
     {
-        Window.SetCell(Position.x, Position.y, CreateSpace());
+        Window.PopCell(Position.x, Position.y);
+        var cell = Window.PopCell(Position.x - 1, Position.y);
+
+        if (cell is not null)
+        {
+            Window.SetCell(Position.x, Position.y, cell);
+        }
+
+        Window.SetCell(Position.x - 1, Position.y, character);
+
         --Position.x;
-        Window.SetCell(Position.x, Position.y, character);
     }
 
     public void MoveDown()
     {
-        Window.SetCell(Position.x, Position.y, CreateSpace());
+        Window.PopCell(Position.x, Position.y);
+        var cell = Window.PopCell(Position.x, Position.y + 1);
+
+        if (cell is not null)
+        {
+            Window.SetCell(Position.x, Position.y, cell);
+        }
+
+        Window.SetCell(Position.x, Position.y + 1, character);
+
         ++Position.y;
-        Window.SetCell(Position.x, Position.y, character);
     }
+
     public void MoveRight()
     {
-        Window.SetCell(Position.x, Position.y, CreateSpace());
+        Window.PopCell(Position.x, Position.y);
+        var cell = Window.PopCell(Position.x + 1, Position.y);
+
+        if (cell is not null)
+        {
+            Window.SetCell(Position.x, Position.y, cell);
+        }
+
+        Window.SetCell(Position.x + 1, Position.y, character);
+
         ++Position.x;
-        Window.SetCell(Position.x, Position.y, character);
     }
 
     public void KeyHandler(object? sender, KeyEventArgs args)
