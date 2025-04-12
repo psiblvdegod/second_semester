@@ -1,26 +1,27 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
-using Avalonia.Layout;
 using static Game.UIInitialization;
 
 namespace Game;
 
-public class Game : IMove
+public class Game(MainWindow window) : IMove
 {
+    public void Run()
+    {
+        this.Window.SetCell(Position.x, Position.y, character);
+
+        this.Window.KeyDown += KeyHandler;
+
+        this.Window.AddButtons(CreateMovementPanel(ButtonHandler));
+    }
+
+    private MainWindow Window = window;
+
     private Control character = CreateCharacter();
 
     private (int x, int y) Position = Preferences.InitialPosition;
 
-    public Game(MainWindow window)
-    {
-        this.Window = window;
-        window.SetCell(Position.x, Position.y, character);
-        this.Window.AddButtons(CreateMovementPanel(ButtonHandler));
-    }
-
-    private MainWindow Window;
 
     public void MoveUp()
     {

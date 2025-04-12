@@ -8,11 +8,11 @@ public class App : Avalonia.Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var window = new MainWindow();
-        this.Window = window;
-        var game = new Game(Window);
-        Window.KeyDown += game.KeyHandler;
+        this.Window = new MainWindow();
         ConfigureDesktop();
+
+        var game = new Game(Window);
+        game.Run();
     }
 
     private void ConfigureDesktop()
