@@ -19,6 +19,7 @@ public class MainWindow : Window
     {
         Grid.SetColumn(value, x);
         Grid.SetRow(value, y);
+        this.grid.Children.Clear();
         this.grid.Children.Add(value);
     }
 }
