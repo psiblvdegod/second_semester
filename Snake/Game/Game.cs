@@ -96,7 +96,15 @@ public class Game : IMove
         var s = CreateButton("S");
         var d = CreateButton("D");
 
-        return new StackPanel {Children = {w,a,s,d}, Orientation = Orientation.Horizontal};
+        var panel = new StackPanel
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Orientation = Orientation.Horizontal,
+            Children = {w,a,s,d},
+        };
+
+        return panel;
     }
 
     public Button CreateButton(string? name)
