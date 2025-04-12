@@ -47,44 +47,21 @@ public class Game : IMove
 
     public void KeyHandler(object? sender, KeyEventArgs args)
     {
-        var key = args.Key;
-
-        if (key == Key.W)
+        Console.WriteLine(args.Key);
+        switch (args.Key)
         {
-            this.MoveUp();
-        }
-        else if (key == Key.A)
-        {
-            this.MoveLeft();
-        }
-        else if (key == Key.S)
-        {
-            this.MoveDown();
-        }
-        else if (key == Key.D)
-        {
-            this.MoveRight();
-        }
-    }
-
-    public void SubToButtons()
-    {
-        if (Window.Content is Panel panel)
-        {
-            foreach (var child in panel.Children)
-            {
-                if (child is StackPanel buttons)
-                {
-                    foreach (var subchild in buttons.Children)
-                    {
-                        if (subchild is Button button)
-                        {
-                            button.Click += ButtonHandler;
-                            button.IsEnabled = true;
-                        }
-                    }
-                }
-            }
+            case Key.W:
+                MoveUp();
+            break;
+            case Key.A:
+                MoveLeft();
+            break;
+            case Key.S:
+                MoveDown();
+            break;
+            case Key.D:
+                MoveRight();
+            break;
         }
     }
 
@@ -92,24 +69,7 @@ public class Game : IMove
     {
         if (sender is Button button)
         {
-            if (button.Content is char c)
-            {
-                switch (c)
-                {
-                    case 'W':
-                        this.MoveUp();
-                    break;
-                    case 'A':
-                        this.MoveLeft();
-                    break;
-                    case 'S':
-                        this.MoveDown();
-                    break;
-                    case 'D':
-                        this.MoveRight();
-                    break;
-                }
-            }
+            
         }
     }
 }

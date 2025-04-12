@@ -4,7 +4,7 @@ namespace Game;
 
 public class App : Avalonia.Application
 {
-    private MainWindow Window = new();
+    private MainWindow? Window;
 
     private IClassicDesktopStyleApplicationLifetime? Desktop;
 
@@ -15,11 +15,11 @@ public class App : Avalonia.Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        ConfigureDesktop();
+        var window = new MainWindow();
+        this.Window = window;
         var game = new Game(Window);
-        Window.Focus();
         Window.KeyDown += game.KeyHandler;
-        game.SubToButtons();
+        ConfigureDesktop();
     }
 
     private void ConfigureDesktop()
