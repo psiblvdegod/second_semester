@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -48,5 +49,41 @@ public static class UIInitialization
         };
 
         return control;
+    }
+
+    // creates panel and subs handler to it
+    public static StackPanel CreateMovementPanel(EventHandler<RoutedEventArgs> ButtonHandler)
+    {
+        var w = CreateButton("W");
+        var a = CreateButton("A");
+        var s = CreateButton("S");
+        var d = CreateButton("D");
+
+        var panel = new StackPanel
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Orientation = Orientation.Horizontal,
+            Children = {w,a,s,d},
+        };
+
+        return panel;
+
+        Button CreateButton(string? name)
+        {
+            var button = new Button
+            {
+                Height = 50,
+                Width = 50,
+                Background = Brushes.LightPink,
+                Name = name,
+                BorderBrush = Brushes.Black,
+                Content = name,
+            };
+
+            button.Click += ButtonHandler;
+
+            return button;
+        }
     }
 }

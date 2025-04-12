@@ -6,13 +6,6 @@ public class App : Avalonia.Application
 {
     private MainWindow? Window;
 
-    private IClassicDesktopStyleApplicationLifetime? Desktop;
-
-    public override void Initialize()
-    {
-        base.Initialize();
-    }
-
     public override void OnFrameworkInitializationCompleted()
     {
         var window = new MainWindow();
@@ -27,7 +20,6 @@ public class App : Avalonia.Application
         if (this.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = this.Window;
-            this.Desktop = desktop;
         }
         else
         {

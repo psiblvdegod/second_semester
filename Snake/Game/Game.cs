@@ -17,7 +17,7 @@ public class Game : IMove
     {
         this.Window = window;
         window.SetCell(Position.x, Position.y, character);
-        this.Window.AddButtons(CreatePanel());
+        this.Window.AddButtons(CreateMovementPanel(ButtonHandler));
     }
 
     private MainWindow Window;
@@ -87,40 +87,5 @@ public class Game : IMove
                 break;
             }
         }
-    }
-
-    public StackPanel CreatePanel()
-    {
-        var w = CreateButton("W");
-        var a = CreateButton("A");
-        var s = CreateButton("S");
-        var d = CreateButton("D");
-
-        var panel = new StackPanel
-        {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Orientation = Orientation.Horizontal,
-            Children = {w,a,s,d},
-        };
-
-        return panel;
-    }
-
-    public Button CreateButton(string? name)
-    {
-        var button = new Button
-        {
-            Height = 50,
-            Width = 50,
-            Background = Brushes.LightPink,
-            Name = name,
-            BorderBrush = Brushes.Black,
-            Content = name,
-        };
-
-        button.Click += ButtonHandler;
-
-        return button;
     }
 }
