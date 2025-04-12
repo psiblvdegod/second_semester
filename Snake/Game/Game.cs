@@ -1,6 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
+using Avalonia.Layout;
 using static Game.UIInitialization;
 
 namespace Game;
@@ -15,6 +17,7 @@ public class Game : IMove
     {
         this.Window = window;
         window.SetCell(Position.x, Position.y, character);
+        this.Window.AddButtons(CreatePanel());
     }
 
     private MainWindow Window;
@@ -47,7 +50,6 @@ public class Game : IMove
 
     public void KeyHandler(object? sender, KeyEventArgs args)
     {
-        Console.WriteLine(args.Key);
         switch (args.Key)
         {
             case Key.W:
@@ -69,7 +71,48 @@ public class Game : IMove
     {
         if (sender is Button button)
         {
-            
+            switch (button.Name)
+            {
+                case "W":
+                    MoveUp();
+                break;
+                case "A":
+                    MoveLeft();
+                break;
+                case "S":
+                    MoveDown();
+                break;
+                case "D":
+                    MoveRight();
+                break;
+            }
         }
+    }
+
+    public StackPanel CreatePanel()
+    {
+        var w = CreateButton("W");
+        var a = CreateButton("A");
+        var s = CreateButton("S");
+        var d = CreateButton("D");
+
+        return new StackPanel {Children = {w,a,s,d}, Orientation = Orientation.Horizontal};
+    }
+
+    public Button CreateButton(string? name)
+    {
+        var button = new Button
+        {
+            Height = 50,
+            Width = 50,
+            Background = Brushes.LightPink,
+            Name = name,
+            BorderBrush = Brushes.Black,
+            Content = name,
+        };
+
+        button.Click += ButtonHandler;
+
+        return button;
     }
 }

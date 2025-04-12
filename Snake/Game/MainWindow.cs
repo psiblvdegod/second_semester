@@ -11,7 +11,7 @@ public class MainWindow : Window
     {
         this.Content = new Panel()
         {
-            Children = { this.grid, CreatePanel() }
+            Children = { this.grid }
         };
     }
 
@@ -19,7 +19,26 @@ public class MainWindow : Window
     {
         Grid.SetColumn(value, x);
         Grid.SetRow(value, y);
-        this.grid.Children.Clear();
+        ClearOld();
         this.grid.Children.Add(value);
+
+        void ClearOld()
+        {
+            var old = grid.Children.FirstOrDefault
+                (c => Grid.GetColumn(c) == x && Grid.GetRow(c) == y);
+
+            if (old != null)
+            {
+                grid.Children.Remove(old);
+            }
+        }
+    }
+
+    public void AddButtons(StackPanel buttons)
+    {
+        if (this.Content is Panel content)
+        {
+            content.Children.Add(buttons);
+        }
     }
 }

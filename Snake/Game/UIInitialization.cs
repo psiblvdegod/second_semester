@@ -13,33 +13,6 @@ public static class UIInitialization
     public static int CellSize = 50;
     public static int MapSize = 50;
 
-    public static StackPanel CreatePanel()
-    {
-        var contentForButtons = "WASD";
-
-        var panel = new StackPanel()
-        {
-            Orientation = Orientation.Horizontal,
-            Spacing = CellSize / 2,
-        };
-
-        foreach (var c in contentForButtons)
-        {
-            var button = new Button
-            {
-                Background = Brushes.HotPink,
-                Foreground = Brushes.Black,
-                Height = CellSize,
-                Width = CellSize,
-                Content = c
-            };
-
-            panel.Children.Add(button);
-        }
-
-        return panel;
-    }
-
     public static Grid CreateGrid()
     {
         var grid = new Grid();
@@ -64,18 +37,6 @@ public static class UIInitialization
             Height = CellSize,
             Width = CellSize,
             Source = new Bitmap("./Images/sf.jpg"),
-        };
-
-        return image;
-    }
-
-    public static Control CreateWall()
-    {
-        var image = new Image()
-        {
-            Height = CellSize,
-            Width = CellSize,
-            Source = new Bitmap("./Images/wall.jpg"),
         };
 
         return image;
