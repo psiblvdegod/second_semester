@@ -16,8 +16,10 @@ public class App : Avalonia.Application
     public override void OnFrameworkInitializationCompleted()
     {
         ConfigureDesktop();
-        base.OnFrameworkInitializationCompleted();
         var game = new Game(Window);
+        Window.Focus();
+        Window.KeyDown += game.KeyHandler;
+        game.SubToButtons();
     }
 
     private void ConfigureDesktop()
