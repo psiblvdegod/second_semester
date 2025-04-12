@@ -28,16 +28,17 @@ public static class UIInitialization
         return grid;
     }
 
-    public static Control CreateCharacter()
+    public static Entity CreateCharacter()
     {
-        var image = new Image()
+        var character = new Entity()
         {
+            Position = Preferences.InitialPosition,
             Height = Preferences.CellSize,
             Width = Preferences.CellSize,
             Source = new Bitmap("./Images/sf.jpg"),
         };
 
-        return image;
+        return character;
     }
 
     public static Control CreateSpace()
