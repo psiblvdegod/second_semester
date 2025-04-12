@@ -11,7 +11,7 @@ public class Game : IMove
 {
     private Control character = CreateCharacter();
 
-    private (int x, int y) Position = (10, 10);
+    private (int x, int y) Position = Preferences.InitialPosition;
 
     public Game(MainWindow window)
     {
