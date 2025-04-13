@@ -9,7 +9,7 @@ namespace Game;
 /// <summary>
 /// some static methods creating configured ui stuff.
 /// </summary>
-public static class UIInitialization
+public static class UIElements
 {
     public static Grid CreateGrid()
     {
@@ -50,6 +50,21 @@ public static class UIInitialization
         };
 
         return control;
+    }
+
+    public static Entity CreateZombie()
+    {
+        var rand = new Random();
+        var zombie = new Entity
+        {
+            Height = Preferences.CellSize,
+            Width = Preferences.CellSize,
+            Source = new Bitmap("./Images/Zombie.jpg"),
+            Position =
+                (rand.Next() % Preferences.MapSize, rand.Next() % Preferences.MapSize),
+        };
+
+        return zombie;
     }
 
     // creates panel and subs handler to it

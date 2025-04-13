@@ -1,15 +1,16 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using static Game.UIInitialization;
+using Avalonia.Media.Imaging;
+using static Game.UIElements;
 
 namespace Game;
 
-public class Game(MainWindow window) : IMove
+public class Game(MainWindow window)
 {
     public void Run()
     {
-        this.Window.SetCell(Position.x, Position.y, character);
+        this.Window.SetCell(character.Position.x, character.Position.y, character);
 
         this.Window.KeyDown += KeyHandler;
 
@@ -18,69 +19,78 @@ public class Game(MainWindow window) : IMove
 
     private MainWindow Window = window;
 
-    private Control character = CreateCharacter();
+    private Entity character = CreateCharacter();
 
-    private (int x, int y) Position = Preferences.InitialPosition;
-
-
-    public void MoveUp()
+    public void MoveUp(Entity entity)
     {
-        Window.PopCell(Position.x, Position.y);
-        var cell = Window.PopCell(Position.x, Position.y - 1);
+        int x = entity.Position.x;
+        int y = entity.Position.y;
+
+        Window.PopCell(x, y);
+        var cell = Window.PopCell(x, y - 1);
 
         if (cell is not null)
         {
-            Window.SetCell(Position.x, Position.y, cell);
+            Window.SetCell(x, y, cell);
         }
 
-        Window.SetCell(Position.x, Position.y - 1, character);
+        Window.SetCell(x, y - 1, character);
 
-        --Position.y;
+        --entity.Position.y;
     }
 
-    public void MoveLeft()
+    public void MoveLeft(Entity entity)
     {
-        Window.PopCell(Position.x, Position.y);
-        var cell = Window.PopCell(Position.x - 1, Position.y);
+        int x = entity.Position.x;
+        int y = entity.Position.y;
+
+        Window.PopCell(x, y);
+        var cell = Window.PopCell(x - 1, y);
 
         if (cell is not null)
         {
-            Window.SetCell(Position.x, Position.y, cell);
+            Window.SetCell(x, y, cell);
         }
 
-        Window.SetCell(Position.x - 1, Position.y, character);
+        Window.SetCell(x - 1, y, character);
 
-        --Position.x;
+        --entity.Position.x;
     }
 
-    public void MoveDown()
+    public void MoveDown(Entity entity)
     {
-        Window.PopCell(Position.x, Position.y);
-        var cell = Window.PopCell(Position.x, Position.y + 1);
+        int x = entity.Position.x;
+        int y = entity.Position.y;
+
+        Window.PopCell(x, y);
+        var cell = Window.PopCell(x, y + 1);
 
         if (cell is not null)
         {
-            Window.SetCell(Position.x, Position.y, cell);
+            Window.SetCell(x, y, cell);
         }
 
-        Window.SetCell(Position.x, Position.y + 1, character);
+        Window.SetCell(x, y + 1, character);
 
-        ++Position.y;
+        ++entity.Position.y;
     }
 
-    public void MoveRight()
+    public void MoveRight(Entity entity)
     {
-        Window.PopCell(Position.x, Position.y);
-        var cell = Window.PopCell(Position.x + 1, Position.y);
+        int x = entity.Position.x;
+        int y = entity.Position.y;
+
+        Window.PopCell(x, y);
+        var cell = Window.PopCell(x + 1, y);
 
         if (cell is not null)
         {
-            Window.SetCell(Position.x, Position.y, cell);
+            Window.SetCell(x, y, cell);
         }
 
-        Window.SetCell(Position.x + 1, Position.y, character);
+        Window.SetCell(x + 1, y, character);
 
-        ++Position.x;
+        ++entity.Position.x;
     }
 
     public void KeyHandler(object? sender, KeyEventArgs args)
@@ -88,20 +98,23 @@ public class Game(MainWindow window) : IMove
         switch (args.Key)
         {
             case Key.W:
-                MoveUp();
+                MoveUp(character);
             break;
             case Key.A:
-                MoveLeft();
+                MoveLeft(character);
             break;
             case Key.S:
-                MoveDown();
+                MoveDown(character);
             break;
             case Key.D:
-                MoveRight();
+                MoveRight(character);
             break;
         }
+
+        // CreateEnemy();
     }
 
+    
     public void ButtonHandler(object? sender, RoutedEventArgs args)
     {
         if (sender is Button button)
@@ -109,18 +122,27 @@ public class Game(MainWindow window) : IMove
             switch (button.Name)
             {
                 case "W":
-                    MoveUp();
+                    MoveUp(character);
                 break;
                 case "A":
-                    MoveLeft();
+                    MoveLeft(character);
                 break;
                 case "S":
-                    MoveDown();
+                    MoveDown(character);
                 break;
                 case "D":
-                    MoveRight();
+                    MoveRight(character);
                 break;
             }
         }
+    }
+
+    // TODO
+    public void CreateEnemy()
+    { 
+        var zombie = CreateZombie();
+
+        this.Window.PopCell(zombie.Position.x, zombie.Position.y);
+        this.Window.SetCell(zombie.Position.x, zombie.Position.y, zombie);
     }
 }

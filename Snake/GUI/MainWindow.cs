@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using static Game.UIInitialization;
+using static Game.UIElements;
 
 namespace Game;
 
