@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
@@ -25,7 +26,41 @@ public static class UIElements
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(Preferences.CellSize) });
         }
 
+        AddWall(grid);
+
         return grid;
+    }
+
+    private static void AddWall(Grid grid)
+    {
+        for (int i = 0; i < Preferences.MapSize; ++i)
+        {
+            var wall = CreateWall();
+            Grid.SetRow(wall, 0);
+            Grid.SetColumn(wall, i);
+            grid.Children.Add(wall);
+        }
+        for (int i = 0; i < Preferences.MapSize; ++i)
+        {
+            var wall = CreateWall();
+            Grid.SetRow(wall, Preferences.MapSize - 1);
+            Grid.SetColumn(wall, i);
+            grid.Children.Add(wall);
+        }
+        for (int i = 0; i < Preferences.MapSize; ++i)
+        {
+            var wall = CreateWall();
+            Grid.SetRow(wall, i);
+            Grid.SetColumn(wall, 0);
+            grid.Children.Add(wall);
+        }
+        for (int i = 0; i < Preferences.MapSize; ++i)
+        {
+            var wall = CreateWall();
+            Grid.SetRow(wall, i);
+            Grid.SetColumn(wall, Preferences.MapSize - 1);
+            grid.Children.Add(wall);
+        }
     }
 
     public static Entity CreateCharacter()
@@ -64,7 +99,7 @@ public static class UIElements
             Width = Preferences.CellSize,
             Source = new Bitmap("./Images/Zombie.jpg"),
             Position =
-                (rand.Next() % Preferences.MapSize, rand.Next() % Preferences.MapSize),
+                (rand.Next() % (Preferences.MapSize - 3) + 1, rand.Next() % (Preferences.MapSize - 3) + 1),
         };
 
         return zombie;
@@ -104,5 +139,18 @@ public static class UIElements
 
             return button;
         }
+    }
+
+    public static Control CreateWall()
+    {
+        var wall = new Image()
+        {
+            Name = "WALL",
+            Height = Preferences.CellSize,
+            Width = Preferences.CellSize,
+            Source = new Bitmap("./Images/fire.jpg"),
+        };
+
+        return wall;
     }
 }

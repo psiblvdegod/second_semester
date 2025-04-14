@@ -14,6 +14,8 @@ public class Game(MainWindow window)
         this.Window.KeyDown += KeyHandler;
 
         this.Window.AddButtons(CreateMovementPanel(ButtonHandler));
+
+        CreateEnemy();
     }
 
     private MainWindow Window = window;
@@ -26,6 +28,11 @@ public class Game(MainWindow window)
     {
         int x = entity.Position.x;
         int y = entity.Position.y;
+
+        if (y == 1)
+        {
+            return false;
+        }
 
         var current = this.Window.PopCell(x, y);
         var next = this.Window.PopCell(x, y - 1);
@@ -61,12 +68,17 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
+        if (x == 1)
+        {
+            return false;
+        }
+
         var current = this.Window.PopCell(x, y);
         var next = this.Window.PopCell(x - 1, y);
 
         if (current is null)
         {
-            throw new InvalidOperationException("current cell is null when moveup");
+            throw new InvalidOperationException("current cell is null when move left");
         }
 
         if (next is null)
@@ -94,12 +106,17 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
+        if (y == Preferences.MapSize - 2)
+        {
+            return false;
+        }
+
         var current = this.Window.PopCell(x, y);
         var next = this.Window.PopCell(x, y + 1);
 
         if (current is null)
         {
-            throw new InvalidOperationException("current cell is null when moveup");
+            throw new InvalidOperationException("current cell is null when move down");
         }
 
         if (next is null)
@@ -127,12 +144,17 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
+        if (x == Preferences.MapSize - 2)
+        {
+            return false;
+        }
+
         var current = this.Window.PopCell(x, y);
         var next = this.Window.PopCell(x + 1, y);
 
         if (current is null)
         {
-            throw new InvalidOperationException("current cell is null when moveup");
+            throw new InvalidOperationException("current cell is null when move right");
         }
 
         if (next is null)
@@ -171,9 +193,12 @@ public class Game(MainWindow window)
             case Key.D:
                 MoveRight(character);
             break;
+            case Key.Space:
+                Exit();
+            break;
         }
 
-        CreateEnemy();
+        // CreateEnemy();
         MoveEnemies();
     }
 
@@ -233,8 +258,15 @@ public class Game(MainWindow window)
             {
                 return;
             }
-
-            MoveUp(entity);
+            if (MoveUp(entity))
+            {
+                return;
+            }
         }
+    }
+
+    public void Exit()
+    {
+        throw new Exception("exit");
     }
 }
