@@ -20,7 +20,9 @@ public class Game(MainWindow window)
 
     private Entity character = CreateCharacter();
 
-    public void MoveUp(Entity entity)
+    private List<Entity> enemies = [];
+
+    public bool MoveUp(Entity entity)
     {
         int x = entity.Position.x;
         int y = entity.Position.y;
@@ -37,22 +39,24 @@ public class Game(MainWindow window)
         {
             this.Window.SetCell(x, y - 1, current);
             --entity.Position.y;
-            return;
+            return true;
         }
 
         if (next.Name != "SPACE")
         {
             this.Window.SetCell(x, y, current);
             this.Window.SetCell(x, y - 1, next);
-            return;
+            return false;
         }
 
         this.Window.SetCell(x, y, next);
         this.Window.SetCell(x, y - 1, current);
         --entity.Position.y;
+
+        return true;
     }
 
-    public void MoveLeft(Entity entity)
+    public bool MoveLeft(Entity entity)
     {
         int x = entity.Position.x;
         int y = entity.Position.y;
@@ -69,22 +73,23 @@ public class Game(MainWindow window)
         {
             this.Window.SetCell(x - 1, y, current);
             --entity.Position.x;
-            return;
+            return true;
         }
 
         if (next.Name != "SPACE")
         {
             this.Window.SetCell(x, y, current);
             this.Window.SetCell(x - 1, y, next);
-            return;
+            return false;
         }
 
         this.Window.SetCell(x, y, next);
         this.Window.SetCell(x - 1, y, current);
         --entity.Position.x;
+        return true;
     }
 
-    public void MoveDown(Entity entity)
+    public bool MoveDown(Entity entity)
     {
         int x = entity.Position.x;
         int y = entity.Position.y;
@@ -101,22 +106,23 @@ public class Game(MainWindow window)
         {
             this.Window.SetCell(x, y + 1, current);
             ++entity.Position.y;
-            return;
+            return true;
         }
 
         if (next.Name != "SPACE")
         {
             this.Window.SetCell(x, y, current);
             this.Window.SetCell(x, y + 1, next);
-            return;
+            return false;
         }
 
         this.Window.SetCell(x, y, next);
         this.Window.SetCell(x, y + 1, current);
         ++entity.Position.y;
+        return true;
     }
 
-    public void MoveRight(Entity entity)
+    public bool MoveRight(Entity entity)
     {
         int x = entity.Position.x;
         int y = entity.Position.y;
@@ -133,19 +139,20 @@ public class Game(MainWindow window)
         {
             this.Window.SetCell(x + 1, y, current);
             ++entity.Position.x;
-            return;
+            return true;
         }
 
         if (next.Name != "SPACE")
         {
             this.Window.SetCell(x, y, current);
             this.Window.SetCell(x + 1, y, next);
-            return;
+            return false;
         }
 
         this.Window.SetCell(x, y, next);
         this.Window.SetCell(x + 1, y, current);
         ++entity.Position.x;
+        return true;
     }
 
     public void KeyHandler(object? sender, KeyEventArgs args)
@@ -166,7 +173,8 @@ public class Game(MainWindow window)
             break;
         }
 
-         CreateEnemy();
+        CreateEnemy();
+        MoveEnemies();
     }
 
     
@@ -198,10 +206,35 @@ public class Game(MainWindow window)
 
         this.Window.PopCell(zombie.Position.x, zombie.Position.y);
         this.Window.SetCell(zombie.Position.x, zombie.Position.y, zombie);
+
+        this.enemies.Add(zombie);
+        
+        return;
     }
 
-    public void MoveRandom()
+    public void MoveEnemies()
     {
+        foreach (var enemy in enemies)
+        {
+            MoveRandom(enemy);
+        }
 
+        void MoveRandom(Entity entity)
+        {
+            if (MoveRight(entity))
+            {
+                return;
+            }
+            if (MoveLeft(entity))
+            {
+                return;
+            }
+            if (MoveDown(entity))
+            {
+                return;
+            }
+
+            MoveUp(entity);
+        }
     }
 }
