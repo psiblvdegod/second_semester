@@ -32,6 +32,7 @@ public static class UIElements
     {
         var character = new Entity()
         {
+            Name = "SF",
             Position = Preferences.InitialPosition,
             Height = Preferences.CellSize,
             Width = Preferences.CellSize,
@@ -45,6 +46,7 @@ public static class UIElements
     {
         var control = new Control
         {
+            Name = Preferences.SpaceName,
             Height = Preferences.CellSize,
             Width = Preferences.CellSize,
         };
@@ -57,6 +59,7 @@ public static class UIElements
         var rand = new Random();
         var zombie = new Entity
         {
+            Name = "ZOMBIE",
             Height = Preferences.CellSize,
             Width = Preferences.CellSize,
             Source = new Bitmap("./Images/Zombie.jpg"),

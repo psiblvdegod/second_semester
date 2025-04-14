@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media.Imaging;
 using static Game.UIElements;
 
 namespace Game;
@@ -26,16 +25,30 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
-        Window.PopCell(x, y);
-        var cell = Window.PopCell(x, y - 1);
+        var current = this.Window.PopCell(x, y);
+        var next = this.Window.PopCell(x, y - 1);
 
-        if (cell is not null)
+        if (current is null)
         {
-            Window.SetCell(x, y, cell);
+            throw new InvalidOperationException("current cell is null when moveup");
         }
 
-        Window.SetCell(x, y - 1, character);
+        if (next is null)
+        {
+            this.Window.SetCell(x, y - 1, current);
+            --entity.Position.y;
+            return;
+        }
 
+        if (next.Name != "SPACE")
+        {
+            this.Window.SetCell(x, y, current);
+            this.Window.SetCell(x, y - 1, next);
+            return;
+        }
+
+        this.Window.SetCell(x, y, next);
+        this.Window.SetCell(x, y - 1, current);
         --entity.Position.y;
     }
 
@@ -44,16 +57,30 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
-        Window.PopCell(x, y);
-        var cell = Window.PopCell(x - 1, y);
+        var current = this.Window.PopCell(x, y);
+        var next = this.Window.PopCell(x - 1, y);
 
-        if (cell is not null)
+        if (current is null)
         {
-            Window.SetCell(x, y, cell);
+            throw new InvalidOperationException("current cell is null when moveup");
         }
 
-        Window.SetCell(x - 1, y, character);
+        if (next is null)
+        {
+            this.Window.SetCell(x - 1, y, current);
+            --entity.Position.x;
+            return;
+        }
 
+        if (next.Name != "SPACE")
+        {
+            this.Window.SetCell(x, y, current);
+            this.Window.SetCell(x - 1, y, next);
+            return;
+        }
+
+        this.Window.SetCell(x, y, next);
+        this.Window.SetCell(x - 1, y, current);
         --entity.Position.x;
     }
 
@@ -62,16 +89,30 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
-        Window.PopCell(x, y);
-        var cell = Window.PopCell(x, y + 1);
+        var current = this.Window.PopCell(x, y);
+        var next = this.Window.PopCell(x, y + 1);
 
-        if (cell is not null)
+        if (current is null)
         {
-            Window.SetCell(x, y, cell);
+            throw new InvalidOperationException("current cell is null when moveup");
         }
 
-        Window.SetCell(x, y + 1, character);
+        if (next is null)
+        {
+            this.Window.SetCell(x, y + 1, current);
+            ++entity.Position.y;
+            return;
+        }
 
+        if (next.Name != "SPACE")
+        {
+            this.Window.SetCell(x, y, current);
+            this.Window.SetCell(x, y + 1, next);
+            return;
+        }
+
+        this.Window.SetCell(x, y, next);
+        this.Window.SetCell(x, y + 1, current);
         ++entity.Position.y;
     }
 
@@ -80,16 +121,30 @@ public class Game(MainWindow window)
         int x = entity.Position.x;
         int y = entity.Position.y;
 
-        Window.PopCell(x, y);
-        var cell = Window.PopCell(x + 1, y);
+        var current = this.Window.PopCell(x, y);
+        var next = this.Window.PopCell(x + 1, y);
 
-        if (cell is not null)
+        if (current is null)
         {
-            Window.SetCell(x, y, cell);
+            throw new InvalidOperationException("current cell is null when moveup");
         }
 
-        Window.SetCell(x + 1, y, character);
+        if (next is null)
+        {
+            this.Window.SetCell(x + 1, y, current);
+            ++entity.Position.x;
+            return;
+        }
 
+        if (next.Name != "SPACE")
+        {
+            this.Window.SetCell(x, y, current);
+            this.Window.SetCell(x + 1, y, next);
+            return;
+        }
+
+        this.Window.SetCell(x, y, next);
+        this.Window.SetCell(x + 1, y, current);
         ++entity.Position.x;
     }
 
@@ -111,7 +166,7 @@ public class Game(MainWindow window)
             break;
         }
 
-        // CreateEnemy();
+         CreateEnemy();
     }
 
     
@@ -137,12 +192,16 @@ public class Game(MainWindow window)
         }
     }
 
-    // TODO
     public void CreateEnemy()
     { 
         var zombie = CreateZombie();
 
         this.Window.PopCell(zombie.Position.x, zombie.Position.y);
         this.Window.SetCell(zombie.Position.x, zombie.Position.y, zombie);
+    }
+
+    public void MoveRandom()
+    {
+
     }
 }
