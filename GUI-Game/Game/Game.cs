@@ -4,7 +4,7 @@ namespace Game;
 
 public class Game
 {
-    public Entity player;
+    public Entity player = new(Preferences.InitialPosition, Preferences.PlayerSymbol);
 
     public List<Entity> enemies = [];
 
@@ -12,41 +12,40 @@ public class Game
 
     public Game()
     {
-        player = new(Preferences.InitialPosition, Preferences.PlayerSymbol);
+        // allocation
         map = new char[Preferences.MapHeight][];
+
         for (var k = 0; k < Preferences.MapHeight; ++k)
         {
             map[k] = new char[Preferences.MapWidth];
         }
-
-        FillMap();
-
-        void FillMap()
+    
+        // spaces
+        for (var i = 0; i < Preferences.MapHeight; ++i)
         {
-            for (var i = 0; i < map.GetLength(0); ++i)
+            for (var j = 0; j < map[i].Length; ++j)
             {
-                for (var j = 0; j < map[i].Length; ++j)
-                {
-                    map[i][j] = Preferences.SpaceSymbol;
-                }
+                map[i][j] = Preferences.SpaceSymbol;
             }
-
-            for (var i = 0; i < map.GetLength(0); ++i)
-            {
-                map[i][0] = Preferences.BorderSymbol;
-                map[i][^1] = Preferences.BorderSymbol;
-            }
-            for (var i = 0; i < map[0].Length; ++i)
-            {
-                map[0][i] = Preferences.BorderSymbol;
-            }
-            for (var i = 0; i < map[^1].Length; ++i)
-            {
-                map[^1][i] = Preferences.BorderSymbol;
-            }
-
-            map[player.Position.y][player.Position.x] = Preferences.PlayerSymbol;
         }
+
+        // borders
+        for (var i = 0; i < Preferences.MapHeight; ++i)
+        {
+            map[i][0] = Preferences.BorderSymbol;
+            map[i][^1] = Preferences.BorderSymbol;
+        }
+        for (var i = 0; i < map[0].Length; ++i)
+        {
+            map[0][i] = Preferences.BorderSymbol;
+        }
+        for (var i = 0; i < map[^1].Length; ++i)
+        {
+            map[^1][i] = Preferences.BorderSymbol;
+        }
+
+        // player
+        map[player.Position.y][player.Position.x] = Preferences.PlayerSymbol;
     }
 
     public bool MoveUp(Entity entity)
@@ -61,10 +60,8 @@ public class Game
     public bool MoveRight(Entity entity)
         => Move(entity, (entity.Position.x + 1, entity.Position.y));
 
-    private char GetMapCell((int x, int y) Position)
+    private char GetMapCell(int x, int y)
     {
-        (int x, int y) = Position;
-
         if (y < 0 || x < 0)
         {
             return Preferences.BorderSymbol;
@@ -79,7 +76,7 @@ public class Game
 
     private bool Move(Entity entity, (int x, int y) pos)
     {
-        var cell = GetMapCell(pos);
+        var cell = GetMapCell(pos.x, pos.y);
 
         if (cell == Preferences.SpaceSymbol)
         {
@@ -121,47 +118,4 @@ public class Game
 
         return default;
     }
-
-    /*
-    public void Run()
-    {
-        while (true)
-        {
-            var key = Console.ReadKey();
-            KeyHandler(key.Key);
-            WriteMap();
-        }
-    }
-
-    private void KeyHandler(ConsoleKey key)
-    {
-        switch (key)
-        {
-            case ConsoleKey.UpArrow:
-                MoveUp(player);
-            break;
-            case ConsoleKey.LeftArrow:
-                MoveLeft(player);
-            break;
-            case ConsoleKey.DownArrow:
-                MoveDown(player);
-            break;
-            case ConsoleKey.RightArrow:
-                MoveRight(player);
-            break;
-        }
-    }
-
-    private void WriteMap()
-    {
-        for (var i = 0; i < map.GetLength(0); ++i)
-        {
-            for (var j = 0; j < map[i].Length; ++j)
-            {
-                Console.Write(map[i][j]);
-            }
-            Console.Write('\n');
-        }
-    }
-    */
 }

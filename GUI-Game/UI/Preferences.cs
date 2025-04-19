@@ -6,7 +6,7 @@ public static class Preferences
 
     public static int MapWidth { get; } = Game.Preferences.MapWidth;
 
-    public static int CellSize {get;} = 30;
+    public static int CellSize { get; } = 50;
 
     public static string SpaceName { get; } = "SPACE";
 

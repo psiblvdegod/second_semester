@@ -7,11 +7,10 @@ public class App : Avalonia.Application
 {
     private MainWindow? Window;
 
-    private Game.Game? game;
+    private readonly Game.Game game = new();
 
     public override void OnFrameworkInitializationCompleted()
     {
-        game = new();
         this.Window = new MainWindow(game.map);
         ConfigureDesktop();
         this.Window.KeyDown += KeyHandler;
@@ -31,7 +30,7 @@ public class App : Avalonia.Application
 
     private void KeyHandler(object? sender, KeyEventArgs args)
     {
-        if (game is null || Window is null)
+        if (Window is null)
         {
             throw new();
         }
@@ -86,8 +85,6 @@ public class App : Avalonia.Application
 
     private void MoveEnemies()
     {
-        ArgumentNullException.ThrowIfNull(game);
-
         foreach (var enemy in game.enemies)
         {
             var oldEnemyPos = enemy.Position;
