@@ -2,9 +2,9 @@ using System.Diagnostics;
 
 namespace Game;
 
-public static class DefaultPreferences
+public static class Preferences
 {
-    public static int MapWidth { get; } = 20; 
+    public static int MapWidth { get; } = 40; 
 
     public static int MapHeight { get; } = 20;
 
@@ -13,4 +13,6 @@ public static class DefaultPreferences
     public static char PlayerSymbol { get; } = '@';
 
     public static char BorderSymbol { get; } = '#';
+
+    public static char SpaceSymbol { get; } = ' ';
 }

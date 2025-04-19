@@ -1,11 +1,6 @@
-﻿using Game;
+﻿using Avalonia;
+using UI;
 
-/*
 AppBuilder.Configure<App>()
     .UsePlatformDetect()
     .StartWithClassicDesktopLifetime(args);
-*/
-
-var game = new Game.Game();
-
-game.Run();

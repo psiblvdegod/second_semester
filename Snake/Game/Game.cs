@@ -10,20 +10,18 @@ public class Game
 
     List<Entity> enemies = [];
 
-    char[][] map;
+    public readonly char[][] map;
 
     public Game()
     {
-        player = new(DefaultPreferences.InitialPosition, DefaultPreferences.PlayerSymbol);
-        map = new char[DefaultPreferences.MapHeight][];
-        for (var k = 0; k < DefaultPreferences.MapHeight; ++k)
+        player = new(Preferences.InitialPosition, Preferences.PlayerSymbol);
+        map = new char[Preferences.MapHeight][];
+        for (var k = 0; k < Preferences.MapHeight; ++k)
         {
-            map[k] = new char[DefaultPreferences.MapWidth];
+            map[k] = new char[Preferences.MapWidth];
         }
 
         FillMap();
-        map[player.Position.y][player.Position.x] = '@';
-        
 
         void FillMap()
         {
@@ -37,17 +35,19 @@ public class Game
 
             for (var i = 0; i < map.GetLength(0); ++i)
             {
-                map[i][0] = DefaultPreferences.BorderSymbol;
-                map[i][^1] = DefaultPreferences.BorderSymbol;
+                map[i][0] = Preferences.BorderSymbol;
+                map[i][^1] = Preferences.BorderSymbol;
             }
             for (var i = 0; i < map[0].Length; ++i)
             {
-                map[0][i] = DefaultPreferences.BorderSymbol;
+                map[0][i] = Preferences.BorderSymbol;
             }
             for (var i = 0; i < map[^1].Length; ++i)
             {
-                map[^1][i] = DefaultPreferences.BorderSymbol;
+                map[^1][i] = Preferences.BorderSymbol;
             }
+
+            map[player.Position.y][player.Position.x] = '@';
         }
     }
 
@@ -106,7 +106,6 @@ public class Game
 
     private void KeyHandler(ConsoleKey key)
     {
-        Console.WriteLine("handler");
         switch (key)
         {
             case ConsoleKey.UpArrow:
