@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -15,7 +16,10 @@ public class Game(MainWindow window)
 
         this.Window.AddButtons(CreateMovementPanel(ButtonHandler));
 
-        CreateEnemy();
+        for (var i = 0; i < 20; ++i)
+        {
+            CreateEnemy();
+        }
     }
 
     private MainWindow Window = window;
@@ -198,7 +202,7 @@ public class Game(MainWindow window)
             break;
         }
 
-        // CreateEnemy();
+        //CreateEnemy();
         MoveEnemies();
     }
 
@@ -226,19 +230,13 @@ public class Game(MainWindow window)
     }
 
     public void CreateEnemy()
-    { 
-        var zombie = CreateZombie();
-
-        this.Window.PopCell(zombie.Position.x, zombie.Position.y);
-        this.Window.SetCell(zombie.Position.x, zombie.Position.y, zombie);
-
-        this.enemies.Add(zombie);
-        
-        return;
+    {
     }
 
     public void MoveEnemies()
     {
+        var rand = new Random();
+
         foreach (var enemy in enemies)
         {
             MoveRandom(enemy);
@@ -246,21 +244,20 @@ public class Game(MainWindow window)
 
         void MoveRandom(Entity entity)
         {
-            if (MoveRight(entity))
+            switch (rand.Next() % 4)
             {
-                return;
-            }
-            if (MoveLeft(entity))
-            {
-                return;
-            }
-            if (MoveDown(entity))
-            {
-                return;
-            }
-            if (MoveUp(entity))
-            {
-                return;
+                case 0:
+                    MoveUp(entity);
+                break;
+                case 1:
+                    MoveLeft(entity);
+                break;
+                case 2:
+                    MoveDown(entity);
+                break;
+                case 3:
+                    MoveRight(entity);
+                break;
             }
         }
     }

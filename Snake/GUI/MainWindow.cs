@@ -30,6 +30,7 @@ public class MainWindow : Window
         {
             grid.Children.Remove(cell);
         }
+
         return cell;
     }
 

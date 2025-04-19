@@ -89,7 +89,7 @@ public static class UIElements
         return control;
     }
 
-    public static Entity CreateZombie()
+    public static Entity CreateZombie(int x, int y)
     {
         var rand = new Random();
         var zombie = new Entity
@@ -98,8 +98,7 @@ public static class UIElements
             Height = Preferences.CellSize,
             Width = Preferences.CellSize,
             Source = new Bitmap("./Images/Zombie.jpg"),
-            Position =
-                (rand.Next() % (Preferences.MapSize - 3) + 1, rand.Next() % (Preferences.MapSize - 3) + 1),
+            Position = (x, y),
         };
 
         return zombie;
