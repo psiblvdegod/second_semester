@@ -57,8 +57,6 @@ public class App : Avalonia.Application
             SwapCells((x, y), (x + 1, y));
         }
 
-        
-
         var newEnemyPos = game.AddEnemy();
         if (newEnemyPos != default)
         {
