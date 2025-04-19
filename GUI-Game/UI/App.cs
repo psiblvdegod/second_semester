@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 
 namespace UI;
@@ -26,7 +25,7 @@ public class App : Avalonia.Application
         }
         else
         {
-            throw new NotSupportedException("seems like your platform is unsupported.");
+            throw new NotSupportedException();
         }
     }
 
@@ -50,23 +49,30 @@ public class App : Avalonia.Application
             break;
             case Key.A:
                 
-                 if (game.MoveLeft(game.player))
+                if (game.MoveLeft(game.player))
                 {
                     SwapCells((x, y), (x - 1, y));
                 }
             break;
             case Key.S:
-                 if (game.MoveDown(game.player))
+                if (game.MoveDown(game.player))
                 {
                     SwapCells((x, y), (x, y + 1));
                 }
             break;
             case Key.D:
-                 if (game.MoveRight(game.player))
+                if (game.MoveRight(game.player))
                 {
                     SwapCells((x, y), (x + 1, y));
                 }
             break;
+        }
+
+        var newEnemyPos = game.AddEnemy();
+        if (newEnemyPos != default)
+        {
+            Window.PopCell(newEnemyPos);
+            Window.SetCell(newEnemyPos, Initialization.CreateEnemy());
         }
     }
 

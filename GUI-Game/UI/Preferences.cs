@@ -17,4 +17,8 @@ public static class Preferences
     public static string BorderPath { get; } = "./Images/Border.jpg";
 
     public static string PlayerPath { get; } = "./Images/Player.jpg";
+
+    public static string EnemyName { get; } = "ENEMY";
+
+    public static string EnemyPath { get; } = "./Images/Enemy.jpg";
 }

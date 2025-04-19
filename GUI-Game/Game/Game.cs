@@ -1,4 +1,6 @@
-﻿namespace Game;
+﻿using System.Data;
+
+namespace Game;
 
 public class Game
 {
@@ -25,7 +27,7 @@ public class Game
             {
                 for (var j = 0; j < map[i].Length; ++j)
                 {
-                    map[i][j] = ' ';
+                    map[i][j] = Preferences.SpaceSymbol;
                 }
             }
 
@@ -43,7 +45,7 @@ public class Game
                 map[^1][i] = Preferences.BorderSymbol;
             }
 
-            map[player.Position.y][player.Position.x] = '@';
+            map[player.Position.y][player.Position.x] = Preferences.PlayerSymbol;
         }
     }
 
@@ -65,11 +67,11 @@ public class Game
 
         if (y < 0 || x < 0)
         {
-            return '$';
+            return Preferences.BorderSymbol;
         }
         if (y >= map.GetLength(0) || x >= map[y].Length)
         {
-            return '$';
+            return Preferences.BorderSymbol;
         }
 
         return map[y][x];
@@ -77,17 +79,56 @@ public class Game
 
     private bool Move(Entity entity, (int x, int y) pos)
     {
-        switch (GetMapCell(pos))
-        {
-            case ' ':
-                map[pos.y][pos.x] = entity.Name;
-                map[entity.Position.y][entity.Position.x] = ' ';
-                entity.Position = pos;
-            return true;
+        var cell = GetMapCell(pos);
 
-            default:
-            return false;
+        if (cell == Preferences.SpaceSymbol)
+        {
+            map[pos.y][pos.x] = entity.Name;
+            map[entity.Position.y][entity.Position.x] = Preferences.SpaceSymbol;
+            entity.Position = pos;
+            return true;
         }
+        
+        return false;
+    }
+
+    public Direction MoveRandom(Entity entity)
+    {
+        return (new Random().Next() % 5) switch
+        {
+            0 => MoveUp(entity) ? Direction.up : Direction.none,
+            1 => MoveLeft(entity) ? Direction.left : Direction.none,
+            2 => MoveDown(entity) ? Direction.down : Direction.none,
+            3 => MoveRight(entity) ? Direction.right : Direction.none,
+            _ => Direction.none,
+        };
+    }
+
+    public enum Direction
+    {
+        up = 0,
+        left = 1,
+        down = 2,
+        right = 3,
+        none = 4,
+    }
+
+    public (int x, int y) AddEnemy()
+    {
+        var rand = new Random();
+        var x = (rand.Next() % (Preferences.MapWidth - 2)) + 1;
+        var y = (rand.Next() % (Preferences.MapHeight - 2)) + 1;
+        
+        var cell = map[y][x];
+
+        if (cell == Preferences.SpaceSymbol)
+        {
+            enemies.Add(new((x, y), Preferences.EnemySymbol));
+            map[y][x] = Preferences.EnemySymbol;
+            return (x, y);
+        }
+
+        return default;
     }
 
     /*

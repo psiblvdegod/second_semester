@@ -88,4 +88,17 @@ public static class Initialization
 
         return control;
     }
+
+    public static Image CreateEnemy()
+    {
+        var control = new Image
+        {
+            Name = Preferences.EnemyName,
+            Height = Preferences.CellSize,
+            Width = Preferences.CellSize,
+            Source = new Bitmap(Preferences.EnemyPath),
+        };
+
+        return control;
+    }
 }

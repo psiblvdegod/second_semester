@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Game;
 
 public static class Preferences
@@ -15,4 +13,6 @@ public static class Preferences
     public static char BorderSymbol { get; } = '#';
 
     public static char SpaceSymbol { get; } = ' ';
+
+    public static char EnemySymbol { get; } = 'Z';
 }
