@@ -92,25 +92,16 @@ public class Game
         return false;
     }
 
-    public Direction MoveRandom(Entity entity)
+    public bool MoveRandom(Entity entity)
     {
         return (new Random().Next() % 5) switch
         {
-            0 => MoveUp(entity) ? Direction.up : Direction.none,
-            1 => MoveLeft(entity) ? Direction.left : Direction.none,
-            2 => MoveDown(entity) ? Direction.down : Direction.none,
-            3 => MoveRight(entity) ? Direction.right : Direction.none,
-            _ => Direction.none,
+            0 => MoveUp(entity),
+            1 => MoveLeft(entity),
+            2 => MoveDown(entity),
+            3 => MoveRight(entity),
+            _ => false,
         };
-    }
-
-    public enum Direction
-    {
-        up = 0,
-        left = 1,
-        down = 2,
-        right = 3,
-        none = 4,
     }
 
     public (int x, int y) AddEnemy()

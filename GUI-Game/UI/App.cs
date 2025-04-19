@@ -38,35 +38,26 @@ public class App : Avalonia.Application
 
         var x = game.player.Position.x;
         var y = game.player.Position.y; 
+        var key = args.Key;
 
-        switch (args.Key)
+        if (key == Key.W && game.MoveUp(game.player))
         {
-            case Key.W:
-                if (game.MoveUp(game.player))
-                {
-                    SwapCells((x, y), (x, y - 1));
-                }
-            break;
-            case Key.A:
-                
-                if (game.MoveLeft(game.player))
-                {
-                    SwapCells((x, y), (x - 1, y));
-                }
-            break;
-            case Key.S:
-                if (game.MoveDown(game.player))
-                {
-                    SwapCells((x, y), (x, y + 1));
-                }
-            break;
-            case Key.D:
-                if (game.MoveRight(game.player))
-                {
-                    SwapCells((x, y), (x + 1, y));
-                }
-            break;
+            SwapCells((x, y), (x, y - 1));
         }
+        else if (key == Key.A && game.MoveLeft(game.player))
+        {
+            SwapCells((x, y), (x - 1, y));
+        }
+        else if (key == Key.S && game.MoveDown(game.player))
+        {
+            SwapCells((x, y), (x, y + 1));
+        }
+        else if (key == Key.D && game.MoveRight(game.player))
+        {
+            SwapCells((x, y), (x + 1, y));
+        }
+
+        
 
         var newEnemyPos = game.AddEnemy();
         if (newEnemyPos != default)
@@ -74,6 +65,8 @@ public class App : Avalonia.Application
             Window.PopCell(newEnemyPos);
             Window.SetCell(newEnemyPos, Initialization.CreateEnemy());
         }
+
+        MoveEnemies();
     }
 
     private void SwapCells((int x, int y) pos1, (int x, int y) pos2)
@@ -90,6 +83,20 @@ public class App : Avalonia.Application
         if (right != null)
         {
             Window.SetCell(pos1, right);
+        }
+    }
+
+    private void MoveEnemies()
+    {
+        ArgumentNullException.ThrowIfNull(game);
+
+        foreach (var enemy in game.enemies)
+        {
+            var oldEnemyPos = enemy.Position;
+
+            game.MoveRandom(enemy);
+            
+            SwapCells(oldEnemyPos, enemy.Position);
         }
     }
 }
