@@ -1,14 +1,10 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.VisualBasic;
-
-namespace Game;
+﻿namespace Game;
 
 public class Game
 {
-    Entity player;
+    public Entity player;
 
-    List<Entity> enemies = [];
+    public List<Entity> enemies = [];
 
     public readonly char[][] map;
 
@@ -51,16 +47,16 @@ public class Game
         }
     }
 
-    private bool MoveUp(Entity entity)
+    public bool MoveUp(Entity entity)
         => Move(entity, (entity.Position.x, entity.Position.y - 1));
 
-    private bool MoveLeft(Entity entity)
+    public bool MoveLeft(Entity entity)
         => Move(entity, (entity.Position.x - 1, entity.Position.y));
 
-    private bool MoveDown(Entity entity)
+    public bool MoveDown(Entity entity)
         => Move(entity, (entity.Position.x, entity.Position.y + 1));
 
-    private bool MoveRight(Entity entity)
+    public bool MoveRight(Entity entity)
         => Move(entity, (entity.Position.x + 1, entity.Position.y));
 
     private char GetMapCell((int x, int y) Position)
@@ -94,6 +90,7 @@ public class Game
         }
     }
 
+    /*
     public void Run()
     {
         while (true)
@@ -134,4 +131,5 @@ public class Game
             Console.Write('\n');
         }
     }
+    */
 }

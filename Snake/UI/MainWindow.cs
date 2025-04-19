@@ -16,17 +16,17 @@ public class MainWindow : Window
         };
     }
 
-    public void SetCell(int x, int y, Control value)
+    public void SetCell((int x, int y) Position, Control value)
     {
-        Grid.SetColumn(value, x);
-        Grid.SetRow(value, y);
+        Grid.SetColumn(value, Position.x);
+        Grid.SetRow(value, Position.y);
         this.grid.Children.Add(value);
     }
 
-    public Control? PopCell(int x, int y)
+    public Control? PopCell((int x, int y) Position)
     {
         var cell = grid.Children.FirstOrDefault
-            (c => Grid.GetColumn(c) == x && Grid.GetRow(c) == y);
+            (c => Grid.GetColumn(c) == Position.x && Grid.GetRow(c) == Position.y);
         if (cell is not null)
         {
             grid.Children.Remove(cell);
