@@ -122,35 +122,26 @@ public static class BWT
     {
         public int Compare(int left, int right)
         {
-            var j = right;
+            var i = right;
 
-            for (var i = left; i < input.Length; ++i, ++j)
+            var resultForFirstPart = CompareSlice(left, input.Length);
+
+            return resultForFirstPart != 0 ? resultForFirstPart : CompareSlice(0, left);
+
+            int CompareSlice(int start, int end)
             {
-                if (j == input.Length)
+                for (var j = start; j < end; ++j, ++i)
                 {
-                    j = 0;
+                    i = i == input.Length ? 0 : i;
+
+                    if (input[j] != input[i])
+                    {
+                        return input[j] - input[i];
+                    }
                 }
 
-                if (input[i] != input[j])
-                {
-                    return input[i] - input[j];
-                }
+                return 0;
             }
-
-            for (var i = 0; i < left; ++i, ++j)
-            {
-                if (j == input.Length)
-                {
-                    j = 0;
-                }
-
-                if (input[i] != input[j])
-                {
-                    return input[i] - input[j];
-                }
-            }
-
-            return 0;
         }
     }
 }
