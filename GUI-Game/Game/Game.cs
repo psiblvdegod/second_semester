@@ -78,17 +78,35 @@ public class Game
     {
         var cell = GetMapCell(pos.x, pos.y);
 
-        if (cell != Preferences.SpaceSymbol)
+        if (cell == Preferences.BorderSymbol)
         {
             return false;
         }
-        if (entity.Name == Preferences.PlayerSymbol) // STATS
+
+        if (entity.Name == Preferences.EnemySymbol)
         {
-            ++stats.Moves;
+            if (cell == Preferences.SpaceSymbol)
+            {
+                Swap();
+                return true;
+            }
         }
 
-        Swap();
-        return true;
+        else if (entity.Name == Preferences.PlayerSymbol)
+        {
+            ++stats.Moves;
+            Swap();
+
+            if (cell == Preferences.EnemySymbol)
+            {
+                ++stats.Kills;
+                enemies.Remove(enemies.First(x => x.Position == pos));
+            }
+
+            return true;
+        }
+
+        return false;
         
         void Swap()
         {
@@ -127,7 +145,7 @@ public class Game
 
         return default;
     }
-
+        
     public class Stats // STATS
     {
         public int Kills { get; set; }

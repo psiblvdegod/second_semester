@@ -77,6 +77,7 @@ public class App : Avalonia.Application
         ArgumentNullException.ThrowIfNull(Window);
 
         var left = Window.PopCell(pos1);
+
         var right = Window.PopCell(pos2);
 
         if (left != null)
@@ -85,7 +86,7 @@ public class App : Avalonia.Application
         }
         if (right != null)
         {
-            Window.SetCell(pos1, right);
+            Window.SetCell(pos1, Initialization.CreateSpace()); // can be simplified i guess
         }
     }
 
