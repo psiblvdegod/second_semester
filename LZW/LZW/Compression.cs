@@ -12,6 +12,8 @@ using Trie;
 /// </summary>
 public static class Compression
 {
+    private static char SeparatingSymbol { get; } = '$';
+
     /// <summary>
     /// Compresses string using LZW algorithm.
     /// </summary>
@@ -33,7 +35,7 @@ public static class Compression
             }
         }
 
-        output += '$';
+        output += SeparatingSymbol;
 
         var length = 16;
         var freeSpace = (int)Math.Pow(2, length) - dictionary.Size;
@@ -87,7 +89,7 @@ public static class Compression
 
         var dictionary = new Dictionary<int, string>();
 
-        var separatorIndex = input.IndexOf('$');
+        var separatorIndex = input.IndexOf(SeparatingSymbol);
 
         for (var i = 0; i < separatorIndex; ++i)
         {

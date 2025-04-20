@@ -14,7 +14,7 @@ public static class InputProcessing
     /// <summary>
     /// Detransforms string which has been transformed with Burrows-Wheeler algorithm.
     /// </summary>
-    /// <param name="args">Should contain 2 params : path to file and switch --c or --u.</param>
+    /// <param name="args">Should contain 2 params: path to file and switch --c or --u.</param>
     public static void Run(string[] args)
     {
         if (args.Length != 2)

@@ -6,13 +6,14 @@ namespace BWTxLZW;
 
 using System.Text;
 using BWT;
-using LZW;
 
 /// <summary>
 /// Contains methods from namespace LZW, improved by Burrows-Wheeler transform.
 /// </summary>
 public static class Compression
 {
+    private static char SeparatingSymbol { get; } = '$';
+
     /// <summary>
     /// Compresses string using LZW and BWT algorithms.
     /// </summary>
@@ -24,9 +25,7 @@ public static class Compression
 
         var (output, position) = BWT.Transform(LZW.Compression.Compress(input));
 
-        var separator = '%';
-
-        return string.Concat(position, separator, output);
+        return string.Concat(position, SeparatingSymbol, output);
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public static class Compression
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
 
-        var separatorIndex = input.IndexOf('%');
+        var separatorIndex = input.IndexOf(SeparatingSymbol);
 
         var position = int.Parse(input[..separatorIndex]);
 
