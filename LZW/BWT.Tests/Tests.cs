@@ -33,7 +33,7 @@ public class Tests
     }
 
     [Test]
-    public void Transform_StrOfIdentialCharsAsInput()
+    public void Transform_StringOfIdentialCharsAsInput()
     {
         var input = "1111";
         var expectedOutput = "1111";
@@ -44,9 +44,7 @@ public class Tests
 
     [Test]
     public void Transform_EmptyStringAsInput()
-    {
-        Assert.Throws<ArgumentException>(() => BWT.Transform(string.Empty));
-    }
+        => Assert.Throws<ArgumentException>(() => BWT.Transform(string.Empty));
 
     [Test]
     public void Detransform_OrdinaryInput()
@@ -80,15 +78,11 @@ public class Tests
 
     [Test]
     public void Detransform_EmptyStringAsInput()
-    {
-        Assert.Throws<ArgumentException>(() => BWT.Detransform(string.Empty, 0));
-    }
+        => Assert.Throws<ArgumentException>(() => BWT.Detransform(string.Empty, 0));
 
     [Test]
     public void Detransform_IncorrectPosition()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => BWT.Detransform("123", 123));
-    }
+        => Assert.Throws<ArgumentOutOfRangeException>(() => BWT.Detransform("123", 123));
 
     [Test]
     public void Transform_Then_Detransform()
