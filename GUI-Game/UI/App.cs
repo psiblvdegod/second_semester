@@ -1,5 +1,9 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
+﻿using System.Collections;
+using System.Linq.Expressions;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
+using Game;
 
 namespace UI;
 
@@ -64,6 +68,8 @@ public class App : Avalonia.Application
         }
 
         MoveEnemies();
+
+        UpdateStats();
     }
 
     private void SwapCells((int x, int y) pos1, (int x, int y) pos2)
@@ -92,6 +98,35 @@ public class App : Avalonia.Application
             game.MoveRandom(enemy);
             
             SwapCells(oldEnemyPos, enemy.Position);
+        }
+    }
+
+    private void UpdateStats() // STATS
+    {
+        ArgumentNullException.ThrowIfNull(Window);
+
+        if (Window.Content is Panel panel)
+        {
+            foreach (var child in panel.Children)
+            {
+                if (child is StackPanel stats && child.Name == Preferences.StatsName)
+                {
+                    foreach (var block in stats.Children)
+                    {
+                        if (block is TextBlock stat)
+                        {
+                            if (stat.Name == Preferences.StatsKillsName)
+                            {
+                                stat.Text = $"{Preferences.StatsKillsName}: {game.stats.Kills}";
+                            }
+                            else if (stat.Name == Preferences.StatsMovesName)
+                            {
+                                stat.Text = $"{Preferences.StatsMovesName}: {game.stats.Moves}";
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

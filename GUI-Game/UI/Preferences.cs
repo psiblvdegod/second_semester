@@ -6,7 +6,7 @@ public static class Preferences
 
     public static int MapWidth { get; } = Game.Preferences.MapWidth;
 
-    public static int CellSize { get; } = 50;
+    public static int CellSize { get; } = 45;
 
     public static string SpaceName { get; } = "SPACE";
 
@@ -21,4 +21,10 @@ public static class Preferences
     public static string EnemyName { get; } = "ENEMY";
 
     public static string EnemyPath { get; } = "./Images/Enemy.jpg";
+
+    public static string StatsKillsName { get; } = "KILLS";
+
+    public static string StatsMovesName { get; } = "MOVES";
+
+    public static string StatsName { get; } = "STATS";
 }

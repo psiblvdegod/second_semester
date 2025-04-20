@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
 namespace UI;
@@ -97,6 +98,36 @@ public static class Initialization
             Height = Preferences.CellSize,
             Width = Preferences.CellSize,
             Source = new Bitmap(Preferences.EnemyPath),
+        };
+
+        return control;
+    }
+
+    public static StackPanel CreateStatistics()
+    {
+        var control = new StackPanel
+        {
+            Name = Preferences.StatsName,
+            Background = Brushes.LightPink,
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom,
+            Children =
+            {
+                new TextBlock
+                {
+                    VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                    Name = Preferences.StatsKillsName,
+                    Text = $"{Preferences.StatsKillsName}: 0"
+                },
+                new TextBlock
+                {
+                    VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                    Name = Preferences.StatsMovesName,
+                    Text = $"{Preferences.StatsMovesName}: 0"
+                }
+            }
         };
 
         return control;

@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Game;
+﻿namespace Game;
 
 public class Game
 {
@@ -9,6 +7,8 @@ public class Game
     public List<Entity> enemies = [];
 
     public readonly char[][] map;
+
+    public Stats stats = new(); // STATS
 
     public Game()
     {
@@ -78,15 +78,24 @@ public class Game
     {
         var cell = GetMapCell(pos.x, pos.y);
 
-        if (cell == Preferences.SpaceSymbol)
+        if (cell != Preferences.SpaceSymbol)
+        {
+            return false;
+        }
+        if (entity.Name == Preferences.PlayerSymbol) // STATS
+        {
+            ++stats.Moves;
+        }
+
+        Swap();
+        return true;
+        
+        void Swap()
         {
             map[pos.y][pos.x] = entity.Name;
             map[entity.Position.y][entity.Position.x] = Preferences.SpaceSymbol;
             entity.Position = pos;
-            return true;
         }
-        
-        return false;
     }
 
     public bool MoveRandom(Entity entity)
@@ -117,5 +126,12 @@ public class Game
         }
 
         return default;
+    }
+
+    public class Stats // STATS
+    {
+        public int Kills { get; set; }
+
+        public int Moves { get; set; }
     }
 }

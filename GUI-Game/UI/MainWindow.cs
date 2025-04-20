@@ -6,13 +6,20 @@ public class MainWindow : Window
 {
     private Grid grid;
 
+    public StackPanel statistics { get; set; }
+
     public MainWindow(char[][] map)
     {
         grid = Initialization.CreateGrid(map);
 
+        statistics = Initialization.CreateStatistics();
+
         this.Content = new Panel
         {
-            Children = { grid }
+            Children =
+            { 
+                grid, statistics,
+            }
         };
     }
 
