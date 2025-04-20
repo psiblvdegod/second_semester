@@ -27,4 +27,8 @@ public static class Preferences
     public static string StatsMovesName { get; } = "MOVES";
 
     public static string StatsName { get; } = "STATS";
+
+    public static int StatsBlockWidth { get; } = 100;
+
+    public static int StatsBlockHeight { get; } = 45;
 }

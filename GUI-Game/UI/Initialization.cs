@@ -107,6 +107,7 @@ public static class Initialization
     {
         var control = new StackPanel
         {
+            Orientation = Avalonia.Layout.Orientation.Horizontal,
             Name = Preferences.StatsName,
             Background = Brushes.LightPink,
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
@@ -118,14 +119,21 @@ public static class Initialization
                     VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
                     HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                     Name = Preferences.StatsKillsName,
-                    Text = $"{Preferences.StatsKillsName}: 0"
+                    Text = $"{Preferences.StatsKillsName}: 0",
+                    Width = Preferences.StatsBlockWidth,
+                    Height = Preferences.StatsBlockHeight,
+                    FontSize = 14,
+                    
                 },
                 new TextBlock
                 {
                     VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
                     HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                     Name = Preferences.StatsMovesName,
-                    Text = $"{Preferences.StatsMovesName}: 0"
+                    Text = $"{Preferences.StatsMovesName}: 0",
+                    Width = Preferences.StatsBlockWidth,
+                    Height = Preferences.StatsBlockHeight,
+                    FontSize = 14,
                 }
             }
         };

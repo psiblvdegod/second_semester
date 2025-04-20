@@ -2,9 +2,9 @@ namespace Game;
 
 public static class Preferences
 {
-    public static int MapWidth { get; } = 25; 
+    public static int MapWidth { get; } = 28;
 
-    public static int MapHeight { get; } = 14;
+    public static int MapHeight { get; } = 12;
 
     public static (int x, int y) InitialPosition { get; } = (2, 2);
 
