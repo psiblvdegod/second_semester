@@ -1,9 +1,6 @@
-﻿using System.Data;
-using Microsoft.VisualBasic;
+﻿namespace Calculator;
 
-namespace Calculator;
-
-public class Calculator
+public class Calculator : ICalculator
 {
     public static string Digits { get; } = "0123456789";
 
