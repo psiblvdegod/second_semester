@@ -2,14 +2,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Avalonia.Threading;
 
 namespace GUI;
 
 public static class Initialization
 {
 
-    public static string[] ButtonsContent { get; } = ["789", "456", "123", "0+*"];
+    public static string[] ButtonsContent { get; } = ["789", "456", "123", "0+-", "*/C"];
 
     public static Grid CreateGrid()
     {
@@ -86,8 +85,13 @@ public static class Initialization
             Name = "DISPLAY";
             Width = Preferences.CellSize * Preferences.GridWidth;
             Height = Preferences.CellSize;
-            Background = Brushes.GhostWhite;
+            Background = Brushes.MistyRose;
+            Foreground = Brushes.Black;
             Text = "DISPLAY";
+            FontSize = 16;
+            TextAlignment = TextAlignment.Center;
+            HorizontalAlignment = HorizontalAlignment.Center;
+            VerticalAlignment = VerticalAlignment.Center;
         }
     }
 }
