@@ -13,18 +13,21 @@ public class Calculator : ICalculator
         else if (ValidOperations.ContainsKey(token))
         {
             var parsed = double.Parse(operandBuffer);
-            Value = isStart ? parsed : ValidOperations[operationBuffer](Value, parsed);
-            operationBuffer = token;
+            Value = isStart ? parsed : ValidOperations[operatorBuffer](Value, parsed);
+            operatorBuffer = token;
             operandBuffer = string.Empty;
             isStart = false;
         }
     }
 
+    public string Output
+        => isStart ? $"{operandBuffer}" : $"{Value} {operatorBuffer} {operandBuffer}";
+
     private bool isStart = true;
 
     public double Value { get; private set; }
     
-    private char operationBuffer;
+    private char operatorBuffer;
 
     private string operandBuffer = string.Empty;
 
