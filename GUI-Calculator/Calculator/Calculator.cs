@@ -49,12 +49,12 @@ public class Calculator : ICalculator
         }
     }
 
-    public string Output
-        => isStart ? $"{operandBuffer}" : $"{Math.Round(Value, 3)} {operatorBuffer} {operandBuffer}";
+    public string State
+        => isStart ? $"{operandBuffer}" : $"{Math.Round(Value, 3)}{operatorBuffer}{operandBuffer}";
 
     private bool isStart = true;
 
-    public double Value { get; private set; }
+    private double Value;
     
     private char operatorBuffer;
 

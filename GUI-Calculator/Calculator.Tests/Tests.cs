@@ -13,50 +13,89 @@ public class Tests
     [Test]
     public void Calculator_OnSimpleCorrectInput()
     {
-        var input = "12+3-";
+        var input = "12+3=";
 
         foreach (var token in input)
         {
             calculator.AddToken(token);
         }
 
-        var expectedResult = 15.0;
+        var expectedResult = "15";
 
-        Assert.That(calculator.Value, Is.EqualTo(expectedResult).Within(0.001));
+        Assert.That(calculator.State, Is.EqualTo(expectedResult));
     }
 
     [Test]
     public void Calculator_OnNumbersWhichStartWithZero()
     {
-        var input = "01*0023-";
+        var input = "01*0023=";
 
         foreach (var token in input)
         {
             calculator.AddToken(token);
         }
         
-        var expectedResult = 23.0;
+        var expectedResult = "23";
         
-        Assert.That(calculator.Value, Is.EqualTo(expectedResult).Within(0.001));
+        Assert.That(calculator.State, Is.EqualTo(expectedResult));
     }
 
     [Test]
-    public void Test3()
+    public void Calculator_OnNegativeNumbers()
     {
-        calculator.AddToken('1');
-        calculator.AddToken('0');
-        calculator.AddToken('0');
-        calculator.AddToken('0');
-        calculator.AddToken('-');
-        calculator.AddToken('9');
-        calculator.AddToken('9');
-        calculator.AddToken('9');
-        calculator.AddToken('-');
-        calculator.AddToken('1');
-        calculator.AddToken('+');
-        calculator.AddToken('5');
-        calculator.AddToken('0');
-        calculator.AddToken('-');
-        Assert.That(calculator.Value, Is.EqualTo(50.0).Within(0.001));
+        var input = "-10--20+30*-1=";
+
+        foreach (var token in input)
+        {
+            calculator.AddToken(token);
+        }
+
+        var expectedResult = "-40";
+
+        Assert.That(calculator.State, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void Calculator_OnIncorrectExpression()
+    {
+        var input = "==10++20//***30=";
+
+        foreach (var token in input)
+        {
+            calculator.AddToken(token);
+        }
+
+        var expectedResult = "1";
+
+        Assert.That(calculator.State, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void Calculator_TestingIntermediateStates()
+    {
+        var input = "10*20+";
+
+        string[] expectedStates = ["1", "10", "10*", "10*2", "10*20", "200+"];
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            calculator.AddToken(input[i]);
+            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+        }
+    }
+
+    [Test]
+    public void Calculator_TestingIntermediateStates_WithIncorrectExpression()
+    {
+        var input = "-10++20--20*/=20=";
+
+        string[] expectedStates =
+            ["-", "-1", "-10", "-10+", "-10+", "-10+2", "-10+20", "10-", "10--", "10--2", "10--20", "30*", "30*", "30*", "30*2", "30*20", "600"];
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            calculator.AddToken(input[i]);
+            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+        }
     }
 }

@@ -68,7 +68,7 @@ public class App : Avalonia.Application
         {
             if (child is Display display)
             {
-                display.Text = calculator.Output;
+                display.Text = calculator.State;
             }
         }
     }
