@@ -31,7 +31,7 @@ public class DigitButton : Button
                 new TextBlock
                 {
                     Text = symbol.ToString(),
-                    FontSize = 16,
+                    FontSize = 18,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 },

@@ -14,8 +14,8 @@ public class Display : TextBlock
         Height = Preferences.CellSize;
         Background = Brushes.MistyRose;
         Foreground = Brushes.Black;
-        Text = "DISPLAY";
-        FontSize = 16;
+        Text = string.Empty;
+        FontSize = 18;
         TextAlignment = TextAlignment.Center;
         HorizontalAlignment = HorizontalAlignment.Center;
         VerticalAlignment = VerticalAlignment.Center;
