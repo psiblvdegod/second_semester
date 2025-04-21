@@ -6,10 +6,19 @@ public class Calculator : ICalculator
 
     public void AddToken(char token)
     {
+        if (token == 'C')
+        {
+            isStart = true;
+            Value = default;
+            operandBuffer = string.Empty;
+            operatorBuffer = default;
+        }
+
         if (Digits.Contains(token))
         {
             operandBuffer += token;
         }
+
         else if (ValidOperations.ContainsKey(token))
         {
             var parsed = double.Parse(operandBuffer);
@@ -21,7 +30,7 @@ public class Calculator : ICalculator
     }
 
     public string Output
-        => isStart ? $"{operandBuffer}" : $"{Value} {operatorBuffer} {operandBuffer}";
+        => isStart ? $"{operandBuffer}" : $"{Math.Round(Value, 3)} {operatorBuffer} {operandBuffer}";
 
     private bool isStart = true;
 
