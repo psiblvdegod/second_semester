@@ -6,32 +6,17 @@ public class Calculator : ICalculator
 
     public void AddToken(char token)
     {
-        if (isStart)
+        if (Digits.Contains(token))
         {
-            if (Digits.Contains(token))
-            {
-                operandBuffer += token;
-            }
-            else if (ValidOperations.ContainsKey(token))
-            {
-                Value = double.Parse(operandBuffer);
-                operationBuffer = token;
-                operandBuffer = string.Empty;
-                isStart = false;
-            }
+            operandBuffer += token;
         }
-        else
+        else if (ValidOperations.ContainsKey(token))
         {
-            if (Digits.Contains(token))
-            {
-                operandBuffer += token;
-            }
-            else if (ValidOperations.ContainsKey(token))
-            {
-                Value = ValidOperations[operationBuffer](Value, double.Parse(operandBuffer));
-                operationBuffer = token;
-                operandBuffer = string.Empty;
-            }
+            var parsed = double.Parse(operandBuffer);
+            Value = isStart ? parsed : ValidOperations[operationBuffer](Value, parsed);
+            operationBuffer = token;
+            operandBuffer = string.Empty;
+            isStart = false;
         }
     }
 
