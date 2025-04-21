@@ -4,7 +4,7 @@ namespace GUI;
 
 public class MainWindow : Window
 {
-    private Grid grid;
+    public Grid grid;
 
     public MainWindow()
     {

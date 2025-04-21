@@ -32,7 +32,7 @@ public static class Initialization
         {
             for (var j = 0; j < ButtonsContent[i].Length; ++j)
             {
-                var button = new DigitButton(ButtonsContent[i][j].ToString());
+                var button = new DigitButton(ButtonsContent[i][j]);
                 Grid.SetRow(button, i + 1);
                 Grid.SetColumn(button, j);
                 grid.Children.Add(button);
@@ -40,58 +40,5 @@ public static class Initialization
         }
 
         return grid;
-    }
-
-    public class DigitButton : Button
-    {
-        public DigitButton(string name)
-        {
-            Name = name;
-            Width = Preferences.CellSize;
-            Height = Preferences.CellSize;
-
-            this.Content = new Panel
-            {
-                Children = 
-                {
-                    new Ellipse
-                    {
-                        Fill = Brushes.LightPink,
-                        Stroke = Brushes.Black,
-                        StrokeThickness = 2,
-                        Width = Preferences.CellSize,
-                        Height = Preferences.CellSize,
-                        
-                    },
-                    new TextBlock
-                    {
-                        Text = name,
-                        FontSize = 16,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
-                    },
-                }
-            };
-
-            this.HorizontalContentAlignment = HorizontalAlignment.Center;
-            this.VerticalContentAlignment = VerticalAlignment.Center;
-        }
-    }
-
-    public class Display : TextBlock
-    {
-        public Display()
-        {
-            Name = "DISPLAY";
-            Width = Preferences.CellSize * Preferences.GridWidth;
-            Height = Preferences.CellSize;
-            Background = Brushes.MistyRose;
-            Foreground = Brushes.Black;
-            Text = "DISPLAY";
-            FontSize = 16;
-            TextAlignment = TextAlignment.Center;
-            HorizontalAlignment = HorizontalAlignment.Center;
-            VerticalAlignment = VerticalAlignment.Center;
-        }
     }
 }
