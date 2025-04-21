@@ -14,7 +14,7 @@ public class Calculator : ICalculator
             operatorBuffer = default;
         }
 
-        else if (Digits.Contains(token))
+        else if (Digits.Contains(token) || (token == '-' && operandBuffer == string.Empty))
         {
             operandBuffer += token;
         }
@@ -39,6 +39,7 @@ public class Calculator : ICalculator
             {
                 return;
             }
+
             if (!isStart)
             {
                 operandBuffer = ValidOperations[operatorBuffer](Value, double.Parse(operandBuffer)).ToString();
