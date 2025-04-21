@@ -5,11 +5,11 @@ using Avalonia.Media;
 
 namespace GUI;
 
-public class DigitButton : Button
+public class CalcButton : Button
 {
     public char Symbol { get; }
 
-    public DigitButton(char symbol)
+    public CalcButton(char symbol)
     {
         Symbol = symbol;
         Width = Preferences.CellSize;
@@ -21,17 +21,18 @@ public class DigitButton : Button
             {
                 new Ellipse
                 {
-                    Fill = Brushes.LightPink,
+                    Fill = Brushes.Cornsilk,
                     Stroke = Brushes.Black,
                     StrokeThickness = 2,
-                    Width = Preferences.CellSize,
-                    Height = Preferences.CellSize,
+                    Width = Preferences.CellSize * 0.95,
+                    Height = Preferences.CellSize * 0.95,
                     
                 },
                 new TextBlock
                 {
                     Text = symbol.ToString(),
-                    FontSize = 18,
+                    FontSize = 24,
+                    Foreground = Brushes.Black,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 },

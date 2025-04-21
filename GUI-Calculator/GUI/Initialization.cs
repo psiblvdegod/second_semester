@@ -32,7 +32,7 @@ public static class Initialization
         {
             for (var j = 0; j < ButtonsContent[i].Length; ++j)
             {
-                var button = new DigitButton(ButtonsContent[i][j]);
+                var button = new CalcButton(ButtonsContent[i][j]);
                 Grid.SetRow(button, i + 1);
                 Grid.SetColumn(button, j);
                 grid.Children.Add(button);

@@ -10,7 +10,7 @@ public class App : Avalonia.Application
 {
     private MainWindow? Window;
 
-    private Calculator calculator = new();
+    private readonly Calculator calculator = new();
 
     public override void OnFrameworkInitializationCompleted()
     {
@@ -33,7 +33,7 @@ public class App : Avalonia.Application
 
     private void ButtonHandler(object? sender, RoutedEventArgs args)
     {
-        if (sender is DigitButton button)
+        if (sender is CalcButton button)
         {
             calculator.AddToken(button.Symbol);
         }
