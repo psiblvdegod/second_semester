@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Calculator", "Calculator", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Tests", "Calculator.Tests\Calculator.Tests.csproj", "{EC9293DB-A3D6-4351-B36E-96D1C0D4EC6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{96049224-53FF-4580-92AF-D7360F6F93E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{9E100E9B-0819-41ED-ADDA-D3124EE249BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +30,14 @@ Global
 		{EC9293DB-A3D6-4351-B36E-96D1C0D4EC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC9293DB-A3D6-4351-B36E-96D1C0D4EC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC9293DB-A3D6-4351-B36E-96D1C0D4EC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96049224-53FF-4580-92AF-D7360F6F93E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96049224-53FF-4580-92AF-D7360F6F93E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96049224-53FF-4580-92AF-D7360F6F93E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96049224-53FF-4580-92AF-D7360F6F93E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E100E9B-0819-41ED-ADDA-D3124EE249BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E100E9B-0819-41ED-ADDA-D3124EE249BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E100E9B-0819-41ED-ADDA-D3124EE249BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E100E9B-0819-41ED-ADDA-D3124EE249BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{05D9F20B-0C58-45BD-9449-0987C4F2A43E} = {9EC34542-24D7-4AEB-B2AF-91977D195F38}
