@@ -8,7 +8,7 @@ namespace GUI;
 public static class Initialization
 {
 
-    public static string[] ButtonsContent { get; } = ["789", "456", "123", "0+-", "*/C"];
+    public static string[] ButtonsContent { get; } = ["789+", "456-", "123*", "0=C/"];
 
     public static Grid CreateGrid()
     {

@@ -14,18 +14,37 @@ public class Calculator : ICalculator
             operatorBuffer = default;
         }
 
-        if (Digits.Contains(token))
+        else if (Digits.Contains(token))
         {
             operandBuffer += token;
         }
 
         else if (ValidOperations.ContainsKey(token))
         {
+            if (operandBuffer == string.Empty)
+            {
+                return;
+            }
+
             var parsed = double.Parse(operandBuffer);
             Value = isStart ? parsed : ValidOperations[operatorBuffer](Value, parsed);
             operatorBuffer = token;
             operandBuffer = string.Empty;
             isStart = false;
+        }
+
+        else if (token == '=')
+        {
+            if (operandBuffer == string.Empty)
+            {
+                return;
+            }
+            if (!isStart)
+            {
+                operandBuffer = ValidOperations[operatorBuffer](Value, double.Parse(operandBuffer)).ToString();
+            }
+
+            isStart = true;
         }
     }
 

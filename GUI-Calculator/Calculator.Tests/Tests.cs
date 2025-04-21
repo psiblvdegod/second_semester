@@ -11,25 +11,33 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void Calculator_OnSimpleCorrectInput()
     {
-        calculator.AddToken('1');
-        calculator.AddToken('2');
-        calculator.AddToken('+');
-        calculator.AddToken('3');
-        calculator.AddToken('-');
-        Assert.That(calculator.Value, Is.EqualTo(15.0).Within(0.001));
+        var input = "12+3-";
+
+        foreach (var token in input)
+        {
+            calculator.AddToken(token);
+        }
+
+        var expectedResult = 15.0;
+
+        Assert.That(calculator.Value, Is.EqualTo(expectedResult).Within(0.001));
     }
 
     [Test]
-    public void Test2()
+    public void Calculator_OnNumbersWhichStartWithZero()
     {
-        calculator.AddToken('1');
-        calculator.AddToken('*');
-        calculator.AddToken('2');
-        calculator.AddToken('3');
-        calculator.AddToken('-');
-        Assert.That(calculator.Value, Is.EqualTo(23.0).Within(0.001));
+        var input = "01*0023-";
+
+        foreach (var token in input)
+        {
+            calculator.AddToken(token);
+        }
+        
+        var expectedResult = 23.0;
+        
+        Assert.That(calculator.Value, Is.EqualTo(expectedResult).Within(0.001));
     }
 
     [Test]
