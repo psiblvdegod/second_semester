@@ -1,15 +1,15 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Tmds.DBus.Protocol;
-using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 
 namespace GUI;
 
 public static class Initialization
 {
 
-    public static string ButtonsContent { get; }= "123";
+    public static string[] ButtonsContent { get; } = ["789", "456", "123", "0+*"];
 
     public static Grid CreateGrid()
     {
@@ -24,52 +24,70 @@ public static class Initialization
             grid.ColumnDefinitions.Add(new ColumnDefinition{Width = new GridLength(Preferences.CellSize)});
         }
 
-        var display = CreateDisplay();
+        var display = new Display();
         Grid.SetRow(display, 0);
         Grid.SetColumn(display, Preferences.GridWidth / 2);
         grid.Children.Add(display);
 
         for (var i = 0; i < ButtonsContent.Length; ++i)
         {
-            var button = CreateButton(ButtonsContent[i].ToString());
-            Grid.SetRow(button, 1);
-            Grid.SetColumn(button, i);
-            grid.Children.Add(button);
+            for (var j = 0; j < ButtonsContent[i].Length; ++j)
+            {
+                var button = new DigitButton(ButtonsContent[i][j].ToString());
+                Grid.SetRow(button, i + 1);
+                Grid.SetColumn(button, j);
+                grid.Children.Add(button);
+            }
         }
 
         return grid;
     }
 
-    public static Button CreateButton(string name)
+    public class DigitButton : Button
     {
-        var control = new Button
+        public DigitButton(string name)
         {
-            Name = name,
-            Width = Preferences.CellSize,
-            Height = Preferences.CellSize,
-            Background = Brushes.HotPink,
-            Content = new TextBlock
-            {
-                Text = name,
-                FontSize = 16,
-                Foreground = Brushes.White,
-            }
-        };
+            Name = name;
+            Width = Preferences.CellSize;
+            Height = Preferences.CellSize;
 
-        return control;
+            this.Content = new Panel
+            {
+                Children = 
+                {
+                    new Ellipse
+                    {
+                        Fill = Brushes.LightPink,
+                        Stroke = Brushes.Black,
+                        StrokeThickness = 2,
+                        Width = Preferences.CellSize,
+                        Height = Preferences.CellSize,
+                        
+                    },
+                    new TextBlock
+                    {
+                        Text = name,
+                        FontSize = 16,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    },
+                }
+            };
+
+            this.HorizontalContentAlignment = HorizontalAlignment.Center;
+            this.VerticalContentAlignment = VerticalAlignment.Center;
+        }
     }
 
-    public static TextBlock CreateDisplay()
+    public class Display : TextBlock
     {
-        var control = new TextBlock
+        public Display()
         {
-            Name = "DISPLAY",
-            Width = Preferences.CellSize * Preferences.GridWidth,
-            Height = Preferences.CellSize,
-            Background = Brushes.GhostWhite,
-            Text = "DISPLAY",
-        };
-
-        return control;
+            Name = "DISPLAY";
+            Width = Preferences.CellSize * Preferences.GridWidth;
+            Height = Preferences.CellSize;
+            Background = Brushes.GhostWhite;
+            Text = "DISPLAY";
+        }
     }
 }
