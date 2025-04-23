@@ -1,11 +1,16 @@
-using Avalonia.Controls;
-using Avalonia.Media;
-
 namespace GUI;
+
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using System.ComponentModel;
+using Calculator;
 
 public class MainWindow : Window
 {
-    public Grid grid;
+    private readonly ButtonsGrid grid;
+    
+    private readonly Display display;
 
     public MainWindow()
     {
@@ -15,11 +20,31 @@ public class MainWindow : Window
         Height = Preferences.WindowHeight;
         Background = Brushes.Azure;
 
-        this.grid = Initialization.CreateGrid();
+        this.grid = new ButtonsGrid();
+        this.display = new Display();
 
         this.Content = new Panel
         { 
-            Children = { grid, },
+            Children = { grid, display},
         };
+    }
+
+    public void SubToButtons(EventHandler<RoutedEventArgs> handler)
+    {
+        foreach (var child in grid.Children)
+        {
+            if (child is CalcButton button)
+            {
+                button.Click += handler;
+            }
+        }
+    }
+
+    public void UpdateDisplay(object? sender, PropertyChangedEventArgs args)
+    {
+        if (sender is Calculator calculator)
+        {
+            display.Data = calculator.State;
+        }
     }
 }

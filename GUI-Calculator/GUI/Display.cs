@@ -1,21 +1,43 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Controls.Shapes;
 
 namespace GUI;
 
-public class Display : TextBlock
+public class Display : Panel
 {
+    private readonly TextBlock textBlock;
+
     public Display()
     {
-        Width = Preferences.CellSize * Preferences.GridWidth;
-        Height = Preferences.CellSize;
-        Background = Brushes.Cornsilk;
-        Foreground = Brushes.Black;
-        Text = string.Empty;
-        FontSize = 18;
-        TextAlignment = TextAlignment.Center;
+        var back = new Rectangle
+        {
+            Width = Preferences.CellSize * Preferences.GridWidth * 0.95,
+            Height = Preferences.CellSize * 0.95,
+            Fill = Brushes.Cornsilk,
+            Stroke = Brushes.Black,
+            StrokeThickness = 2,
+        };
+
+        var front = new TextBlock
+        {
+            FontSize = 18,
+            TextAlignment = TextAlignment.Center,
+        };
+
+        this.textBlock = front;
+
+        Children.Add(back);
+        Children.Add(front);
+        
         HorizontalAlignment = HorizontalAlignment.Center;
-        VerticalAlignment = VerticalAlignment.Center;
+        VerticalAlignment = VerticalAlignment.Top;
+    }
+
+    public string Data
+    {
+        get => this.textBlock.Text ?? string.Empty;
+        set => this.textBlock.Text = value;
     }
 }
