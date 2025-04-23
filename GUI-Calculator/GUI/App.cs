@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 
 namespace GUI;
-
 using Calculator;
 
 public class App : Avalonia.Application
@@ -16,7 +15,8 @@ public class App : Avalonia.Application
     {
         this.Window = new MainWindow();
         ConfigureDesktop();
-        SubToButtons();
+        Window.SubToButtons(ButtonHandler);
+        calculator.PropertyChanged += Window.UpdateDisplay;
     }
 
     private void ConfigureDesktop()
@@ -36,40 +36,6 @@ public class App : Avalonia.Application
         if (sender is CalcButton button)
         {
             calculator.AddToken(button.Symbol);
-        }
-
-        UpdateDisplay();
-    }
-
-    private void SubToButtons()
-    {
-        if (this.Window is null)
-        {
-            Environment.FailFast("Main Window is null");
-        }
-
-        foreach (var child in this.Window.grid.Children)
-        {
-            if (child is Button button)
-            {
-                button.Click += ButtonHandler;
-            }
-        }
-    }
-
-    private void UpdateDisplay()
-    {
-        if (this.Window is null)
-        {
-            Environment.FailFast("Main Window is null");
-        }
-
-        foreach (var child in this.Window.grid.Children)
-        {
-            if (child is Display display)
-            {
-                display.Text = calculator.State;
-            }
         }
     }
 }
