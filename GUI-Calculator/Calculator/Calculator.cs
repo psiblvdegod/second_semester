@@ -1,6 +1,8 @@
-﻿namespace Calculator;
+﻿using System.ComponentModel;
 
-public class Calculator : ICalculator
+namespace Calculator;
+
+public class Calculator : ICalculator, INotifyPropertyChanged
 {
     public void AddToken(char token)
     {
@@ -40,7 +42,11 @@ public class Calculator : ICalculator
 
             isStart = true;
         }
+
+        PropertyChanged?.Invoke(this, new(nameof(State)));
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public string State
         => isStart ? $"{operandBuffer}" : $"{Math.Round(accumulator, 3)}{operatorBuffer}{operandBuffer}";
