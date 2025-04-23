@@ -1,9 +1,9 @@
+namespace GUI;
+
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 using Avalonia.Media;
-
-namespace GUI;
 
 public class CalcButton : Button
 {

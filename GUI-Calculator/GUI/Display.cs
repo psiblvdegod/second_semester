@@ -23,7 +23,8 @@ public class Display : Panel
         var front = new TextBlock
         {
             FontSize = 18,
-            TextAlignment = TextAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
         };
 
         this.textBlock = front;

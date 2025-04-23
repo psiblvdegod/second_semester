@@ -1,8 +1,7 @@
-﻿using Avalonia.Controls;
+﻿namespace GUI;
+
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
-
-namespace GUI;
 using Calculator;
 
 public class App : Avalonia.Application

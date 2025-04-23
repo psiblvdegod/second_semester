@@ -1,9 +1,6 @@
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.Layout;
-using Avalonia.Media;
-
 namespace GUI;
+
+using Avalonia.Controls;
 
 public class ButtonsGrid : Grid
 {
@@ -13,11 +10,11 @@ public class ButtonsGrid : Grid
     {
         for (var i = 0; i < Preferences.GridHeight; ++i)
         {
-            this.RowDefinitions.Add(new RowDefinition{Height = new GridLength(Preferences.CellSize)});
+            this.RowDefinitions.Add(new RowDefinition{ Height = new GridLength(Preferences.CellSize) });
         }
         for (var i = 0; i < Preferences.GridWidth; ++i)
         {
-            this.ColumnDefinitions.Add(new ColumnDefinition{Width = new GridLength(Preferences.CellSize)});
+            this.ColumnDefinitions.Add(new ColumnDefinition{ Width = new GridLength(Preferences.CellSize) });
         }
 
         for (var i = 0; i < ButtonsContent.Length; ++i)

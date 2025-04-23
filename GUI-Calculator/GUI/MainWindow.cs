@@ -25,7 +25,7 @@ public class MainWindow : Window
 
         this.Content = new Panel
         { 
-            Children = { grid, display},
+            Children = { grid, display, },
         };
     }
 

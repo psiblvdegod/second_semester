@@ -2,7 +2,7 @@
 
 namespace Calculator;
 
-public class Calculator : ICalculator, INotifyPropertyChanged
+public class Calculator : ICalculator<double>
 {
     public void AddToken(char token)
     {
@@ -49,7 +49,7 @@ public class Calculator : ICalculator, INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public string State
-        => isStart ? $"{operandBuffer}" : $"{Math.Round(accumulator, 3)}{operatorBuffer}{operandBuffer}";
+        => isStart ? $"{operandBuffer}" : $"{accumulator}{operatorBuffer}{operandBuffer}";
 
     private bool isStart = true;
 
