@@ -6,8 +6,10 @@ namespace Calculator;
 
 using System.ComponentModel;
 
-/// <inheritdoc/>
-public class Calculator : ICalculator<double>
+/// <summary>
+/// Implements calculator which calculates queries immediately.
+/// </summary>
+public class Calculator : INotifyPropertyChanged
 {
     /// <summary>
     /// Store intermediate states.
@@ -18,27 +20,41 @@ public class Calculator : ICalculator<double>
     private char operatorBuffer;
     private string operandBuffer = string.Empty;
 
-    /// <summary>
-    /// Notifies subscribers when State changes.
-    /// </summary>
+    /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
-    /// Gets operations which calculator supports.
+    /// Gets binary operations which calculator supports.
     /// </summary>
-    public static Dictionary<char, Func<double, double, double>> ValidOperations { get; } = new ()
+    public static Dictionary<char, Func<double, double, double>> BinaryOperations { get; } = new ()
     {
         ['+'] = (x, y) => x + y,
         ['*'] = (x, y) => x * y,
         ['-'] = (x, y) => x - y,
         ['/'] = (x, y) => x / y,
+        ['^'] = Math.Pow,
     };
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Gets unary operations which calculator supports.
+    /// </summary>
+    public static Dictionary<char, Func<double, double>> UnaryOperations { get; } = new ()
+    {
+        ['\u2191'] = Math.Ceiling,
+        ['\u2193'] = Math.Floor,
+    };
+
+    /// <summary>
+    /// Gets current expression stored in calculator.
+    /// </summary>
     public string State
         => this.isOperatorSpecified ? $"{this.accumulator}{this.operatorBuffer}{this.operandBuffer}" : $"{this.operandBuffer}";
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Adds token to current expression stored in calculator.
+    /// Token may be operator or symbol of operand.
+    /// </summary>
+    /// <param name="token">Token which will be added.</param>
     public void AddToken(char token)
     {
         if (token == 'C')
@@ -48,15 +64,19 @@ public class Calculator : ICalculator<double>
             this.isOperandSpecified = false;
             this.accumulator = default;
         }
-        else if (char.IsDigit(token) || (token == '-' && !this.isOperandSpecified))
+        else if (token == '.' || char.IsDigit(token) || (token == '-' && !this.isOperandSpecified))
         {
             this.operandBuffer += token;
             this.isOperandSpecified = true;
         }
-        else if (this.isOperandSpecified && ValidOperations.ContainsKey(token))
+        else if (this.isOperandSpecified && !this.isOperatorSpecified && UnaryOperations.ContainsKey(token))
+        {
+            this.operandBuffer = UnaryOperations[token](double.Parse(this.operandBuffer)).ToString();
+        }
+        else if (this.isOperandSpecified && BinaryOperations.ContainsKey(token))
         {
             var parsedOperand = double.Parse(this.operandBuffer);
-            this.accumulator = this.isOperatorSpecified ? ValidOperations[this.operatorBuffer](this.accumulator, parsedOperand) : parsedOperand;
+            this.accumulator = this.isOperatorSpecified ? BinaryOperations[this.operatorBuffer](this.accumulator, parsedOperand) : parsedOperand;
             this.operandBuffer = string.Empty;
             this.operatorBuffer = token;
             this.isOperandSpecified = false;
@@ -64,7 +84,7 @@ public class Calculator : ICalculator<double>
         }
         else if (this.isOperandSpecified && this.isOperatorSpecified && token == '=')
         {
-            this.operandBuffer = $"{ValidOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
+            this.operandBuffer = $"{BinaryOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
             this.isOperatorSpecified = false;
         }
         else
