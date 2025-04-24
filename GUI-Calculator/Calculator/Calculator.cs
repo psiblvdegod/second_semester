@@ -64,10 +64,14 @@ public class Calculator : INotifyPropertyChanged
             this.isOperandSpecified = false;
             this.accumulator = default;
         }
-        else if (token == '.' || char.IsDigit(token) || (token == '-' && !this.isOperandSpecified))
+        else if (char.IsDigit(token))
         {
             this.operandBuffer += token;
             this.isOperandSpecified = true;
+        }
+        else if (token == '.' || (token == '-' && !this.isOperandSpecified))
+        {
+            this.operandBuffer += token;
         }
         else if (this.isOperandSpecified && !this.isOperatorSpecified && UnaryOperations.ContainsKey(token))
         {
