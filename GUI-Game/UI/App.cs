@@ -4,6 +4,7 @@ using Avalonia.Input;
 
 namespace UI;
 
+using Avalonia.Interactivity;
 using Game;
 
 public class App : Avalonia.Application
@@ -17,6 +18,7 @@ public class App : Avalonia.Application
         this.Window = new MainWindow(game.map);
         ConfigureDesktop();
         this.Window.KeyDown += KeyHandler;
+        SubToButtons();
     }
 
     private void ConfigureDesktop()
@@ -75,6 +77,53 @@ public class App : Avalonia.Application
         UpdateStats();
     }
 
+    private void ButtonsHandler(object? sender, RoutedEventArgs args)
+    {
+        if (Window is null)
+        {
+            throw new ();
+        }
+
+        if (sender is MoveButton moveButton)
+        {
+            var key = moveButton.Symbol;
+            var x = game.player.Position.x;
+            var y = game.player.Position.y; 
+
+            if (key == 'W' && game.MoveUp(game.player))
+            {
+                SwapCells((x, y), (x, y - 1));
+            }
+            else if (key == 'A' && game.MoveLeft(game.player))
+            {
+                SwapCells((x, y), (x - 1, y));
+            }
+            else if (key == 'S' && game.MoveDown(game.player))
+            {
+                SwapCells((x, y), (x, y + 1));
+            }
+            else if (key == 'D' && game.MoveRight(game.player))
+            {
+                SwapCells((x, y), (x + 1, y));
+            }
+            else 
+            {
+                return;
+            }
+
+            var newEnemyPos = game.AddEnemy();
+            if (newEnemyPos != default)
+            {
+                Window.PopCell(newEnemyPos);
+                Window.SetCell(newEnemyPos, Initialization.CreateEnemy());
+            }
+
+            MoveEnemies();
+
+            UpdateStats();
+        }
+    }
+
     private void SwapCells((int x, int y) pos1, (int x, int y) pos2)
     {
         ArgumentNullException.ThrowIfNull(Window);
@@ -127,6 +176,28 @@ public class App : Avalonia.Application
                             {
                                 stat.Text = $"{Preferences.StatsMovesName}: {game.stats.Moves}";
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void SubToButtons()
+    {
+        ArgumentNullException.ThrowIfNull(Window);
+
+        if (this.Window.Content is Panel panel)
+        {
+            foreach (var child in panel.Children)
+            {
+                if (child is ButtonsPanel buttons)
+                {
+                    foreach (var button in buttons.Children)
+                    {
+                        if (button is MoveButton moveButton)
+                        {
+                            moveButton.Click += ButtonsHandler;
                         }
                     }
                 }
