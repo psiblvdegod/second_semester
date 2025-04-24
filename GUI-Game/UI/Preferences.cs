@@ -1,3 +1,5 @@
+using System.Dynamic;
+
 namespace UI;
 
 public static class Preferences
@@ -29,6 +31,10 @@ public static class Preferences
     public static string StatsKillsName { get; } = "KILLS";
 
     public static string StatsMovesName { get; } = "MOVES";
+
+    public static string LogoPath { get; } = "./Images/Logo.png";
+
+    public static string LogoName { get; } = "LOGO";
 
     public static string StatsName { get; } = "STATS";
 

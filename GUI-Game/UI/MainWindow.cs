@@ -10,6 +10,8 @@ public class MainWindow : Window
 
     public ButtonsPanel buttons = new();
 
+    // public Logo logo = new ();
+
     public MainWindow(char[][] map)
     {
         CanResize = false;
@@ -24,7 +26,7 @@ public class MainWindow : Window
         {
             Children =
             { 
-                grid, statistics, buttons
+                grid, statistics, buttons, // logo
             }
         };
     }
