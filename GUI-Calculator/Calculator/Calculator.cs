@@ -9,14 +9,13 @@ using System.ComponentModel;
 /// <inheritdoc/>
 public class Calculator : ICalculator<double>
 {
+    /// <summary>
+    /// Store intermediate states.
+    /// </summary>
     private bool isOperatorSpecified = false;
-
     private bool isOperandSpecified = false;
-
     private double accumulator;
-
     private char operatorBuffer;
-
     private string operandBuffer = string.Empty;
 
     /// <summary>
@@ -37,45 +36,35 @@ public class Calculator : ICalculator<double>
 
     /// <inheritdoc/>
     public string State
-        => !this.isOperatorSpecified ? $"{this.operandBuffer}" : $"{this.accumulator}{this.operatorBuffer}{this.operandBuffer}";
+        => this.isOperatorSpecified ? $"{this.accumulator}{this.operatorBuffer}{this.operandBuffer}" : $"{this.operandBuffer}";
 
     /// <inheritdoc/>
     public void AddToken(char token)
     {
         if (token == 'C')
         {
+            this.operandBuffer = string.Empty;
             this.isOperatorSpecified = false;
             this.isOperandSpecified = false;
             this.accumulator = default;
-            this.operandBuffer = string.Empty;
-            this.operatorBuffer = default;
         }
         else if (char.IsDigit(token) || (token == '-' && !this.isOperandSpecified))
         {
             this.operandBuffer += token;
             this.isOperandSpecified = true;
         }
-        else if (!this.isOperandSpecified)
+        else if (this.isOperandSpecified && ValidOperations.ContainsKey(token))
         {
-            return;
-        }
-        else if (ValidOperations.ContainsKey(token))
-        {
-            var parsed = double.Parse(this.operandBuffer);
-            this.accumulator = !this.isOperatorSpecified ? parsed : ValidOperations[this.operatorBuffer](this.accumulator, parsed);
-            this.operatorBuffer = token;
+            var parsedOperand = double.Parse(this.operandBuffer);
+            this.accumulator = this.isOperatorSpecified ? ValidOperations[this.operatorBuffer](this.accumulator, parsedOperand) : parsedOperand;
             this.operandBuffer = string.Empty;
+            this.operatorBuffer = token;
             this.isOperandSpecified = false;
             this.isOperatorSpecified = true;
         }
-        else if (token == '=')
+        else if (this.isOperandSpecified && this.isOperatorSpecified && token == '=')
         {
-            if (this.isOperatorSpecified)
-            {
-                this.operandBuffer = $"{ValidOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
-                this.isOperandSpecified = true;
-            }
-
+            this.operandBuffer = $"{ValidOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
             this.isOperatorSpecified = false;
         }
 
