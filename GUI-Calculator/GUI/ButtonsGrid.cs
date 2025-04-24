@@ -4,7 +4,7 @@ using Avalonia.Controls;
 
 public class ButtonsGrid : Grid
 {
-    public static string[] ButtonsContent { get; } = ["789+", "456-", "123*", "0=C/"];
+    public static string[] ButtonsContent { get; } = ["789+", "456-", "123*", "0.=/", "C\u2191\u2193^"];
 
     public ButtonsGrid()
     {
