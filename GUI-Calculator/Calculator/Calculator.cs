@@ -69,7 +69,12 @@ public class Calculator : INotifyPropertyChanged
             this.operandBuffer += token;
             this.isOperandSpecified = true;
         }
-        else if (token == '.' || (token == '-' && !this.isOperandSpecified))
+        else if (token == '.' && this.isOperandSpecified && !this.operandBuffer.Contains('.'))
+        {
+            this.operandBuffer += token;
+            this.isOperandSpecified = false;
+        }
+        else if (token == '-' && !this.isOperandSpecified && !this.operandBuffer.Contains('-'))
         {
             this.operandBuffer += token;
         }
