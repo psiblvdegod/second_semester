@@ -64,6 +64,10 @@ public class Calculator : INotifyPropertyChanged
             this.isOperandSpecified = false;
             this.accumulator = default;
         }
+        else if (token == '-' && this.operandBuffer == string.Empty)
+        {
+            this.operandBuffer += token;
+        }
         else if (char.IsDigit(token))
         {
             this.operandBuffer += token;
@@ -73,10 +77,6 @@ public class Calculator : INotifyPropertyChanged
         {
             this.operandBuffer += token;
             this.isOperandSpecified = false;
-        }
-        else if (token == '-' && !this.isOperandSpecified && !this.operandBuffer.Contains('-'))
-        {
-            this.operandBuffer += token;
         }
         else if (this.isOperandSpecified && !this.isOperatorSpecified && UnaryOperations.ContainsKey(token))
         {
