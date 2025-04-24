@@ -12,8 +12,8 @@ public class Calculator : ICalculator<double>
     /// <summary>
     /// Store intermediate states.
     /// </summary>
-    private bool isOperatorSpecified = false;
-    private bool isOperandSpecified = false;
+    private bool isOperatorSpecified;
+    private bool isOperandSpecified;
     private double accumulator;
     private char operatorBuffer;
     private string operandBuffer = string.Empty;
@@ -66,6 +66,10 @@ public class Calculator : ICalculator<double>
         {
             this.operandBuffer = $"{ValidOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
             this.isOperatorSpecified = false;
+        }
+        else
+        {
+            return;
         }
 
         this.PropertyChanged?.Invoke(this, new (nameof(this.State)));
