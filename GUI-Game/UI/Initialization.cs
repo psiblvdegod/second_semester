@@ -8,7 +8,11 @@ public static class Initialization
 {
     public static Grid CreateGrid(char[][] map)
     {
-        var grid = new Grid();
+        var grid = new Grid
+        {
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+        };
 
         for (int i = 0; i < Preferences.MapHeight; ++i)
         {
@@ -111,7 +115,7 @@ public static class Initialization
             Name = Preferences.StatsName,
             Background = Brushes.LightPink,
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top,
             Children =
             {
                 new TextBlock

@@ -2,7 +2,7 @@
 
 public class Game
 {
-    public Entity player = new(Preferences.InitialPosition, Preferences.PlayerSymbol);
+    public Entity player = new (Preferences.InitialPosition, Preferences.PlayerSymbol);
 
     public List<Entity> enemies = [];
 

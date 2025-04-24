@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Linq.Expressions;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
-using Game;
 
 namespace UI;
+
+using Game;
 
 public class App : Avalonia.Application
 {
     private MainWindow? Window;
 
-    private readonly Game.Game game = new();
+    private readonly Game game = new();
 
     public override void OnFrameworkInitializationCompleted()
     {
@@ -36,7 +35,7 @@ public class App : Avalonia.Application
     {
         if (Window is null)
         {
-            throw new();
+            throw new ();
         }
 
         var x = game.player.Position.x;
@@ -58,6 +57,10 @@ public class App : Avalonia.Application
         else if (key == Key.D && game.MoveRight(game.player))
         {
             SwapCells((x, y), (x + 1, y));
+        }
+        else 
+        {
+            return;
         }
 
         var newEnemyPos = game.AddEnemy();

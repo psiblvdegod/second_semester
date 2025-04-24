@@ -10,6 +10,10 @@ public class MainWindow : Window
 
     public MainWindow(char[][] map)
     {
+        CanResize = false;
+        Width = Preferences.WindowWidth;
+        Height = Preferences.WindowHeight;
+
         grid = Initialization.CreateGrid(map);
 
         statistics = Initialization.CreateStatistics();

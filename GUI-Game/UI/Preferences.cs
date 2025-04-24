@@ -8,6 +8,10 @@ public static class Preferences
 
     public static int CellSize { get; } = 45;
 
+    public static int WindowWidth { get; } = MapWidth * CellSize;
+
+    public static int WindowHeight { get; } = (MapHeight + 3) * CellSize;
+
     public static string SpaceName { get; } = "SPACE";
 
     public static string BorderName { get; } = "BORDER";
