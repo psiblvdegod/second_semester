@@ -4,6 +4,11 @@ public class Tests
 {
     Calculator calculator;
 
+    private static readonly char floor =
+        Calculator.UnaryOperations.First(x => x.Value == Math.Floor).Key;
+    private static readonly char ceiling =
+        Calculator.UnaryOperations.First(x => x.Value == Math.Ceiling).Key;
+
     [SetUp]
     public void Setup()
     {
@@ -96,6 +101,57 @@ public class Tests
         {
             calculator.AddToken(input[i]);
             Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+        }
+    }
+
+    [Test]
+    public void Calculator_TestingUnaryOperations()
+    {
+        var input = $"10.5{floor}.25{ceiling}+2.01={ceiling}";
+
+        string[] expectedStates =
+            ["1", "10", "10.", "10.5", "10", "10.", "10.2", "10.25", "11", "11+", "11+2", "11+2.", "11+2.0", "11+2.01", "13.01", "14"];
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            calculator.AddToken(input[i]);
+            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+        }
+    }
+
+    [Test]
+    public void Calculator_TestingUnaryAndBinaryOperations()
+    {
+        var input = $"2^4+0.5={ceiling}*1.5={floor}";
+
+        string[] expectedStates =
+            ["2", "2^", "2^4", "16+", "16+0", "16+0.", "16+0.5", "16.5", "17", "17*", "17*1", "17*1.", "17*1.5", "25.5", "25"];
+
+        for (var i = 0; i < input.Length; ++i)
+        {
+            calculator.AddToken(input[i]);
+            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+        }
+    }
+
+    [Test]
+    public void Calculator_WhenGetsOperatorsWithNoOperands_ShouldNotReact()
+    {
+        var tokens = $"{floor}{ceiling}/*=+^";
+
+        for (var i = 0; i < tokens.Length; ++i)
+        {
+            calculator.AddToken(tokens[i]);
+            Assert.That(calculator.State, Is.EqualTo(string.Empty));
+        }
+
+        calculator.AddToken('-');
+        Assert.That(calculator.State, Is.EqualTo("-"));
+
+        for (var i = 0; i < tokens.Length; ++i)
+        {
+            calculator.AddToken(tokens[i]);
+            Assert.That(calculator.State, Is.EqualTo("-"));
         }
     }
 }
