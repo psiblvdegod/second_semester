@@ -1,69 +1,78 @@
-﻿using System.ComponentModel;
+﻿// <copyright file="Calculator.cs"> author="psiblvdegod"
+// under MIT License.
+// </copyright>
 
 namespace Calculator;
 
+using System.ComponentModel;
+
+/// <inheritdoc/>
 public class Calculator : ICalculator<double>
 {
-    public void AddToken(char token)
-    {
-        if (token == 'C')
-        {
-            isStart = true;
-            accumulator = default;
-            operandBuffer = string.Empty;
-            operatorBuffer = default;
-        }
-
-        else if (char.IsDigit(token) || (token == '-' && operandBuffer == string.Empty))
-        {
-            operandBuffer += token;
-        }
-
-        else if (operandBuffer == string.Empty)
-        {
-            return;
-        }
-
-        else if (ValidOperations.ContainsKey(token))
-        {
-            var parsed = double.Parse(operandBuffer);
-            accumulator = isStart ? parsed : ValidOperations[operatorBuffer](accumulator, parsed);
-            operatorBuffer = token;
-            operandBuffer = string.Empty;
-            isStart = false;
-        }
-
-        else if (token == '=')
-        {
-            if (!isStart)
-            {
-                operandBuffer = $"{ValidOperations[operatorBuffer](accumulator, double.Parse(operandBuffer))}";
-            }
-
-            isStart = true;
-        }
-
-        PropertyChanged?.Invoke(this, new(nameof(State)));
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public string State
-        => isStart ? $"{operandBuffer}" : $"{accumulator}{operatorBuffer}{operandBuffer}";
-
     private bool isStart = true;
 
     private double accumulator;
-    
+
     private char operatorBuffer;
 
     private string operandBuffer = string.Empty;
 
-    public static readonly Dictionary<char, Func<double, double, double>> ValidOperations = new()
+    /// <summary>
+    /// Notifies subscribers when State changes.
+    /// </summary>
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    /// <summary>
+    /// Gets operations which calculator supports.
+    /// </summary>
+    public static Dictionary<char, Func<double, double, double>> ValidOperations { get; } = new ()
     {
-        ['+'] = (x,y) => x + y,
-        ['*'] = (x,y) => x * y,
-        ['-'] = (x,y) => x - y,
-        ['/'] = (x,y) => x / y,
+        ['+'] = (x, y) => x + y,
+        ['*'] = (x, y) => x * y,
+        ['-'] = (x, y) => x - y,
+        ['/'] = (x, y) => x / y,
     };
+
+    /// <inheritdoc/>
+    public string State
+        => this.isStart ? $"{this.operandBuffer}" : $"{this.accumulator}{this.operatorBuffer}{this.operandBuffer}";
+
+    /// <inheritdoc/>
+    public void AddToken(char token)
+    {
+        if (token == 'C')
+        {
+            this.isStart = true;
+            this.accumulator = default;
+            this.operandBuffer = string.Empty;
+            this.operatorBuffer = default;
+        }
+        else if (char.IsDigit(token) || (token == '-' && this.operandBuffer == string.Empty))
+        {
+            this.operandBuffer += token;
+        }
+        else if (this.operandBuffer == string.Empty)
+        {
+            return;
+        }
+        else if (ValidOperations.ContainsKey(token))
+        {
+            var parsed = double.Parse(this.operandBuffer);
+            this.accumulator = this.isStart ? parsed : ValidOperations[this.operatorBuffer](this.accumulator, parsed);
+            this.operatorBuffer = token;
+            this.operandBuffer = string.Empty;
+            this.isStart = false;
+        }
+        else if (token == '=')
+        {
+            if (!this.isStart)
+            {
+                this.operandBuffer = $"{ValidOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
+            }
+
+            this.isStart = true;
+        }
+
+        this.PropertyChanged?.Invoke(this, new (nameof(this.State)));
+    }
 }
