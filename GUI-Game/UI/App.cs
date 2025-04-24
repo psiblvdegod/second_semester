@@ -113,7 +113,7 @@ public class App : Avalonia.Application
         {
             foreach (var child in panel.Children)
             {
-                if (child is StackPanel stats && child.Name == Preferences.StatsName)
+                if (child is Panel stats && child.Name == Preferences.StatsName)
                 {
                     foreach (var block in stats.Children)
                     {

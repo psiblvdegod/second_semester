@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
@@ -107,21 +108,30 @@ public static class Initialization
         return control;
     }
 
-    public static StackPanel CreateStatistics()
+    public static Panel CreateStatistics()
     {
-        var control = new StackPanel
+        var control = new Panel
         {
-            Orientation = Avalonia.Layout.Orientation.Horizontal,
             Name = Preferences.StatsName,
-            Background = Brushes.LightPink,
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top,
             Children =
             {
-                new TextBlock
+                new Rectangle
                 {
                     VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
                     HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                    Width = Preferences.StatsBlockWidth * 2.25,
+                    Height = Preferences.StatsBlockHeight * 1.1,
+                    Stroke = Brushes.Black,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Cornsilk,
+                },
+                new TextBlock
+                {
+                    VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left,
+                    TextAlignment = TextAlignment.Center,
                     Name = Preferences.StatsKillsName,
                     Text = $"{Preferences.StatsKillsName}: 0",
                     Width = Preferences.StatsBlockWidth,
@@ -132,13 +142,14 @@ public static class Initialization
                 new TextBlock
                 {
                     VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                    TextAlignment = TextAlignment.Center,
                     Name = Preferences.StatsMovesName,
                     Text = $"{Preferences.StatsMovesName}: 0",
                     Width = Preferences.StatsBlockWidth,
                     Height = Preferences.StatsBlockHeight,
                     FontSize = 14,
-                }
+                },
             }
         };
 

@@ -12,8 +12,8 @@ public class MoveButton : Button
     public MoveButton(char symbol)
     {
         Symbol = symbol;
-        Width = Preferences.CellSize;
-        Height = Preferences.CellSize;
+        Width = Preferences.CellSize * 1.2;
+        Height = Preferences.CellSize * 1.2;
 
         this.Content = new Panel
         {
@@ -24,8 +24,8 @@ public class MoveButton : Button
                     Fill = Brushes.Cornsilk,
                     Stroke = Brushes.Black,
                     StrokeThickness = 2,
-                    Width = Preferences.CellSize * 0.95,
-                    Height = Preferences.CellSize * 0.95,
+                    Width = Preferences.CellSize * 1.1,
+                    Height = Preferences.CellSize * 1.1,
                     
                 },
                 new TextBlock

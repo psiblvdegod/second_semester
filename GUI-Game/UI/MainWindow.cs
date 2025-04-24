@@ -6,7 +6,9 @@ public class MainWindow : Window
 {
     private Grid grid;
 
-    public StackPanel statistics { get; set; }
+    public Panel statistics { get; set; }
+
+    public ButtonsPanel buttons = new();
 
     public MainWindow(char[][] map)
     {
@@ -22,7 +24,7 @@ public class MainWindow : Window
         {
             Children =
             { 
-                grid, statistics,
+                grid, statistics, buttons
             }
         };
     }
