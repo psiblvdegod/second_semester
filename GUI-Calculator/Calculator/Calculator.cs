@@ -9,7 +9,9 @@ using System.ComponentModel;
 /// <inheritdoc/>
 public class Calculator : ICalculator<double>
 {
-    private bool isStart = true;
+    private bool isOperatorSpecified = false;
+
+    private bool isOperandSpecified = false;
 
     private double accumulator;
 
@@ -35,42 +37,46 @@ public class Calculator : ICalculator<double>
 
     /// <inheritdoc/>
     public string State
-        => this.isStart ? $"{this.operandBuffer}" : $"{this.accumulator}{this.operatorBuffer}{this.operandBuffer}";
+        => !this.isOperatorSpecified ? $"{this.operandBuffer}" : $"{this.accumulator}{this.operatorBuffer}{this.operandBuffer}";
 
     /// <inheritdoc/>
     public void AddToken(char token)
     {
         if (token == 'C')
         {
-            this.isStart = true;
+            this.isOperatorSpecified = false;
+            this.isOperandSpecified = false;
             this.accumulator = default;
             this.operandBuffer = string.Empty;
             this.operatorBuffer = default;
         }
-        else if (char.IsDigit(token) || (token == '-' && this.operandBuffer == string.Empty))
+        else if (char.IsDigit(token) || (token == '-' && !this.isOperandSpecified))
         {
             this.operandBuffer += token;
+            this.isOperandSpecified = true;
         }
-        else if (this.operandBuffer == string.Empty)
+        else if (!this.isOperandSpecified)
         {
             return;
         }
         else if (ValidOperations.ContainsKey(token))
         {
             var parsed = double.Parse(this.operandBuffer);
-            this.accumulator = this.isStart ? parsed : ValidOperations[this.operatorBuffer](this.accumulator, parsed);
+            this.accumulator = !this.isOperatorSpecified ? parsed : ValidOperations[this.operatorBuffer](this.accumulator, parsed);
             this.operatorBuffer = token;
             this.operandBuffer = string.Empty;
-            this.isStart = false;
+            this.isOperandSpecified = false;
+            this.isOperatorSpecified = true;
         }
         else if (token == '=')
         {
-            if (!this.isStart)
+            if (this.isOperatorSpecified)
             {
                 this.operandBuffer = $"{ValidOperations[this.operatorBuffer](this.accumulator, double.Parse(this.operandBuffer))}";
+                this.isOperandSpecified = true;
             }
 
-            this.isStart = true;
+            this.isOperatorSpecified = false;
         }
 
         this.PropertyChanged?.Invoke(this, new (nameof(this.State)));
