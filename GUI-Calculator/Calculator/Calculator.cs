@@ -1,5 +1,5 @@
-﻿// <copyright file="Calculator.cs"> author="psiblvdegod"
-// under MIT License.
+﻿// <copyright file="Calculator.cs" author="psiblvdegod">
+// under MIT License
 // </copyright>
 
 namespace Calculator;
@@ -26,7 +26,7 @@ public class Calculator : INotifyPropertyChanged
     /// <summary>
     /// Gets binary operations which calculator supports.
     /// </summary>
-    public static Dictionary<char, Func<double, double, double>> BinaryOperations { get; } = new ()
+    public static Dictionary<char, Func<double, double, double>> BinaryOperations { get; } = new()
     {
         ['+'] = (x, y) => x + y,
         ['*'] = (x, y) => x * y,
@@ -38,7 +38,7 @@ public class Calculator : INotifyPropertyChanged
     /// <summary>
     /// Gets unary operations which calculator supports.
     /// </summary>
-    public static Dictionary<char, Func<double, double>> UnaryOperations { get; } = new ()
+    public static Dictionary<char, Func<double, double>> UnaryOperations { get; } = new()
     {
         ['\u2191'] = Math.Ceiling,
         ['\u2193'] = Math.Floor,
@@ -101,6 +101,6 @@ public class Calculator : INotifyPropertyChanged
             return;
         }
 
-        this.PropertyChanged?.Invoke(this, new (nameof(this.State)));
+        this.PropertyChanged?.Invoke(this, new(nameof(this.State)));
     }
 }

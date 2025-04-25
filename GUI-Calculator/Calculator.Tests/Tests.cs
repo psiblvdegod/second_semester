@@ -1,18 +1,28 @@
-﻿namespace Calculator.Tests;
+﻿// <copyright file="Tests.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
 
+#pragma warning disable SA1600
+
+namespace Calculator.Tests;
+
+/// <summary>
+/// Tests Calculator class.
+/// </summary>
 public class Tests
 {
-    Calculator calculator;
-
-    private static readonly char floor =
+    private static readonly char Floor =
         Calculator.UnaryOperations.First(x => x.Value == Math.Floor).Key;
-    private static readonly char ceiling =
+
+    private static readonly char Ceiling =
         Calculator.UnaryOperations.First(x => x.Value == Math.Ceiling).Key;
+
+    private Calculator calculator;
 
     [SetUp]
     public void Setup()
     {
-        calculator = new();
+        this.calculator = new();
     }
 
     [Test]
@@ -22,12 +32,12 @@ public class Tests
 
         foreach (var token in input)
         {
-            calculator.AddToken(token);
+            this.calculator.AddToken(token);
         }
 
         var expectedResult = "15";
 
-        Assert.That(calculator.State, Is.EqualTo(expectedResult));
+        Assert.That(this.calculator.State, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -37,12 +47,12 @@ public class Tests
 
         foreach (var token in input)
         {
-            calculator.AddToken(token);
+            this.calculator.AddToken(token);
         }
-        
+
         var expectedResult = "23";
-        
-        Assert.That(calculator.State, Is.EqualTo(expectedResult));
+
+        Assert.That(this.calculator.State, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -52,12 +62,12 @@ public class Tests
 
         foreach (var token in input)
         {
-            calculator.AddToken(token);
+            this.calculator.AddToken(token);
         }
 
         var expectedResult = "-40";
 
-        Assert.That(calculator.State, Is.EqualTo(expectedResult));
+        Assert.That(this.calculator.State, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -67,12 +77,12 @@ public class Tests
 
         foreach (var token in input)
         {
-            calculator.AddToken(token);
+            this.calculator.AddToken(token);
         }
 
         var expectedResult = "1";
 
-        Assert.That(calculator.State, Is.EqualTo(expectedResult));
+        Assert.That(this.calculator.State, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -84,8 +94,8 @@ public class Tests
 
         for (var i = 0; i < input.Length; ++i)
         {
-            calculator.AddToken(input[i]);
-            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+            this.calculator.AddToken(input[i]);
+            Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
@@ -99,59 +109,59 @@ public class Tests
 
         for (var i = 0; i < input.Length; ++i)
         {
-            calculator.AddToken(input[i]);
-            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+            this.calculator.AddToken(input[i]);
+            Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
     [Test]
     public void Calculator_TestingUnaryOperations()
     {
-        var input = $"10.5{floor}.25{ceiling}+2.01={ceiling}";
+        var input = $"10.5{Floor}.25{Ceiling}+2.01={Ceiling}";
 
         string[] expectedStates =
             ["1", "10", "10.", "10.5", "10", "10.", "10.2", "10.25", "11", "11+", "11+2", "11+2.", "11+2.0", "11+2.01", "13.01", "14"];
 
         for (var i = 0; i < input.Length; ++i)
         {
-            calculator.AddToken(input[i]);
-            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+            this.calculator.AddToken(input[i]);
+            Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
     [Test]
     public void Calculator_TestingUnaryAndBinaryOperations()
     {
-        var input = $"2^4+0.5={ceiling}*1.5={floor}";
+        var input = $"2^4+0.5={Ceiling}*1.5={Floor}";
 
         string[] expectedStates =
             ["2", "2^", "2^4", "16+", "16+0", "16+0.", "16+0.5", "16.5", "17", "17*", "17*1", "17*1.", "17*1.5", "25.5", "25"];
 
         for (var i = 0; i < input.Length; ++i)
         {
-            calculator.AddToken(input[i]);
-            Assert.That(calculator.State, Is.EqualTo(expectedStates[i]));
+            this.calculator.AddToken(input[i]);
+            Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
     [Test]
     public void Calculator_WhenGetsOperatorsWithNoOperands_ShouldNotReact()
     {
-        var tokens = $"{floor}{ceiling}/*=+^";
+        var tokens = $"{Floor}{Ceiling}/*=+^";
 
         for (var i = 0; i < tokens.Length; ++i)
         {
-            calculator.AddToken(tokens[i]);
-            Assert.That(calculator.State, Is.EqualTo(string.Empty));
+            this.calculator.AddToken(tokens[i]);
+            Assert.That(this.calculator.State, Is.EqualTo(string.Empty));
         }
 
-        calculator.AddToken('-');
-        Assert.That(calculator.State, Is.EqualTo("-"));
+        this.calculator.AddToken('-');
+        Assert.That(this.calculator.State, Is.EqualTo("-"));
 
         for (var i = 0; i < tokens.Length; ++i)
         {
-            calculator.AddToken(tokens[i]);
-            Assert.That(calculator.State, Is.EqualTo("-"));
+            this.calculator.AddToken(tokens[i]);
+            Assert.That(this.calculator.State, Is.EqualTo("-"));
         }
     }
 }
