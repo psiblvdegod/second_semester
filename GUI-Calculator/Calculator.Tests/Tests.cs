@@ -2,7 +2,9 @@
 // under MIT License
 // </copyright>
 
+// Elements should be documented.
 #pragma warning disable SA1600
+#pragma warning disable CS1591
 
 namespace Calculator.Tests;
 

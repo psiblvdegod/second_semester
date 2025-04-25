@@ -4,8 +4,9 @@
 
 namespace GUI;
 
-// SA160: Elements should be documented.
+// Elements should be documented.
 #pragma warning disable SA1600
+#pragma warning disable CS1591
 
 /// <summary>
 /// Stores preferences for application.

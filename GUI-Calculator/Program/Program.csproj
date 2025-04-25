@@ -22,4 +22,8 @@
     <AdditionalFiles Include="../stylecop.json" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
 </Project>
