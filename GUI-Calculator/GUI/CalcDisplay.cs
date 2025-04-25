@@ -1,15 +1,25 @@
-using Avalonia.Controls;
-using Avalonia.Layout;
-using Avalonia.Media;
-using Avalonia.Controls.Shapes;
+// <copyright file="CalcDisplay.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
 
 namespace GUI;
 
-public class Display : Panel
+using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
+using Avalonia.Layout;
+using Avalonia.Media;
+
+/// <summary>
+/// Configured block with text for graphical calculator.
+/// </summary>
+public class CalcDisplay : Panel
 {
     private readonly TextBlock textBlock;
 
-    public Display()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CalcDisplay"/> class.
+    /// </summary>
+    public CalcDisplay()
     {
         var back = new Rectangle
         {
@@ -29,14 +39,16 @@ public class Display : Panel
 
         this.textBlock = front;
 
-        Children.Add(back);
-        Children.Add(front);
-        
-        HorizontalAlignment = HorizontalAlignment.Center;
-        VerticalAlignment = VerticalAlignment.Top;
+        this.Children.Add(back);
+        this.Children.Add(front);
+        this.HorizontalAlignment = HorizontalAlignment.Center;
+        this.VerticalAlignment = VerticalAlignment.Top;
     }
 
-    public string Data
+    /// <summary>
+    /// Gets or sets text which is displayed.
+    /// </summary>
+    public string Text
     {
         get => this.textBlock.Text ?? string.Empty;
         set => this.textBlock.Text = value;
