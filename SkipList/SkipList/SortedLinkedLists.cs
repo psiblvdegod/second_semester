@@ -4,11 +4,11 @@ public class SortedLinkLists<T> where T : IComparable
 {
     public SortedLinkLists<T>? Next;
 
-    public Node<T> Head = new();
+    public Node<T>? Head;
 
     public void Add(Node<T> node)
     {
-        Head.Next = RecCall(Head.Next);
+        Head = RecCall(Head);
         
         Node<T>? RecCall(Node<T>? current)
         {
