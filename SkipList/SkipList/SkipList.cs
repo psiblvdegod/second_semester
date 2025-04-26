@@ -1,47 +1,44 @@
-using System.Runtime.CompilerServices;
-
 namespace SkipList;
 
 public class SkipList<T> where T : IComparable
 {
-    private Node root = new();
-
-    public int Count { get; private set; } = 0;
+    SortedLinkLists<T> root = new();
 
     public void Add(T item)
     {
-        var node = new Node(item);
+        var node = new Node<T>(item);
 
-        var current = root;
+        RecCall(root.List);
 
-        while (true)
+        void RecCall(Node<T>? current)
         {
-            var next = current.Next;
-
-            if (next is null || item.CompareTo(next.Item) < 0)
+            if (current is null)
             {
-                if (current.Down is null)
-                {
-                    node.Next = next;
-                    current.Next = node;
-                    ++this.Count;
-                    break;
-                }
+                return;
+            }
 
-                current = current.Down;
+            if (current.Next != null && item.CompareTo(current.Next.Item) > 0)
+            {
+                RecCall(current.Next);      
             }
             else
             {
-                current = next;
-            }
+                RecCall(current.Down);
+
+                if (current.Down is null)
+                {
+                    node.Next = current.Next;
+                    current.Next = node;
+                }
+            } 
         }
     }
 
     public bool Contains(T item)
     {
-        return RecCall(root);
+        return RecCall(root.List);
 
-        bool RecCall(Node? current)
+        bool RecCall(Node<T>? current)
         {
             if (current is null)
             {
@@ -53,19 +50,14 @@ public class SkipList<T> where T : IComparable
                 return true;
             }
 
-            if (current.Next is null || item.CompareTo(current.Next.Item) < 0)
+            if (current.Next != null && item.CompareTo(current.Item) > 0)
+            {
+                return RecCall(current.Next);
+            }
+            else
             {
                 return RecCall(current.Down);
             }
-
-            return RecCall(current.Next);
         }
-    }
-    
-    private class Node(T? item = default)
-    {
-        public T? Item {get;} = item;
-        public Node? Next {get; set;}
-        public Node? Down {get; set;}
     }
 }

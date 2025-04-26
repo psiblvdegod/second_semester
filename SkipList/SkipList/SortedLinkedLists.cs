@@ -2,13 +2,13 @@ namespace SkipList;
 
 public class SortedLinkLists<T> where T : IComparable
 {
-    public SortedLinkLists<T>? Next;
+    public SortedLinkLists<T>? NextList;
 
-    public Node<T>? Head;
+    public Node<T>? List;
 
     public void Add(Node<T> node)
     {
-        Head = RecCall(Head);
+        List = RecCall(List);
         
         Node<T>? RecCall(Node<T>? current)
         {
@@ -27,21 +27,6 @@ public class SortedLinkLists<T> where T : IComparable
                 current.Next = RecCall(current.Next);
                 return current;
             }
-        }
-    }
-
-    public Node<T>? FindBigger(T item)
-    {
-        return RecCall(Head);
-
-        Node<T>? RecCall(Node<T>? current)
-        {
-            if (current is null || item.CompareTo(current.Item) < 0)
-            {
-                return current;
-            }
-
-            return RecCall(current.Next);
         }
     }
 }
