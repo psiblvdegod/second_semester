@@ -4,11 +4,11 @@ public class SortedLinkLists<T> where T : IComparable
 {
     public SortedLinkLists<T>? NextList;
 
-    public Node<T>? List;
+    public Node<T>? Items;
 
     public void Add(Node<T> node)
     {
-        List = RecCall(List);
+        Items = RecCall(Items);
         
         Node<T>? RecCall(Node<T>? current)
         {

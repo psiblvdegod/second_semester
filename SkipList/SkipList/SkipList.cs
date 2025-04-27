@@ -2,13 +2,26 @@ namespace SkipList;
 
 public class SkipList<T> where T : IComparable
 {
-    SortedLinkLists<T> root = new();
+    int Count = 0;
+
+    SortedLinkLists<T> root;
+
+    public SkipList()
+    {
+        root = new();
+    }
+    public SkipList(SortedLinkLists<T> root)
+    {
+        this.root = root;
+    }
 
     public void Add(T item)
     {
         var node = new Node<T>(item);
 
-        RecCall(root.List);
+        RecCall(root.Items);
+
+        BuildTower();
 
         void RecCall(Node<T>? current)
         {
@@ -29,14 +42,43 @@ public class SkipList<T> where T : IComparable
                 {
                     node.Next = current.Next;
                     current.Next = node;
+                    ++Count;
                 }
             } 
+        }
+
+        void BuildTower()
+        {
+            int height = 2;
+            var currentNode = node;
+
+            RecCall(root);
+
+            void RecCall(SortedLinkLists<T> currentList, int counter = 0)
+            {
+                if (currentList.NextList is null)
+                {
+                    return;
+                }
+
+                if (counter < height)
+                {
+                    currentNode = new(item)
+                    {
+                        Down = currentNode,
+                    };
+
+                    currentList.Add(currentNode);
+                }
+                
+                RecCall(currentList.NextList, counter + 1);
+            }
         }
     }
 
     public bool Contains(T item)
     {
-        return RecCall(root.List);
+        return RecCall(root.Items);
 
         bool RecCall(Node<T>? current)
         {
