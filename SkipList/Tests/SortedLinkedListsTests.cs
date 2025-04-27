@@ -12,26 +12,19 @@ public class SortedLinkListsTests
     {
         lists = new()
         {
-            NextList = new(),
+            NextList = new()
+            {
+                NextList = new(),
+            }
         };
     }
 
     [Test]
     public void Test1()
     {
-        int[] top = [30, 40, 20, 10];
-
-        int[] bottom = [40, 20];
-
-        foreach (var i in top)
-        {
-            lists.Add(new Node<int>(i));
-        }
-
-        foreach (var i in bottom)
-        {
-            lists.NextList.Add(new Node<int>(i));
-        }
+        lists.Add(new Node<int>(1));
+        lists.Add(new Node<int>(3));
+        lists.Add(new Node<int>(2));
 
         Assert.Pass();
     }
