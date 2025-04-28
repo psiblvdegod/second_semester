@@ -16,7 +16,7 @@ public class Tests
     [Test]
     public void Test()
     {
-        for (var i = 1; i < 3; ++i)
+        for (var i = 1; i < 20; ++i)
         {
             list.Add(i);
         }
@@ -27,7 +27,7 @@ public class Tests
     [Test]
     public void Contains()
     {
-        for (var i = 1; i < 5; ++i)
+        for (var i = 1; i < 100; ++i)
         {
             list.Add(i);
             Assert.That(list.Contains(i));

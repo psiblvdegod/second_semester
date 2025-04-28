@@ -2,7 +2,7 @@ namespace SkipList;
 
 public class SkipLists<T> where T : IComparable
 {
-    private int maxHeight = 1;
+    private int maxHeight = 0;
 
     private Node<T> root = new();
 
@@ -63,7 +63,9 @@ public class SkipLists<T> where T : IComparable
         {
             ++Count;
 
-            if ((int)Math.Log2(Count) == 0)
+            var d = Math.Log2(Count);
+
+            if (Math.Abs(double.Floor(d) - d) < 1e-10)
             {
                 ++maxHeight;
                 LevelUp();
