@@ -1,6 +1,6 @@
 namespace SkipList;
 
-public class SkipLists<T> where T : IComparable
+public class SkipList<T> where T : IComparable
 {
     private int maxHeight = 0;
 
@@ -11,49 +11,47 @@ public class SkipLists<T> where T : IComparable
     public void Add(T item)
     {
         var height = CalculateHeight();
-        Queue<Node<T>>? path = height > 1 ? new(height) : null;
-        Node<T>? newNode = new(item);
+        var path = height > 1 ? new Node<T>[height] : null;
+        Node<T> newNode = new(item);
 
-        var current = root;
+        RecCall(root);
 
-        while (true)
+        TieWithPath(path, newNode);
+
+        void RecCall(Node<T>? current)
         {
-            if (newNode is null)
+            if (current is null)
             {
-                throw new();
+                return;
             }
-
-            if (current.Next is not null && item.CompareTo(current.Next.Item) >= 0)
+            if (current.Next is not null && item.CompareTo(current.Item) >= 0)
             {
-                current = current.Next;
+                RecCall(current.Next);
             }
             else if (current.Down is not null)
             {
-                if (path is not null)
-                {
-                    if (path.Count == path.Capacity)
-                    {
-                        path.Dequeue();
-                    }
+                AddToPath(path, current);
 
-                    path.Enqueue(current);
-                }
-
-                current = current.Down;                
+                RecCall(current.Down);
             }
             else
             {
                 newNode.Next = current.Next;
                 current.Next = newNode;
-                break;
+                return;
             }
         }
 
-        if (path is not null)
+        void TieWithPath(Node<T>[]? path, Node<T> node)
         {
-            var right = newNode;
+            if (path is null)
+            {
+                return;
+            }
 
-            foreach (var left in path.Reverse())
+            var right = node;
+
+            foreach (var left in path)
             {
                 right = new(right.Item)
                 {
@@ -87,6 +85,21 @@ public class SkipLists<T> where T : IComparable
             }
 
             return height;
+        }
+
+        void AddToPath(Node<T>[]? path, Node<T> node)
+        {
+            if (path is null)
+            {
+                return;
+            }
+
+            for (var i = path.Length - 1; i > 0; --i)
+            {
+                path[i] = path[i - 1];
+            }
+
+            path[0] = node;
         }
 
         void LevelUp()

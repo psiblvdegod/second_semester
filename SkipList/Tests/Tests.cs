@@ -4,8 +4,7 @@ using SkipList;
 
 public class Tests
 {
-
-    SkipLists<int> list;
+    SkipList<int> list;
     [SetUp]
     public void Setup()
     {
@@ -26,10 +25,15 @@ public class Tests
     [Test]
     public void Contains()
     {
+        Assert.That(list.Contains(-1), Is.False);
+
         for (var i = 1; i < 1000; ++i)
         {
             list.Add(i);
             Assert.That(list.Contains(i));
         }
+
+        Assert.That(list.Contains(1000), Is.False);
     }
+
 }
