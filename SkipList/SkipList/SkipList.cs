@@ -11,12 +11,12 @@ public class SkipList<T> where T : IComparable
     public void Add(T item)
     {
         var height = CalculateHeight();
-        var path = height > 1 ? new Node<T>[height] : null;
-        Node<T> newNode = new(item);
+        var path = CreatePath(height);
+        var newNode = new Node<T>(item);
 
         RecCall(root);
 
-        TieWithPath(path, newNode);
+        LinkWithPath(path, newNode);
 
         void RecCall(Node<T>? current)
         {
@@ -42,7 +42,51 @@ public class SkipList<T> where T : IComparable
             }
         }
 
-        void TieWithPath(Node<T>[]? path, Node<T> node)
+        int CalculateHeight()
+        {
+            ++this.Count;
+
+            var level = Math.Log2(this.Count);
+            if (Math.Abs(double.Floor(level) - level) < 1e-10)
+            {
+                ++this.maxHeight;
+                this.root = new(this.root.Item)
+                {
+                    Down = this.root,
+                };
+            }
+
+            var height = 1;
+            for (var i = 2; i < this.maxHeight; ++i)
+            {
+                if (Count % (int)Math.Pow(2, i) == 0)
+                {
+                    height = i;
+                }
+            }
+
+            return height;
+        }
+
+        Node<T>[]? CreatePath(int height)
+            => height > 1 ? new Node<T>[height] : null;
+        
+        void AddToPath(Node<T>[]? path, Node<T> node)
+        {
+            if (path is null)
+            {
+                return;
+            }
+
+            for (var i = path.Length - 1; i > 0; --i)
+            {
+                path[i] = path[i - 1];
+            }
+
+            path[0] = node;
+        }
+
+        void LinkWithPath(Node<T>[]? path, Node<T> node)
         {
             if (path is null)
             {
@@ -61,53 +105,6 @@ public class SkipList<T> where T : IComparable
 
                 left.Next = right;
             }
-        }
-
-        int CalculateHeight()
-        {
-            ++Count;
-
-            var d = Math.Log2(Count);
-
-            if (Math.Abs(double.Floor(d) - d) < 1e-10)
-            {
-                ++maxHeight;
-                LevelUp();
-            }
-
-            var height = 1;
-            for (var i = 2; i < maxHeight; ++i)
-            {
-                if (Count % (int)Math.Pow(2, i) == 0)
-                {
-                    height = i;
-                }
-            }
-
-            return height;
-        }
-
-        void AddToPath(Node<T>[]? path, Node<T> node)
-        {
-            if (path is null)
-            {
-                return;
-            }
-
-            for (var i = path.Length - 1; i > 0; --i)
-            {
-                path[i] = path[i - 1];
-            }
-
-            path[0] = node;
-        }
-
-        void LevelUp()
-        {
-            root = new(root.Item)
-            {
-                Down = root,
-            };
         }
     }
 
