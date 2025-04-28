@@ -2,17 +2,15 @@ namespace SkipList;
 
 public class SkipLists<T> where T : IComparable
 {
+    private int maxHeight = 1;
+
     private Node<T> root = new();
 
     public int Count { get; private set; } = 0;
 
     public void Add(T item)
     {
-        ++Count;
-        
-        var height = Count % 2 + 1;
-
-        List<Node<T>> prev = new (height); 
+        var prev = Prepare();
 
         Node<T>? newNode = new(item);
 
@@ -33,10 +31,10 @@ public class SkipLists<T> where T : IComparable
             {
                 if (prev.Count == prev.Capacity)
                 {
-                    prev.RemoveAt(0);
+                    prev.Dequeue();
                 }
 
-                prev.Add(current);
+                prev.Enqueue(current);
 
                 current = current.Down;                
             }
@@ -50,9 +48,7 @@ public class SkipLists<T> where T : IComparable
 
         var right = newNode;
 
-        prev.Reverse();
-
-        foreach (var left in prev)
+        foreach (var left in prev.Reverse())
         {
             right = new(right.Item)
             {
@@ -62,11 +58,33 @@ public class SkipLists<T> where T : IComparable
 
             left.Next = right;
         }
+
+        Queue<Node<T>> Prepare()
+        {
+            ++Count;
+
+            if ((int)Math.Log2(Count) == 0)
+            {
+                ++maxHeight;
+                LevelUp();
+            }
+
+            var height = 1;
+            for (var i = 2; i < maxHeight; ++i)
+            {
+                if (Count % (int)Math.Pow(2, i) == 0)
+                {
+                    height = i;
+                }
+            }
+
+            return new Queue<Node<T>>(height);
+        }
     }
 
-    public void AddLevel()
+    private void LevelUp()
     {
-        root = new()
+        root = new(root.Item)
         {
             Down = root,
         };

@@ -10,8 +10,6 @@ public class Tests
     public void Setup()
     {
         list = new ();
-        list.AddLevel();
-        list.AddLevel();
         
     }
 
