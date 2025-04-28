@@ -1,36 +1,27 @@
-namespace Tests;
+namespace Test;
 
 using SkipList;
 
-[TestFixture]
-public class SkipListTests
+public class Tests
 {
 
+    SkipLists<int> list;
     [SetUp]
     public void Setup()
     {
+        list = new ();
+        list.AddLevel();
+        list.AddLevel();
+        
     }
 
     [Test]
-    public void Test1()
+    public void Test()
     {
-        var lists = new SortedLinkLists<int>()
+        for (var i = 1; i < 3; ++i)
         {
-            NextList = new()
-            {
-                NextList = new(),
-            },
-        };
-
-        var list = new SkipList<int>(lists);
-
-        list.Add(1);
-
-        list.Add(3);
-
-        list.Add(4);
-
-        list.Add(2);
+            list.Add(i);
+        }
 
         Assert.Pass();
     }
