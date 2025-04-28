@@ -29,12 +29,15 @@ public class SkipLists<T> where T : IComparable
             }
             else if (current.Down is not null)
             {
-                if (prev.Count == prev.Capacity)
+                if (prev is not null)
                 {
-                    prev.Dequeue();
-                }
+                    if (prev.Count == prev.Capacity)
+                    {
+                        prev.Dequeue();
+                    }
 
-                prev.Enqueue(current);
+                    prev.Enqueue(current);
+                }
 
                 current = current.Down;                
             }
@@ -46,20 +49,24 @@ public class SkipLists<T> where T : IComparable
             }
         }
 
-        var right = newNode;
-
-        foreach (var left in prev.Reverse())
+        if (prev is not null)
         {
-            right = new(right.Item)
+            var right = newNode;
+
+            foreach (var left in prev.Reverse())
             {
-                Down = right,
-                Next = left.Next,
-            };
+                right = new(right.Item)
+                {
+                    Down = right,
+                    Next = left.Next,
+                };
 
-            left.Next = right;
+                left.Next = right;
+            }
         }
+        
 
-        Queue<Node<T>> Prepare()
+        Queue<Node<T>>? Prepare()
         {
             ++Count;
 
@@ -80,7 +87,7 @@ public class SkipLists<T> where T : IComparable
                 }
             }
 
-            return new Queue<Node<T>>(height);
+            return height > 1 ? new Queue<Node<T>>(height) : null;
         }
     }
 
