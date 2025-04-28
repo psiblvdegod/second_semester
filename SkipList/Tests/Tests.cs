@@ -20,7 +20,6 @@ public class Tests
         {
             list.Add(i);
         }
-
         Assert.Pass();
     }
 

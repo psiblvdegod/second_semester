@@ -10,8 +10,8 @@ public class SkipLists<T> where T : IComparable
 
     public void Add(T item)
     {
-        var prev = Prepare();
-
+        var height = CalculateHeight();
+        Queue<Node<T>>? path = height > 1 ? new(height) : null;
         Node<T>? newNode = new(item);
 
         var current = root;
@@ -29,14 +29,14 @@ public class SkipLists<T> where T : IComparable
             }
             else if (current.Down is not null)
             {
-                if (prev is not null)
+                if (path is not null)
                 {
-                    if (prev.Count == prev.Capacity)
+                    if (path.Count == path.Capacity)
                     {
-                        prev.Dequeue();
+                        path.Dequeue();
                     }
 
-                    prev.Enqueue(current);
+                    path.Enqueue(current);
                 }
 
                 current = current.Down;                
@@ -49,11 +49,11 @@ public class SkipLists<T> where T : IComparable
             }
         }
 
-        if (prev is not null)
+        if (path is not null)
         {
             var right = newNode;
 
-            foreach (var left in prev.Reverse())
+            foreach (var left in path.Reverse())
             {
                 right = new(right.Item)
                 {
@@ -64,9 +64,8 @@ public class SkipLists<T> where T : IComparable
                 left.Next = right;
             }
         }
-        
 
-        Queue<Node<T>>? Prepare()
+        int CalculateHeight()
         {
             ++Count;
 
@@ -87,16 +86,16 @@ public class SkipLists<T> where T : IComparable
                 }
             }
 
-            return height > 1 ? new Queue<Node<T>>(height) : null;
+            return height;
         }
-    }
 
-    private void LevelUp()
-    {
-        root = new(root.Item)
+        void LevelUp()
         {
-            Down = root,
-        };
+            root = new(root.Item)
+            {
+                Down = root,
+            };
+        }
     }
 
     public bool Contains(T item)
