@@ -1,8 +1,18 @@
 namespace SkipList;
 
-public class Node<T>(T? item = default)
+public class Node<T>
 {
-    public T? Item { get; } = item;
+    public Node(T? item = default)
+    {
+        ++Count;
+        ID = Count;
+        Item = item;
+    }
+    private static int Count = 0;
+
+    public int ID;
+
+    public T? Item { get; }
 
     public Node<T>? Next;
 

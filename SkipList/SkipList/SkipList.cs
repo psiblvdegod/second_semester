@@ -1,84 +1,80 @@
 namespace SkipList;
 
-public class SkipList<T> where T : IComparable
+public class SkipLists<T> where T : IComparable
 {
-    int Count = 0;
+    private Node<T> root = new();
 
-    SortedLinkLists<T> root;
-
-    public SkipList()
-    {
-        root = new();
-    }
-    public SkipList(SortedLinkLists<T> root)
-    {
-        this.root = root;
-    }
+    public int Count { get; private set; } = 0;
 
     public void Add(T item)
     {
-        var node = new Node<T>(item);
+        ++Count;
+        
+        var height = Count % 2 + 1;
 
-        RecCall(root.Items);
+        List<Node<T>> prev = new (height); 
 
-        BuildTower();
+        Node<T>? newNode = new(item);
 
-        void RecCall(Node<T>? current)
+        var current = root;
+
+        while (true)
         {
-            if (current is null)
+            if (newNode is null)
             {
-                return;
+                throw new();
             }
 
-            if (current.Next != null && item.CompareTo(current.Next.Item) > 0)
+            if (current.Next is not null && item.CompareTo(current.Next.Item) >= 0)
             {
-                RecCall(current.Next);      
+                current = current.Next;
+            }
+            else if (current.Down is not null)
+            {
+                if (prev.Count == prev.Capacity)
+                {
+                    prev.RemoveAt(0);
+                }
+
+                prev.Add(current);
+
+                current = current.Down;                
             }
             else
             {
-                RecCall(current.Down);
-
-                if (current.Down is null)
-                {
-                    node.Next = current.Next;
-                    current.Next = node;
-                    ++Count;
-                }
-            } 
-        }
-
-        void BuildTower()
-        {
-            int height = 2;
-            var currentNode = node;
-
-            RecCall(root);
-
-            void RecCall(SortedLinkLists<T> currentList, int counter = 0)
-            {
-                if (currentList.NextList is null)
-                {
-                    return;
-                }
-
-                if (counter < height)
-                {
-                    currentNode = new(item)
-                    {
-                        Down = currentNode,
-                    };
-
-                    currentList.Add(currentNode);
-                }
-                
-                RecCall(currentList.NextList, counter + 1);
+                newNode.Next = current.Next;
+                current.Next = newNode;
+                break;
             }
         }
+
+        var right = newNode;
+
+        prev.Reverse();
+
+        foreach (var left in prev)
+        {
+            right = new(right.Item)
+            {
+                Down = right,
+                Next = left.Next,
+            };
+
+            left.Next = right;
+        }
+    }
+
+    public void AddLevel()
+    {
+        root = new()
+        {
+            Down = root,
+        };
     }
 
     public bool Contains(T item)
     {
-        return RecCall(root.Items);
+        return RecCall(root);
 
         bool RecCall(Node<T>? current)
         {
@@ -92,7 +88,7 @@ public class SkipList<T> where T : IComparable
                 return true;
             }
 
-            if (current.Next != null && item.CompareTo(current.Item) > 0)
+            if (current.Next != null && item.CompareTo(current.Item) >= 0)
             {
                 return RecCall(current.Next);
             }
