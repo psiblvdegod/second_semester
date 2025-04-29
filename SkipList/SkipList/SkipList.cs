@@ -12,34 +12,20 @@ public class SkipLists<T> where T : IComparable
 
     public void Add(T item)
     {
-        var height = CalculateHeight();
-        Queue<Node<T>>? path = height > 1 ? new(height) : null;
-        Node<T>? newNode = new(item);
+        var path = CreatePath(CalculateHeight());
+        Node<T> newNode = new(item);
 
         var current = root;
 
         while (true)
         {
-            if (newNode is null)
-            {
-                throw new();
-            }
-
             if (current.Next is not null && item.CompareTo(current.Next.Item) >= 0)
             {
                 current = current.Next;
             }
             else if (current.Down is not null)
             {
-                if (path is not null)
-                {
-                    if (path.Count == path.Capacity)
-                    {
-                        path.Dequeue();
-                    }
-
-                    path.Enqueue(current);
-                }
+                AddToPath(current);
 
                 current = current.Down;                
             }
@@ -51,11 +37,36 @@ public class SkipLists<T> where T : IComparable
             }
         }
 
-        if (path is not null)
-        {
-            var right = newNode;
+        LinkWithPath(newNode);
 
-            foreach (var left in path.Reverse())
+        Node<T>[]? CreatePath(int height)
+            => height < 2 ? null : new Node<T>[height];
+
+        void AddToPath(Node<T> node)
+        {
+            if (path is null)
+            {
+                return;
+            }
+
+            for (var i = path.Length - 1; i > 0; --i)
+            {
+                path[i] = path[i - 1];
+            }
+
+            path[0] = node;
+        }
+
+        void LinkWithPath(Node<T> node)
+        {
+            if (path is null)
+            {
+                return;
+            }
+
+            var right = node;
+
+            foreach (var left in path)
             {
                 right = new(right.Item)
                 {
@@ -71,12 +82,16 @@ public class SkipLists<T> where T : IComparable
         {
             ++Count;
 
-            var d = Math.Log2(Count);
+            var level = Math.Log2(Count);
 
-            if (Math.Abs(double.Floor(d) - d) < 1e-10)
+            if (Math.Abs(double.Floor(level) - level) < 1e-10)
             {
                 ++maxHeight;
-                LevelUp();
+
+                root = new(root.Item)
+                {
+                    Down = root,
+                };
             }
 
             var height = 1;
@@ -89,14 +104,6 @@ public class SkipLists<T> where T : IComparable
             }
 
             return height;
-        }
-
-        void LevelUp()
-        {
-            root = new(root.Item)
-            {
-                Down = root,
-            };
         }
     }
 
