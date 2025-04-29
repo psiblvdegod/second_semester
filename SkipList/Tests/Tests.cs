@@ -4,6 +4,14 @@ using SkipList;
 
 public class Tests
 {
+    private Random random;
+
+    [SetUp]
+    public void SetUp()
+    {
+        random = new();
+    }
+
     [Test]
     public void Contains_OnEmptyList_ShouldReturnFalse()
     {
@@ -21,10 +29,9 @@ public class Tests
         SkipList<int> list = new ();
 
         var data = new int[10000];
-        var rand = new Random();
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = Math.Abs(rand.Next() % 1000 - 500) + 1;
+            data[i] = Math.Abs(random.Next() % 1000 - 500) + 1;
         }
         foreach (var i in data)
         {
@@ -43,11 +50,9 @@ public class Tests
 
         var data = new int[10000];
 
-        var rand = new Random();
-
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = rand.Next();
+            data[i] = random.Next();
         }
 
         foreach (var i in data)
@@ -66,13 +71,11 @@ public class Tests
     {
         SkipList<string> list = new();
 
-        var rand = new Random();
-
         var data = new string[1000];
 
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = rand.Next().ToString();
+            data[i] = random.Next().ToString();
         }
 
         foreach (var s in data)
@@ -85,7 +88,6 @@ public class Tests
             Assert.That(list.Contains(s));
         }
     }
-
     
     [Test]
     public void Contains_OnBool()
@@ -113,11 +115,9 @@ public class Tests
 
         var data = new int[1000];
 
-        var rand = new Random();
-
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = rand.Next() % 1000;
+            data[i] = random.Next() % 1000;
         }
 
         foreach (var i in data)
@@ -225,6 +225,34 @@ public class Tests
 
         foreach (var s in unique)
             Assert.That(list.Contains(s), Is.False);
+    }
 
+    [Test]
+    public void CopyTo()
+    {
+        var list = new SkipList<int>();
+
+        var data = new int[100];
+
+        for (var i = 0; i < data.Length; ++i)
+        {
+            data[i] = random.Next();
+        }
+
+        foreach (var i in data)
+        {
+            list.Add(i);
+        }
+        
+        foreach(var i in data)
+        {
+            Assert.That(list.Contains(i));
+        }
+
+        var copy = new int[100];
+
+        list.CopyTo(copy);
+
+        Assert.That(copy.Order(), Is.EqualTo(data.Order()));
     }
 }
