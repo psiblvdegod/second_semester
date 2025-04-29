@@ -12,6 +12,7 @@ public class SkipList<T> where T : IComparable
 
     public void Add(T item)
     {
+        ++Count;
         var path = CreatePath(CalculateHeight());
         Node<T> newNode = new(item);
 
@@ -77,8 +78,6 @@ public class SkipList<T> where T : IComparable
 
         int CalculateHeight()
         {
-            ++Count;
-
             var height = Math.Log2(Count);
 
             if (Math.Abs(double.Floor(height) - height) < 1e-10)
@@ -165,6 +164,40 @@ public class SkipList<T> where T : IComparable
             {
                 RecCall(current.Down);
             }
+        }
+    }
+
+    public void CopyTo(T[] array, int arrayIndex = 0)
+    {
+        if (Count == 0)
+        {
+            throw new InvalidOperationException("list is empty");
+        }
+
+        if (Count + arrayIndex > array.Length)
+        {
+            throw new InvalidOperationException("array is to small to copy without resizing");
+        }
+
+        var current = root;
+
+        while (current.Down is not null)
+        {
+            current = current.Down;
+        }
+
+        current = current.Next;
+
+        while (current is not null)
+        {
+            if (current.Item is null)
+            {
+                throw new Exception ("item in the list is somehow null");
+            }
+
+            array[arrayIndex] = current.Item;
+            ++arrayIndex;
+            current = current.Next;
         }
     }
 }
