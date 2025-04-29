@@ -4,36 +4,61 @@ using SkipList;
 
 public class Tests
 {
-    SkipList<int> list;
+    SkipLists<int> list;
     [SetUp]
     public void Setup()
     {
         list = new ();
-        
     }
 
     [Test]
-    public void Test()
+    public void Contains_OnEmptyList_ShouldReturnFalse()
     {
-        for (var i = 1; i < 20; ++i)
+        for (var i = 1; i < 100; ++i)
+        {
+            Assert.That(list.Contains(i), Is.False);
+        }
+    }
+
+    [Test]
+    public void Add_OnRandomPositiveNumbers()
+    {
+        var data = new int[50];
+        var rand = new Random();
+        for (var i = 0; i < data.Length; ++i)
+        {
+            data[i] = Math.Abs(rand.Next() % 100) + 1;
+        }
+        foreach (var i in data)
         {
             list.Add(i);
         }
-        Assert.Pass();
-    }
-
-    [Test]
-    public void Contains()
-    {
-        Assert.That(list.Contains(-1), Is.False);
-
-        for (var i = 1; i < 1000; ++i)
+        foreach (var i in data)
         {
-            list.Add(i);
             Assert.That(list.Contains(i));
         }
-
-        Assert.That(list.Contains(1000), Is.False);
     }
 
+    [Test]
+    public void Add_OnRandomNumbers()
+    {
+        var data = new int[10000];
+
+        var rand = new Random();
+
+        for (var i = 0; i < data.Length; ++i)
+        {
+            data[i] = rand.Next();
+        }
+
+        foreach (var i in data)
+        {
+            list.Add(i);
+        }
+
+        foreach (var i in data)
+        {
+            Assert.That(list.Contains(i));
+        }
+    }
 }
