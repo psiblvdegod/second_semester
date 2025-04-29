@@ -132,4 +132,39 @@ public class SkipList<T> where T : IComparable
             }
         }
     }
+
+    public void Remove(T item)
+    {
+        RecCall(root);
+
+        void RecCall(Node<T> current)
+        {
+            if (current.Next is not null)
+            {
+                var difference = item.CompareTo(current.Next.Item);
+
+                if (difference == 0)
+                {
+                    current.Next = current.Next.Next;
+
+                    if (current.Down is not null)
+                    {
+                        RecCall(current.Down);
+                    }
+                }
+                else if (difference < 0 && current.Down is not null)
+                {
+                    RecCall(current.Down);
+                }
+                else
+                {
+                    RecCall(current.Next);
+                }
+            }
+            else if (current.Down is not null)
+            {
+                RecCall(current.Down);
+            }
+        }
+    }
 }
