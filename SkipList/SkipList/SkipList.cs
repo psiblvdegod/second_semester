@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace SkipList;
 
-public class SkipLists<T> where T : IComparable
+public class SkipList<T> where T : IComparable
 {
     private int maxHeight = 0;
 
@@ -113,15 +113,20 @@ public class SkipLists<T> where T : IComparable
 
         bool RecCall(Node<T> current)
         {
-            if (Equals(item, current.Item))
+            if (current.Next is not null)
             {
-                return true;
+                var difference = item.CompareTo(current.Next.Item);
+
+                if (difference == 0)
+                {
+                    return true;
+                }
+                else if (difference > 0)
+                {
+                    return RecCall(current.Next);
+                }
             }
-            else if (current.Next != null && item.CompareTo(current.Next.Item) >= 0)
-            {
-                return RecCall(current.Next);
-            }
-            else if (current.Down != null)
+            if (current.Down is not null)
             {
                 return RecCall(current.Down);
             }
