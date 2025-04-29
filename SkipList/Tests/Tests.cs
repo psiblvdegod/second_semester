@@ -105,4 +105,126 @@ public class Tests
         Assert.That(list.Contains(true));
         Assert.That(list.Contains(false));
     }
+
+    [Test]
+    public void Remove()
+    {
+        var list = new SkipList<int>();
+
+        var data = new int[1000];
+
+        var rand = new Random();
+
+        for (var i = 0; i < data.Length; ++i)
+        {
+            data[i] = rand.Next() % 1000;
+        }
+
+        foreach (var i in data)
+        {
+            list.Add(i);
+        }
+
+        foreach (var i in data)
+        {
+            Assert.That(list.Contains(i));
+        }
+
+        var deletingElements = data.Where(i => i % 2 == 0);
+
+        foreach (var i in deletingElements)
+        {
+            list.Remove(i);
+        }
+
+        foreach (var i in deletingElements)
+        {
+            Assert.That(list.Contains(i), Is.False);
+        }
+
+        foreach (var i in data.Except(deletingElements))
+        {
+            Assert.That(list.Contains(i));
+        }
+    }
+
+    [Test]
+    public void Remove_OnOneElement()
+    {
+        var list = new SkipList<string>();
+
+        var item = "string";
+
+        Assert.That(list.Contains(item), Is.False);
+
+        list.Add(item);
+
+        Assert.That(list.Contains(item));
+
+        list.Remove(item);
+
+        Assert.That(list.Contains(item), Is.False);
+    }
+
+    [Test]
+    public void Remove_WithRepeatingElements()
+    {
+        var list = new SkipList<string>();
+
+        List<string> data =
+            ["100", "200", "300", "400", "100", "200", "300", "100", "200", "100"];
+
+        foreach (var s in data)
+            Assert.That(list.Contains(s), Is.False);
+
+        foreach (var s in data)
+            list.Add(s);
+
+        var unique = data.Distinct();
+
+        foreach (var s in unique)
+            Assert.That(list.Contains(s));
+        
+
+        foreach (var s in unique)
+            list.Remove(s);
+        
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(list.Contains("100"));
+            Assert.That(list.Contains("200"));
+            Assert.That(list.Contains("300"));
+            Assert.That(list.Contains("400"), Is.False);
+        });
+
+        foreach (var s in unique)
+            list.Remove(s);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(list.Contains("100"));
+            Assert.That(list.Contains("200"));
+            Assert.That(list.Contains("300"), Is.False);
+            Assert.That(list.Contains("400"), Is.False);
+        });
+
+        foreach (var s in unique)
+            list.Remove(s);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(list.Contains("100"));
+            Assert.That(list.Contains("200"), Is.False);
+            Assert.That(list.Contains("300"), Is.False);
+            Assert.That(list.Contains("400"), Is.False);
+        });
+
+        foreach (var s in unique)
+            list.Remove(s);
+
+        foreach (var s in unique)
+            Assert.That(list.Contains(s), Is.False);
+
+    }
 }
