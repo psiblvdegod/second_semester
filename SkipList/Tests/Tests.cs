@@ -7,7 +7,7 @@ public class Tests
     [Test]
     public void Contains_OnEmptyList_ShouldReturnFalse()
     {
-        SkipLists<int> list = new ();
+        SkipList<int> list = new ();
 
         for (var i = 1; i < 100; ++i)
         {
@@ -18,7 +18,7 @@ public class Tests
     [Test]
     public void Add_OnRandom()
     {
-        SkipLists<int> list = new ();
+        SkipList<int> list = new ();
 
         var data = new int[10000];
         var rand = new Random();
@@ -39,7 +39,7 @@ public class Tests
     [Test]
     public void Add_OnRandomNumbers()
     {
-        SkipLists<int> list = new ();
+        SkipList<int> list = new ();
 
         var data = new int[10000];
 
@@ -64,7 +64,7 @@ public class Tests
     [Test]
     public void Add_OnString()
     {
-        SkipLists<string> list = new();
+        SkipList<string> list = new();
 
         var rand = new Random();
 
@@ -86,15 +86,23 @@ public class Tests
         }
     }
 
-    /*
+    
     [Test]
-    public void Contains_OnZero()
+    public void Contains_OnBool()
     {
-        Assert.That(list.Contains(0), Is.False);
+        var list = new SkipList<bool>();
 
-        list.Add(0);
+        Assert.That(list.Contains(true), Is.False);
+        Assert.That(list.Contains(false), Is.False);
 
-        Assert.That(list.Contains(0));
+        list.Add(false);
+
+        Assert.That(list.Contains(true), Is.False);
+        Assert.That(list.Contains(false));
+
+        list.Add(true);
+
+        Assert.That(list.Contains(true));
+        Assert.That(list.Contains(false));
     }
-    */
 }
