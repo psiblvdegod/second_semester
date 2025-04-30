@@ -235,19 +235,14 @@ public class Tests
         var data = new int[100];
 
         for (var i = 0; i < data.Length; ++i)
-        {
             data[i] = random.Next();
-        }
+        
 
         foreach (var i in data)
-        {
             list.Add(i);
-        }
         
         foreach(var i in data)
-        {
             Assert.That(list.Contains(i));
-        }
 
         var copy = new int[100];
 
@@ -267,5 +262,26 @@ public class Tests
         list.Clear();
         Assert.That(list.Contains("string"), Is.False);
         Assert.That(list.Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void IndexOf()
+    {
+        var list = new SkipList<int>();
+
+        int[] data = [-10, 10, -20, 20, -30, 30];
+
+        foreach (var i in data)
+            list.Add(i);
+        
+        foreach (var i in data)
+            Assert.That(list.Contains(i));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(list.IndexOf(40), Is.EqualTo(-1));
+            Assert.That(list.IndexOf(10), Is.EqualTo(3));
+            Assert.That(list.IndexOf(-30), Is.EqualTo(0));
+        });
     }
 }
