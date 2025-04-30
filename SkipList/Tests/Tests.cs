@@ -255,4 +255,17 @@ public class Tests
 
         Assert.That(copy.Order(), Is.EqualTo(data.Order()));
     }
+
+    [Test]
+    public void Clear()
+    {
+        var list = new SkipList<string>();
+        Assert.That(list.Count, Is.EqualTo(0));
+        list.Add("string");
+        Assert.That(list.Contains("string"));
+        Assert.That(list.Count, Is.EqualTo(1));
+        list.Clear();
+        Assert.That(list.Contains("string"), Is.False);
+        Assert.That(list.Count, Is.EqualTo(0));
+    }
 }
