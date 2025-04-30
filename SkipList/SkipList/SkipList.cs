@@ -207,4 +207,35 @@ public class SkipList<T> where T : IComparable
         MaxHeight = 0;
         Count = 0;
     }
+
+    public int IndexOf(T item)
+    {
+        var current = root;
+
+        while (current.Down is not null)
+        {
+            current = current.Down;
+        }
+
+        current = current.Next;
+        var index = 0;
+
+        while (current is not null)
+        {
+            var difference = item.CompareTo(current.Item);
+            if (difference == 0)
+            {
+                return index;
+            }
+            else if (difference < 0)
+            {
+                return -1;
+            }
+
+            current = current.Next;
+            ++index;
+        }
+
+        return -1;
+    }
 }
