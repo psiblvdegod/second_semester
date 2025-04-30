@@ -66,7 +66,7 @@ public class SkipList<T> where T : IComparable
 
             foreach (var guardian in path)
             {
-                node = new(node.Item)
+                node = new (node.Item)
                 {
                     Down = node,
                     Next = guardian.Next,
@@ -199,5 +199,12 @@ public class SkipList<T> where T : IComparable
             ++arrayIndex;
             current = current.Next;
         }
+    }
+
+    public void Clear()
+    {
+        root = new();
+        MaxHeight = 0;
+        Count = 0;
     }
 }
