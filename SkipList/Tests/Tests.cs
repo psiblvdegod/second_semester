@@ -284,4 +284,39 @@ public class Tests
             Assert.That(list.IndexOf(-30), Is.EqualTo(0));
         });
     }
+
+    [Test]
+    public void RemoveAt()
+    {
+        var list = new SkipList<int>();
+
+        Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(0));
+
+        int[] data = [0, 1, 2, 3, 4, 5];
+
+         foreach (var i in data)
+            list.Add(i);
+        
+        foreach (var i in data)
+            Assert.That(list.Contains(i));
+
+        list.RemoveAt(5);
+
+        Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(5));
+
+        Assert.That(list.Count, Is.EqualTo(5));
+        Assert.That(list.Contains(5), Is.False);
+
+        list.RemoveAt(0);
+
+        Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(4));
+
+        Assert.That(list.Count, Is.EqualTo(4));
+        Assert.That(list.Contains(0), Is.False);
+
+        foreach (var i in data[1..^1])
+        {
+            Assert.That(list.Contains(i));
+        }
+    }
 }
