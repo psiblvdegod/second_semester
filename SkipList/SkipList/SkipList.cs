@@ -251,8 +251,35 @@ public class SkipList<T> where T : IComparable
     }
 
     public void Insert(int index, T item)
-        => throw new NotSupportedException("list is sorted. use Add() instead");
+        => throw new NotSupportedException("sorted list does not support index addition opperations.");
 
     private static Node<T>? GetTopOfBottomList(Node<T> root)
         => root.Down is null ? root.Next : GetTopOfBottomList(root.Down);
+
+    public T this[int index]
+    {
+        get
+        {
+            if (index >= Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            var current = GetTopOfBottomList(root);
+
+            for (var i = 0; i < index && current is not null; ++i)
+            {
+                current = current.Next;
+            }
+
+            if (current is null || current.Item is null)
+            {
+                throw new();
+            }
+
+            return current.Item;
+        }
+
+        set => throw new NotSupportedException("sorted list does not support index addition opperations.");
+    }
 }
