@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace SkipList;
 
 public class SkipList<T> where T : IComparable
@@ -179,20 +177,13 @@ public class SkipList<T> where T : IComparable
             throw new InvalidOperationException("array is to small to copy without resizing");
         }
 
-        var current = root;
-
-        while (current.Down is not null)
-        {
-            current = current.Down;
-        }
-
-        current = current.Next;
+        var current = GetTopOfBottomList(root);
 
         while (current is not null)
         {
             if (current.Item is null)
             {
-                throw new Exception ("item in the list is somehow null");
+                throw new Exception ("item in the list is null somehow");
             }
 
             array[arrayIndex] = current.Item;
@@ -210,14 +201,7 @@ public class SkipList<T> where T : IComparable
 
     public int IndexOf(T item)
     {
-        var current = root;
-
-        while (current.Down is not null)
-        {
-            current = current.Down;
-        }
-
-        current = current.Next;
+        var current = GetTopOfBottomList(root);
         var index = 0;
 
         while (current is not null)
@@ -238,4 +222,37 @@ public class SkipList<T> where T : IComparable
 
         return -1;
     }
+
+    public void RemoveAt(int index)
+    {
+        if (index >= Count)
+        {
+            throw new IndexOutOfRangeException();
+        }
+
+        --Count;
+
+        var current = root;
+
+        while (current.Down is not null)
+        {
+            current = current.Down;
+        }
+
+        for (var i = 0; i < index && current is not null; ++i)
+        {
+            current = current.Next;
+        }
+
+        if (current is not null && current.Next is not null)
+        {
+            current.Next = current.Next.Next;
+        }
+    }
+
+    public void Insert(int index, T item)
+        => throw new NotSupportedException("list is sorted. use Add() instead");
+
+    private static Node<T>? GetTopOfBottomList(Node<T> root)
+        => root.Down is null ? root.Next : GetTopOfBottomList(root.Down);
 }
