@@ -294,7 +294,7 @@ public class Tests
 
         int[] data = [0, 1, 2, 3, 4, 5];
 
-         foreach (var i in data)
+        foreach (var i in data)
             list.Add(i);
         
         foreach (var i in data)
@@ -317,6 +317,25 @@ public class Tests
         foreach (var i in data[1..^1])
         {
             Assert.That(list.Contains(i));
+        }
+    }
+
+    [Test]
+    public void IndexatorGet()
+    {
+        var list = new SkipList<string>();
+
+        string[] data = ["0", "1", "2", "3", "4", "5"];
+
+         foreach (var s in data)
+            list.Add(s);
+        
+        foreach (var s in data)
+            Assert.That(list.Contains(s));
+
+        for (var i = 0; i < data.Length; ++i)
+        {
+            Assert.That(list[i], Is.EqualTo(data[i]));
         }
     }
 }
