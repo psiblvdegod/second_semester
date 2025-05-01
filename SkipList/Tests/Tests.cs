@@ -338,4 +338,13 @@ public class Tests
             Assert.That(list[i], Is.EqualTo(data[i]));
         }
     }
+
+    [Test]
+    public void NotSupported()
+    {
+        var list = new SkipList<bool>();
+
+        Assert.Throws<NotSupportedException>(() => { list[0] = false; });
+        Assert.Throws<NotSupportedException>(() => { list.Insert(0, false); });
+    }
 }
