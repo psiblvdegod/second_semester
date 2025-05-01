@@ -1,6 +1,8 @@
+using System.Collections;
+
 namespace SkipList;
 
-public class SkipList<T> where T : IComparable
+public class SkipList<T> : IList<T> where T : IComparable
 {
     private int MaxHeight { get; set; } = 0;
 
@@ -8,30 +10,33 @@ public class SkipList<T> where T : IComparable
 
     public int Count { get; private set; } = 0;
 
+    public bool IsReadOnly => throw new NotImplementedException();
+
     public void Add(T item)
     {
-        ++Count;
+        ++this.Count;
+
         var path = CreatePath(CalculateHeight());
         Node<T> newNode = new(item);
 
-        RecCall(root);
+        var current = root;
 
-        void RecCall(Node<T> current)
+        while (true)
         {
             if (current.Next is not null && item.CompareTo(current.Next.Item) >= 0)
             {
-                RecCall(current.Next);
+                current = current.Next;
             }
             else if (current.Down is not null)
             {
                 AddToPath(current);
-                RecCall(current.Down);
+                current = current.Down;
             }
             else
             {
                 newNode.Next = current.Next;
                 current.Next = newNode;
-                return;
+                break;
             }
         }
 
@@ -102,9 +107,9 @@ public class SkipList<T> where T : IComparable
 
     public bool Contains(T item) 
     {
-        return RecCall(root);
+        var current = root;
 
-        bool RecCall(Node<T> current)
+        while (true)
         {
             if (current.Next is not null)
             {
@@ -116,12 +121,13 @@ public class SkipList<T> where T : IComparable
                 }
                 else if (difference > 0)
                 {
-                    return RecCall(current.Next);
+                    current = current.Next;
+                    continue;
                 }
             }
             if (current.Down is not null)
             {
-                return RecCall(current.Down);
+                current = current.Down;
             }
             else
             {
@@ -130,11 +136,13 @@ public class SkipList<T> where T : IComparable
         }
     }
 
-    public void Remove(T item)
+    public bool Remove(T item)
     {
-        RecCall(root);
+        var result = false;
 
-        void RecCall(Node<T> current)
+        return Remove(root);
+
+        bool Remove(Node<T> current)
         {
             if (current.Next is not null)
             {
@@ -142,26 +150,31 @@ public class SkipList<T> where T : IComparable
 
                 if (difference == 0)
                 {
+                    result = true;
+                    --Count;
+
                     current.Next = current.Next.Next;
 
                     if (current.Down is not null)
                     {
-                        RecCall(current.Down);
+                        return Remove(current.Down);
                     }
                 }
                 else if (difference < 0 && current.Down is not null)
                 {
-                    RecCall(current.Down);
+                    return Remove(current.Down);
                 }
                 else
                 {
-                    RecCall(current.Next);
+                    return Remove(current.Next);
                 }
             }
             else if (current.Down is not null)
             {
-                RecCall(current.Down);
+                return Remove(current.Down);
             }
+
+            return result;
         }
     }
 
@@ -177,7 +190,7 @@ public class SkipList<T> where T : IComparable
             throw new InvalidOperationException("array is to small to copy without resizing");
         }
 
-        var current = GetTopOfBottomList(root);
+        var current = GetBottomOf(root).Next;
 
         while (current is not null)
         {
@@ -201,7 +214,7 @@ public class SkipList<T> where T : IComparable
 
     public int IndexOf(T item)
     {
-        var current = GetTopOfBottomList(root);
+        var current = GetBottomOf(root).Next;
         var index = 0;
 
         while (current is not null)
@@ -232,12 +245,7 @@ public class SkipList<T> where T : IComparable
 
         --Count;
 
-        var current = root;
-
-        while (current.Down is not null)
-        {
-            current = current.Down;
-        }
+        var current = GetBottomOf(root);
 
         for (var i = 0; i < index && current is not null; ++i)
         {
@@ -253,8 +261,8 @@ public class SkipList<T> where T : IComparable
     public void Insert(int index, T item)
         => throw new NotSupportedException("sorted list does not support index addition opperations.");
 
-    private static Node<T>? GetTopOfBottomList(Node<T> root)
-        => root.Down is null ? root.Next : GetTopOfBottomList(root.Down);
+    private static Node<T> GetBottomOf(Node<T> node)
+        => node.Down is null ? node : GetBottomOf(node.Down);
 
     public T this[int index]
     {
@@ -265,7 +273,7 @@ public class SkipList<T> where T : IComparable
                 throw new IndexOutOfRangeException();
             }
 
-            var current = GetTopOfBottomList(root);
+            var current = GetBottomOf(root).Next;
 
             for (var i = 0; i < index && current is not null; ++i)
             {
@@ -281,5 +289,37 @@ public class SkipList<T> where T : IComparable
         }
 
         set => throw new NotSupportedException("sorted list does not support index addition opperations.");
+    }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        throw new();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    private class Enumerator : IEnumerator<T>
+    {
+        public T Current => throw new NotImplementedException();
+
+        object IEnumerator.Current => Current;
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MoveNext()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
