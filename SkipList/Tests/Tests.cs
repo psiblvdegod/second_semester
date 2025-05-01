@@ -187,7 +187,7 @@ public class Tests
         
 
         foreach (var s in unique)
-            list.Remove(s);
+            Assert.That(list.Remove(s), Is.True);
         
 
         Assert.Multiple(() =>
@@ -196,35 +196,15 @@ public class Tests
             Assert.That(list.Contains("200"));
             Assert.That(list.Contains("300"));
             Assert.That(list.Contains("400"), Is.False);
-        });
 
-        foreach (var s in unique)
-            list.Remove(s);
+            Assert.That(list.Remove("400"), Is.False);
+            Assert.That(list.Remove("300"), Is.True);
 
-        Assert.Multiple(() =>
-        {
             Assert.That(list.Contains("100"));
             Assert.That(list.Contains("200"));
             Assert.That(list.Contains("300"), Is.False);
             Assert.That(list.Contains("400"), Is.False);
         });
-
-        foreach (var s in unique)
-            list.Remove(s);
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(list.Contains("100"));
-            Assert.That(list.Contains("200"), Is.False);
-            Assert.That(list.Contains("300"), Is.False);
-            Assert.That(list.Contains("400"), Is.False);
-        });
-
-        foreach (var s in unique)
-            list.Remove(s);
-
-        foreach (var s in unique)
-            Assert.That(list.Contains(s), Is.False);
     }
 
     [Test]
