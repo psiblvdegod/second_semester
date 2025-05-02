@@ -178,14 +178,17 @@ public class Tests
         var item = "string";
 
         Assert.That(list.Contains(item), Is.False);
+        Assert.That(list.Count, Is.EqualTo(0));
 
         list.Add(item);
 
         Assert.That(list.Contains(item));
+        Assert.That(list.Count, Is.EqualTo(1));
 
         list.Remove(item);
 
         Assert.That(list.Contains(item), Is.False);
+        Assert.That(list.Count, Is.EqualTo(0));
     }
 
     /// <summary>
@@ -202,12 +205,15 @@ public class Tests
         foreach (var s in data)
         {
             Assert.That(list.Contains(s), Is.False);
+            Assert.That(list.Count, Is.EqualTo(0));
         }
 
         foreach (var s in data)
         {
             list.Add(s);
         }
+
+        Assert.That(list.Count, Is.EqualTo(data.Count));
 
         var unique = data.Distinct();
 
@@ -227,14 +233,18 @@ public class Tests
             Assert.That(list.Contains("200"));
             Assert.That(list.Contains("300"));
             Assert.That(list.Contains("400"), Is.False);
+            Assert.That(list.Count, Is.EqualTo(6));
 
             Assert.That(list.Remove("400"), Is.False);
+            Assert.That(list.Count, Is.EqualTo(6));
             Assert.That(list.Remove("300"), Is.True);
+            Assert.That(list.Count, Is.EqualTo(5));
 
             Assert.That(list.Contains("100"));
             Assert.That(list.Contains("200"));
             Assert.That(list.Contains("300"), Is.False);
             Assert.That(list.Contains("400"), Is.False);
+            Assert.That(list.Count, Is.EqualTo(5));
         });
     }
 
