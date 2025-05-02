@@ -1,15 +1,19 @@
-﻿// <copyright file="Tests.cs" author="psiblvdegod">
-// under MIT License
+﻿// <copyright file="Tests.cs" company="_">
+// psiblvdegod, 2025, under MIT License
 // </copyright>
 
 namespace Tests;
 
 using SkipList;
 
-#pragma warning disable SA1600 // Elements should be documented
-
+/// <summary>
+/// Tests SkipList methods.
+/// </summary>
 public class Tests
 {
+    /// <summary>
+    /// Tests Contains.
+    /// </summary>
     [Test]
     public void Contains_OnEmptyList_ShouldReturnFalse()
     {
@@ -21,6 +25,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests Add().
+    /// </summary>
     [Test]
     public void Add_OnRandom()
     {
@@ -43,6 +50,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests Add().
+    /// </summary>
     [Test]
     public void Add_OnRandomNumbers()
     {
@@ -66,6 +76,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests Add().
+    /// </summary>
     [Test]
     public void Add_OnString()
     {
@@ -89,6 +102,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests Contains.
+    /// </summary>
     [Test]
     public void Contains_OnBool()
     {
@@ -108,6 +124,9 @@ public class Tests
         Assert.That(list.Contains(false));
     }
 
+    /// <summary>
+    /// Tests Remove().
+    /// </summary>
     [Test]
     public void Remove()
     {
@@ -148,6 +167,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests Remove().
+    /// </summary>
     [Test]
     public void Remove_OnOneElement()
     {
@@ -166,6 +188,9 @@ public class Tests
         Assert.That(list.Contains(item), Is.False);
     }
 
+    /// <summary>
+    /// Tests Remove().
+    /// </summary>
     [Test]
     public void Remove_WithRepeatingElements()
     {
@@ -213,6 +238,9 @@ public class Tests
         });
     }
 
+    /// <summary>
+    /// Tests CopyTo().
+    /// </summary>
     [Test]
     public void CopyTo()
     {
@@ -242,6 +270,9 @@ public class Tests
         Assert.That(copy.Order(), Is.EqualTo(data.Order()));
     }
 
+    /// <summary>
+    /// Tests Clear().
+    /// </summary>
     [Test]
     public void Clear()
     {
@@ -255,6 +286,9 @@ public class Tests
         Assert.That(list.Count, Is.EqualTo(0));
     }
 
+    /// <summary>
+    /// Tests IndexOf().
+    /// </summary>
     [Test]
     public void IndexOf()
     {
@@ -280,6 +314,9 @@ public class Tests
         });
     }
 
+    /// <summary>
+    /// Tests RemoveAt().
+    /// </summary>
     [Test]
     public void RemoveAt()
     {
@@ -319,6 +356,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests get of indexator.
+    /// </summary>
     [Test]
     public void IndexatorGet()
     {
@@ -342,6 +382,9 @@ public class Tests
         }
     }
 
+    /// <summary>
+    /// Tests methods which is not supported.
+    /// </summary>
     [Test]
     public void NotSupported()
     {

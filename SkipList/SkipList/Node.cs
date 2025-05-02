@@ -1,5 +1,5 @@
-// <copyright file="Node.cs" author="psiblvdegod">
-// under MIT License
+// <copyright file="Node.cs" company="_">
+// psiblvdegod, 2025, under MIT License
 // </copyright>
 
 namespace SkipList;

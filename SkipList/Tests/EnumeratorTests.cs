@@ -1,5 +1,5 @@
-// <copyright file="EnumeratorTests.cs" author="psiblvdegod">
-// under MIT License
+// <copyright file="EnumeratorTests.cs" company="_">
+// psiblvdegod, 2025, under MIT License
 // </copyright>
 
 namespace Tests;
