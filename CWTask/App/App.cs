@@ -20,7 +20,8 @@ public class App : Avalonia.Application
     {
         this.window = new MainWindow();
         this.ConfigureDesktop();
-        this.window.SubscribeHandlerToButtons(this.ButtonHandler);
+        this.window.SubscribeHandlerToButton(this.ButtonHandler);
+        this.window.PointerMoved += this.OnPointerMoved;
     }
 
     private void ConfigureDesktop()
@@ -41,5 +42,12 @@ public class App : Avalonia.Application
         {
             this.window.Close();
         }
+    }
+
+    private void OnPointerMoved(object? sender, PointerEventArgs args)
+    {
+        var position = args.GetPosition(this.window);
+
+        Console.WriteLine(position);
     }
 }

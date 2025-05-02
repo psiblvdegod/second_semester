@@ -39,11 +39,8 @@ public class MainWindow : Window
     /// Subsribes passed handler to every button on the display.
     /// </summary>
     /// <param name="handler">Handler which will be subscribed.</param>
-    public void SubscribeHandlerToButtons(EventHandler<RoutedEventArgs> handler)
+    public void SubscribeHandlerToButton(EventHandler<RoutedEventArgs> handler)
     {
-        foreach (var button in this.grid.Buttons)
-        {
-            button.Click += handler;
-        }
+        this.grid.button.Click += handler;
     }
 }
