@@ -1,20 +1,28 @@
+// <copyright file="Node.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
+
 namespace SkipList;
 
-public class Node<T>
+/// <summary>
+/// Stores item and allows link it with two nodes.
+/// </summary>
+/// <typeparam name="T">Type of item which node stores.</typeparam>
+/// <param name="item">Item which node stores.</param>
+public class Node<T>(T? item = default)
 {
-    public Node(T? item = default)
-    {
-        ++Count;
-        ID = Count;
-        Item = item;
-    }
-    private static int Count = 0;
+    /// <summary>
+    /// Gets item witch node stores.
+    /// </summary>
+    public T? Item { get; } = item;
 
-    public int ID;
+    /// <summary>
+    /// Gets or sets next node.
+    /// </summary>
+    public Node<T>? Next { get; set; }
 
-    public T? Item { get; }
-
-    public Node<T>? Next;
-
-    public Node<T>? Down;
+    /// <summary>
+    /// Gets or sets down node.
+    /// </summary>
+    public Node<T>? Down { get; set; }
 }

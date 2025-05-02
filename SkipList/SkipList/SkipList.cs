@@ -1,17 +1,57 @@
-using System.Collections;
+// <copyright file="SkipList.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
 
 namespace SkipList;
 
-public class SkipList<T> : IList<T> where T : IComparable
-{
-    private int MaxHeight { get; set; } = 0;
+using System.Collections;
 
+/// <summary>
+/// Implements sorted list using skip list data structure.
+/// </summary>
+/// <typeparam name="T">Type of elements in the list.</typeparam>
+public class SkipList<T> : IList<T>
+where T : IComparable
+{
     private Node<T> root = new();
 
+    /// <inheritdoc/>
     public int Count { get; private set; } = 0;
 
+    /// <inheritdoc/>
     public bool IsReadOnly => throw new NotImplementedException();
 
+    private int MaxHeight { get; set; } = 0;
+
+    /// <inheritdoc/>
+    public T this[int index]
+    {
+        get
+        {
+            if (index >= this.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            var current = GetBottomOf(this.root).Next;
+
+            for (var i = 0; i < index && current is not null; ++i)
+            {
+                current = current.Next;
+            }
+
+            if (current is null || current.Item is null)
+            {
+                throw new();
+            }
+
+            return current.Item;
+        }
+
+        set => throw new NotSupportedException("sorted list does not support index addition opperations.");
+    }
+
+    /// <inheritdoc/>
     public void Add(T item)
     {
         ++this.Count;
@@ -19,7 +59,7 @@ public class SkipList<T> : IList<T> where T : IComparable
         var path = CreatePath(CalculateHeight());
         Node<T> newNode = new(item);
 
-        var current = root;
+        var current = this.root;
 
         while (true)
         {
@@ -69,7 +109,7 @@ public class SkipList<T> : IList<T> where T : IComparable
 
             foreach (var guardian in path)
             {
-                node = new (node.Item)
+                node = new(node.Item)
                 {
                     Down = node,
                     Next = guardian.Next,
@@ -81,21 +121,21 @@ public class SkipList<T> : IList<T> where T : IComparable
 
         int CalculateHeight()
         {
-            var height = Math.Log2(Count);
+            var height = Math.Log2(this.Count);
 
             if (Math.Abs(double.Floor(height) - height) < 1e-10)
             {
-                ++MaxHeight;
+                ++this.MaxHeight;
 
-                root = new(root.Item)
+                this.root = new(this.root.Item)
                 {
-                    Down = root,
+                    Down = this.root,
                 };
             }
 
-            for (var i = MaxHeight; i > 1; --i)
+            for (var i = this.MaxHeight; i > 1; --i)
             {
-                if ((Count % Math.Pow(2, i)) < 1e-10)
+                if ((this.Count % Math.Pow(2, i)) < 1e-10)
                 {
                     return i;
                 }
@@ -105,9 +145,10 @@ public class SkipList<T> : IList<T> where T : IComparable
         }
     }
 
-    public bool Contains(T item) 
+    /// <inheritdoc/>
+    public bool Contains(T item)
     {
-        var current = root;
+        var current = this.root;
 
         while (true)
         {
@@ -125,6 +166,7 @@ public class SkipList<T> : IList<T> where T : IComparable
                     continue;
                 }
             }
+
             if (current.Down is not null)
             {
                 current = current.Down;
@@ -136,11 +178,12 @@ public class SkipList<T> : IList<T> where T : IComparable
         }
     }
 
+    /// <inheritdoc/>
     public bool Remove(T item)
     {
         var result = false;
 
-        return Remove(root);
+        return Remove(this.root);
 
         bool Remove(Node<T> current)
         {
@@ -151,7 +194,7 @@ public class SkipList<T> : IList<T> where T : IComparable
                 if (difference == 0)
                 {
                     result = true;
-                    --Count;
+                    --this.Count;
 
                     current.Next = current.Next.Next;
 
@@ -178,25 +221,26 @@ public class SkipList<T> : IList<T> where T : IComparable
         }
     }
 
+    /// <inheritdoc/>
     public void CopyTo(T[] array, int arrayIndex = 0)
     {
-        if (Count == 0)
+        if (this.Count == 0)
         {
             throw new InvalidOperationException("list is empty");
         }
 
-        if (Count + arrayIndex > array.Length)
+        if (this.Count + arrayIndex > array.Length)
         {
             throw new InvalidOperationException("array is to small to copy without resizing");
         }
 
-        var current = GetBottomOf(root).Next;
+        var current = GetBottomOf(this.root).Next;
 
         while (current is not null)
         {
             if (current.Item is null)
             {
-                throw new Exception ("item in the list is null somehow");
+                throw new Exception("item in the list is null somehow");
             }
 
             array[arrayIndex] = current.Item;
@@ -205,16 +249,18 @@ public class SkipList<T> : IList<T> where T : IComparable
         }
     }
 
+    /// <inheritdoc/>
     public void Clear()
     {
-        root = new();
-        MaxHeight = 0;
-        Count = 0;
+        this.root = new();
+        this.MaxHeight = 0;
+        this.Count = 0;
     }
 
+    /// <inheritdoc/>
     public int IndexOf(T item)
     {
-        var current = GetBottomOf(root).Next;
+        var current = GetBottomOf(this.root).Next;
         var index = 0;
 
         while (current is not null)
@@ -236,16 +282,17 @@ public class SkipList<T> : IList<T> where T : IComparable
         return -1;
     }
 
+    /// <inheritdoc/>
     public void RemoveAt(int index)
     {
-        if (index >= Count)
+        if (index >= this.Count)
         {
             throw new IndexOutOfRangeException();
         }
 
-        --Count;
+        --this.Count;
 
-        var current = GetBottomOf(root);
+        var current = GetBottomOf(this.root);
 
         for (var i = 0; i < index && current is not null; ++i)
         {
@@ -258,54 +305,30 @@ public class SkipList<T> : IList<T> where T : IComparable
         }
     }
 
+    /// <inheritdoc/>
     public void Insert(int index, T item)
         => throw new NotSupportedException("sorted list does not support index addition opperations.");
 
-    private static Node<T> GetBottomOf(Node<T> node)
-        => node.Down is null ? node : GetBottomOf(node.Down);
-
-    public T this[int index]
-    {
-        get
-        {
-            if (index >= Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            var current = GetBottomOf(root).Next;
-
-            for (var i = 0; i < index && current is not null; ++i)
-            {
-                current = current.Next;
-            }
-
-            if (current is null || current.Item is null)
-            {
-                throw new();
-            }
-
-            return current.Item;
-        }
-
-        set => throw new NotSupportedException("sorted list does not support index addition opperations.");
-    }
-
+    /// <inheritdoc/>
     public IEnumerator<T> GetEnumerator()
     {
-        throw new();
+        return new Enumerator();
     }
 
+    /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();
+        return this.GetEnumerator();
     }
+
+    private static Node<T> GetBottomOf(Node<T> node)
+        => node.Down is null ? node : GetBottomOf(node.Down);
 
     private class Enumerator : IEnumerator<T>
     {
         public T Current => throw new NotImplementedException();
 
-        object IEnumerator.Current => Current;
+        object IEnumerator.Current => this.Current;
 
         public void Dispose()
         {
