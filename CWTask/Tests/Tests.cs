@@ -1,4 +1,8 @@
-﻿namespace Tests;
+﻿// <copyright file="Tests.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
+
+namespace Tests;
 
 public class Tests
 {
