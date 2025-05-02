@@ -26,33 +26,30 @@ public class MainGrid : Grid
             this.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(Preferences.CellSize) });
         }
 
-        this.RecreateButton();
-    }
-
-    public void RecreateButton()
-    {
-        this.Children.Remove(this.button);
-
-        var button = new CircleButton
+        this.button = new CircleButton
         {
             Text = "catch me",
         };
 
+        this.Children.Add(this.button);
+
+        this.MoveButton();
+    }
+
+    public CircleButton button { get; private set; }
+
+    public (int X, int Y) ButtonPosition { get; private set; } = (3, 3);
+
+    public void MoveButton()
+    {
         var random = new Random();
 
         var x = random.Next() % Preferences.GridWidth;
         var y = random.Next() % Preferences.GridHeight;
 
-        SetRow(button, y);
-        SetColumn(button, x);
-        this.Children.Add(button);
-
-        this.button = button;
+        SetRow(this.button, y);
+        SetColumn(this.button, x);
 
         this.ButtonPosition = (x, y);
     }
-
-    public CircleButton button;
-
-    public (int X, int Y) ButtonPosition = (3, 3);
 }

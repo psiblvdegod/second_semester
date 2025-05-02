@@ -54,7 +54,7 @@ public class MainWindow : Window
 
         if (cursorX == this.grid.ButtonPosition.X && cursorY == this.grid.ButtonPosition.Y)
         {
-            this.grid.RecreateButton();
+            this.grid.MoveButton();
         }
 
         Console.WriteLine($"{cursorX} {cursorY}");
