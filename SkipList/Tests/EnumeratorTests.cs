@@ -1,6 +1,9 @@
-using SkipList;
+// <copyright file="EnumeratorTests.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
 
 namespace Tests;
+
 /*
 [TestFixture]
 public class EnumeratorTests
@@ -15,7 +18,7 @@ public class EnumeratorTests
         list = [];
         data = [0, 1, 2, 3, 4, 5];
     }
-    
+
     [Test]
     public void TestForMoveNextAndCurrent()
     {
@@ -24,7 +27,7 @@ public class EnumeratorTests
         Assert.Throws<InvalidOperationException>(() => { var _ = enumerator.Current; });
 
         foreach (var i in data)
-        {        
+        {
             Assert.That(enumerator.MoveNext(), Is.True);
             Assert.That(enumerator.Current, Is.EqualTo(i));
         }

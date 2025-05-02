@@ -1,21 +1,19 @@
-﻿namespace Tests;
+﻿// <copyright file="Tests.cs" author="psiblvdegod">
+// under MIT License
+// </copyright>
+
+namespace Tests;
 
 using SkipList;
 
+#pragma warning disable SA1600 // Elements should be documented
+
 public class Tests
 {
-    private Random random;
-
-    [SetUp]
-    public void SetUp()
-    {
-        random = new();
-    }
-
     [Test]
     public void Contains_OnEmptyList_ShouldReturnFalse()
     {
-        SkipList<int> list = new ();
+        SkipList<int> list = [];
 
         for (var i = 1; i < 100; ++i)
         {
@@ -26,17 +24,19 @@ public class Tests
     [Test]
     public void Add_OnRandom()
     {
-        SkipList<int> list = new ();
+        SkipList<int> list = [];
 
         var data = new int[10000];
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = Math.Abs(random.Next() % 1000 - 500) + 1;
+            data[i] = Math.Abs((Random.Shared.Next() % 1000) - 500) + 1;
         }
+
         foreach (var i in data)
         {
             list.Add(i);
         }
+
         foreach (var i in data)
         {
             Assert.That(list.Contains(i));
@@ -46,13 +46,13 @@ public class Tests
     [Test]
     public void Add_OnRandomNumbers()
     {
-        SkipList<int> list = new ();
+        SkipList<int> list = [];
 
         var data = new int[10000];
 
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = random.Next();
+            data[i] = Random.Shared.Next();
         }
 
         foreach (var i in data)
@@ -69,13 +69,13 @@ public class Tests
     [Test]
     public void Add_OnString()
     {
-        SkipList<string> list = new();
+        SkipList<string> list = [];
 
         var data = new string[1000];
 
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = random.Next().ToString();
+            data[i] = Random.Shared.Next().ToString();
         }
 
         foreach (var s in data)
@@ -88,7 +88,7 @@ public class Tests
             Assert.That(list.Contains(s));
         }
     }
-    
+
     [Test]
     public void Contains_OnBool()
     {
@@ -117,7 +117,7 @@ public class Tests
 
         for (var i = 0; i < data.Length; ++i)
         {
-            data[i] = random.Next() % 1000;
+            data[i] = Random.Shared.Next() % 1000;
         }
 
         foreach (var i in data)
@@ -175,20 +175,26 @@ public class Tests
             ["100", "200", "300", "400", "100", "200", "300", "100", "200", "100"];
 
         foreach (var s in data)
+        {
             Assert.That(list.Contains(s), Is.False);
+        }
 
         foreach (var s in data)
+        {
             list.Add(s);
+        }
 
         var unique = data.Distinct();
 
         foreach (var s in unique)
+        {
             Assert.That(list.Contains(s));
-        
+        }
 
         foreach (var s in unique)
+        {
             Assert.That(list.Remove(s), Is.True);
-        
+        }
 
         Assert.Multiple(() =>
         {
@@ -215,14 +221,19 @@ public class Tests
         var data = new int[100];
 
         for (var i = 0; i < data.Length; ++i)
-            data[i] = random.Next();
-        
+        {
+            data[i] = Random.Shared.Next();
+        }
 
         foreach (var i in data)
+        {
             list.Add(i);
-        
-        foreach(var i in data)
+        }
+
+        foreach (var i in data)
+        {
             Assert.That(list.Contains(i));
+        }
 
         var copy = new int[100];
 
@@ -252,10 +263,14 @@ public class Tests
         int[] data = [-10, 10, -20, 20, -30, 30];
 
         foreach (var i in data)
+        {
             list.Add(i);
-        
+        }
+
         foreach (var i in data)
+        {
             Assert.That(list.Contains(i));
+        }
 
         Assert.Multiple(() =>
         {
@@ -275,10 +290,14 @@ public class Tests
         int[] data = [0, 1, 2, 3, 4, 5];
 
         foreach (var i in data)
+        {
             list.Add(i);
-        
+        }
+
         foreach (var i in data)
+        {
             Assert.That(list.Contains(i));
+        }
 
         list.RemoveAt(5);
 
@@ -307,11 +326,15 @@ public class Tests
 
         string[] data = ["0", "1", "2", "3", "4", "5"];
 
-         foreach (var s in data)
-            list.Add(s);
-        
         foreach (var s in data)
+        {
+            list.Add(s);
+        }
+
+        foreach (var s in data)
+        {
             Assert.That(list.Contains(s));
+        }
 
         for (var i = 0; i < data.Length; ++i)
         {
