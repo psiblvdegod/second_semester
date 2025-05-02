@@ -43,8 +43,8 @@ public class MainGrid : Grid
         var x = random.Next() % Preferences.GridWidth;
         var y = random.Next() % Preferences.GridHeight;
 
-        SetRow(button, x);
-        SetColumn(button, y);
+        SetRow(button, y);
+        SetColumn(button, x);
         this.Children.Add(button);
 
         this.button = button;
