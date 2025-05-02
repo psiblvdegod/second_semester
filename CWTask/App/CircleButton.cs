@@ -1,4 +1,4 @@
-// <copyright file="CalcButton.cs" author="psiblvdegod">
+// <copyright file="CircleButton.cs" author="psiblvdegod">
 // under MIT License
 // </copyright>
 
@@ -10,7 +10,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 
 /// <summary>
-/// Configured button for 
+/// Configured button for.
 /// </summary>
 public class CircleButton : Button
 {
@@ -25,7 +25,7 @@ public class CircleButton : Button
         this.Width = Preferences.CellSize;
         this.Height = Preferences.CellSize;
 
-        this.textBlock = 
+        this.textBlock =
         new TextBlock
         {
             FontSize = 18,
@@ -48,7 +48,6 @@ public class CircleButton : Button
                 },
 
                 this.textBlock,
-                
             },
         };
 
@@ -57,7 +56,7 @@ public class CircleButton : Button
     }
 
     /// <summary>
-    /// Gets text which is displayed on button.
+    /// Gets or sets text which is displayed on button.
     /// </summary>
     public string Text
     {

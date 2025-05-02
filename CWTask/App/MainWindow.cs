@@ -47,6 +47,10 @@ public class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Updates text on display.
+    /// </summary>
+    /// <param name="text">New text.</param>
     public void UpdateTextOnDisplay(string text)
         => this.grid.Display.Text = text;
 }

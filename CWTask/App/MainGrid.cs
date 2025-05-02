@@ -1,4 +1,4 @@
-// <copyright file="ButtonsGrid.cs" author="psiblvdegod">
+// <copyright file="MainGrid.cs" author="psiblvdegod">
 // under MIT License
 // </copyright>
 
@@ -7,14 +7,10 @@ namespace App;
 using Avalonia.Controls;
 
 /// <summary>
-/// Configured grid for 
+/// Configured grid for .
 /// </summary>
 public class MainGrid : Grid
 {
-    public RectangleDisplay Display { get; private set; }
-
-    public List<CircleButton> Buttons { get; private set; } = [];
-
     /// <summary>
     /// Initializes a new instance of the <see cref="MainGrid"/> class.
     /// </summary>
@@ -32,7 +28,7 @@ public class MainGrid : Grid
 
         var button = new CircleButton
         {
-            Text = "B-TEXT"
+            Text = "B-TEXT",
         };
         this.Buttons.Add(button);
 
@@ -40,10 +36,9 @@ public class MainGrid : Grid
         Grid.SetColumn(button, 3);
         this.Children.Add(button);
 
-
         var display = new RectangleDisplay
         {
-            Text = "D-TEXT"
+            Text = "D-TEXT",
         };
         this.Display = display;
 
@@ -51,4 +46,14 @@ public class MainGrid : Grid
         Grid.SetColumn(display, 4);
         this.Children.Add(display);
     }
+
+    /// <summary>
+    /// Gets main display.
+    /// </summary>
+    public RectangleDisplay Display { get; private set; }
+
+    /// <summary>
+    /// Gets buttons on window.
+    /// </summary>
+    public List<CircleButton> Buttons { get; private set; } = [];
 }

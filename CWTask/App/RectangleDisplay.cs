@@ -1,4 +1,4 @@
-// <copyright file="CalcDisplay.cs" author="psiblvdegod">
+// <copyright file="RectangleDisplay.cs" author="psiblvdegod">
 // under MIT License
 // </copyright>
 

@@ -4,6 +4,8 @@
 
 namespace Tests;
 
+#pragma warning disable SA1600
+
 public class Tests
 {
     [SetUp]

@@ -21,7 +21,7 @@ public class App : Avalonia.Application
         this.window = new MainWindow();
         this.ConfigureDesktop();
         this.window.SubscribeHandlerToButtons(this.ButtonHandler);
-        this.window.KeyDown += KeyHandler;
+        this.window.KeyDown += this.KeyHandler;
     }
 
     private void ConfigureDesktop()
