@@ -28,29 +28,14 @@ public class MainGrid : Grid
 
         var button = new CircleButton
         {
-            Text = "B-TEXT",
+            Text = "catch me",
         };
         this.Buttons.Add(button);
 
         Grid.SetRow(button, 3);
         Grid.SetColumn(button, 3);
         this.Children.Add(button);
-
-        var display = new RectangleDisplay
-        {
-            Text = "D-TEXT",
-        };
-        this.Display = display;
-
-        Grid.SetRow(display, 1);
-        Grid.SetColumn(display, 4);
-        this.Children.Add(display);
     }
-
-    /// <summary>
-    /// Gets main display.
-    /// </summary>
-    public RectangleDisplay Display { get; private set; }
 
     /// <summary>
     /// Gets buttons on window.

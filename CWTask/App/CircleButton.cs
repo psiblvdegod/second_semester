@@ -28,7 +28,7 @@ public class CircleButton : Button
         this.textBlock =
         new TextBlock
         {
-            FontSize = 18,
+            FontSize = 15,
             Foreground = Brushes.Black,
             VerticalAlignment = VerticalAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,

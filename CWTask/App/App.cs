@@ -21,7 +21,6 @@ public class App : Avalonia.Application
         this.window = new MainWindow();
         this.ConfigureDesktop();
         this.window.SubscribeHandlerToButtons(this.ButtonHandler);
-        this.window.KeyDown += this.KeyHandler;
     }
 
     private void ConfigureDesktop()
@@ -40,15 +39,7 @@ public class App : Avalonia.Application
     {
         if (sender is CircleButton button && this.window is not null)
         {
-            this.window.UpdateTextOnDisplay(button.Text ?? "empty");
-        }
-    }
-
-    private void KeyHandler(object? sender, KeyEventArgs args)
-    {
-        if (this.window is not null)
-        {
-            this.window.UpdateTextOnDisplay(args.Key.ToString());
+            this.window.Close();
         }
     }
 }
