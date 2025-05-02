@@ -42,7 +42,7 @@ where T : IComparable
 
             if (current is null || current.Item is null)
             {
-                throw new();
+                throw new NullReferenceException("item in the list is null.");
             }
 
             return current.Item;
@@ -231,7 +231,7 @@ where T : IComparable
 
         if (this.Count + arrayIndex > array.Length)
         {
-            throw new InvalidOperationException("array is to small to copy without resizing");
+            throw new ArgumentException("array is to small to copy without resizing");
         }
 
         var current = GetBottomOf(this.root).Next;
@@ -240,7 +240,7 @@ where T : IComparable
         {
             if (current.Item is null)
             {
-                throw new Exception("item in the list is null somehow");
+                throw new NullReferenceException("item in the list is null.");
             }
 
             array[arrayIndex] = current.Item;
@@ -261,11 +261,11 @@ where T : IComparable
     public int IndexOf(T item)
     {
         var current = GetBottomOf(this.root).Next;
-        var index = 0;
 
-        while (current is not null)
+        for (var index = 0; current is not null; ++index)
         {
             var difference = item.CompareTo(current.Item);
+
             if (difference == 0)
             {
                 return index;
@@ -276,7 +276,6 @@ where T : IComparable
             }
 
             current = current.Next;
-            ++index;
         }
 
         return -1;
@@ -290,19 +289,19 @@ where T : IComparable
             throw new IndexOutOfRangeException();
         }
 
-        --this.Count;
-
-        var current = GetBottomOf(this.root);
+        var current = GetBottomOf(this.root).Next;
 
         for (var i = 0; i < index && current is not null; ++i)
         {
             current = current.Next;
         }
 
-        if (current is not null && current.Next is not null)
+        if (current is null || current.Item is null)
         {
-            current.Next = current.Next.Next;
+            throw new NullReferenceException("item in the list is null.");
         }
+
+        this.Remove(current.Item);
     }
 
     /// <inheritdoc/>
