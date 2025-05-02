@@ -29,9 +29,9 @@ public class MainGrid : Grid
         this.RecreateButton();
     }
 
-    private void RecreateButton()
+    public void RecreateButton()
     {
-        this.Children.Clear();
+        this.Children.Remove(this.button);
 
         var button = new CircleButton
         {

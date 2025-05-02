@@ -43,4 +43,20 @@ public class MainWindow : Window
     {
         this.grid.button.Click += handler;
     }
+
+    public void OnPointerMoved(object? sender, PointerEventArgs args)
+    {
+        var cursorPosition = args.GetPosition(this);
+
+        var cursorX = (int)cursorPosition.X / Preferences.CellSize;
+
+        var cursorY = (int)cursorPosition.Y / Preferences.CellSize;
+
+        if (cursorX == this.grid.ButtonPosition.X && cursorY == this.grid.ButtonPosition.Y)
+        {
+            this.grid.RecreateButton();
+        }
+
+        Console.WriteLine($"{cursorX} {cursorY}");
+    }
 }
