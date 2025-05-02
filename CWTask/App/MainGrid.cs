@@ -11,6 +11,8 @@ using Avalonia.Controls;
 /// </summary>
 public class MainGrid : Grid
 {
+    private readonly CircleButton escapingButton;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MainGrid"/> class.
     /// </summary>
@@ -26,29 +28,31 @@ public class MainGrid : Grid
             this.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(Preferences.CellSize) });
         }
 
-        this.button = new CircleButton
+        this.escapingButton = new CircleButton
         {
             Text = "catch me",
         };
 
-        this.Children.Add(this.button);
+        this.Children.Add(this.escapingButton);
 
         this.MoveButton();
     }
 
-    public CircleButton button { get; private set; }
+    /// <summary>
+    /// Gets current position on button regarding the grid.
+    /// </summary>
+    public (int X, int Y) ButtonPosition { get; private set; }
 
-    public (int X, int Y) ButtonPosition { get; private set; } = (3, 3);
-
+    /// <summary>
+    /// Moves button to random place on the grid.
+    /// </summary>
     public void MoveButton()
     {
-        var random = new Random();
+        var x = Random.Shared.Next() % Preferences.GridWidth;
+        var y = Random.Shared.Next() % Preferences.GridHeight;
 
-        var x = random.Next() % Preferences.GridWidth;
-        var y = random.Next() % Preferences.GridHeight;
-
-        SetRow(this.button, y);
-        SetColumn(this.button, x);
+        SetRow(this.escapingButton, y);
+        SetColumn(this.escapingButton, x);
 
         this.ButtonPosition = (x, y);
     }

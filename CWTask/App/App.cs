@@ -5,7 +5,6 @@
 namespace App;
 
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 
 /// <summary>
@@ -20,8 +19,8 @@ public class App : Avalonia.Application
     {
         this.window = new MainWindow();
         this.ConfigureDesktop();
-        this.window.SubscribeHandlerToButton(this.ButtonHandler);
-        this.window.PointerMoved += this.window.OnPointerMoved;
+        this.window.SubscribeHandlerToButtons(this.ButtonHandler);
+        this.window.PointerMoved += this.window.MoveButtonOnPointerMoved;
     }
 
     private void ConfigureDesktop()
@@ -32,13 +31,13 @@ public class App : Avalonia.Application
         }
         else
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("It seems like your platform is not supported.");
         }
     }
 
     private void ButtonHandler(object? sender, RoutedEventArgs args)
     {
-        if (sender is CircleButton button && this.window is not null)
+        if (sender is CircleButton && this.window is not null)
         {
             this.window.Close();
         }

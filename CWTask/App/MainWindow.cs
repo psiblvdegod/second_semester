@@ -4,7 +4,6 @@
 
 namespace App;
 
-using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -22,11 +21,10 @@ public class MainWindow : Window
     /// </summary>
     public MainWindow()
     {
-        this.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-        this.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+        this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        this.CanResize = false;
         this.Width = Preferences.WindowWidth;
         this.Height = Preferences.WindowHeight;
-        this.CanResize = false;
         this.Background = Brushes.Azure;
 
         this.Content = new Panel
@@ -39,24 +37,31 @@ public class MainWindow : Window
     /// Subsribes passed handler to every button on the display.
     /// </summary>
     /// <param name="handler">Handler which will be subscribed.</param>
-    public void SubscribeHandlerToButton(EventHandler<RoutedEventArgs> handler)
+    public void SubscribeHandlerToButtons(EventHandler<RoutedEventArgs> handler)
     {
-        this.grid.button.Click += handler;
+        foreach (var child in this.grid.Children)
+        {
+            if (child is CircleButton button)
+            {
+                button.Click += handler;
+            }
+        }
     }
 
-    public void OnPointerMoved(object? sender, PointerEventArgs args)
+    /// <summary>
+    /// Moves button to random place on the screen when cursor gets to close to it.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    public void MoveButtonOnPointerMoved(object? sender, PointerEventArgs args)
     {
-        var cursorPosition = args.GetPosition(this);
+        var cursorX = (int)args.GetPosition(this).X / Preferences.CellSize;
 
-        var cursorX = (int)cursorPosition.X / Preferences.CellSize;
-
-        var cursorY = (int)cursorPosition.Y / Preferences.CellSize;
+        var cursorY = (int)args.GetPosition(this).Y / Preferences.CellSize;
 
         if (cursorX == this.grid.ButtonPosition.X && cursorY == this.grid.ButtonPosition.Y)
         {
             this.grid.MoveButton();
         }
-
-        Console.WriteLine($"{cursorX} {cursorY}");
     }
 }

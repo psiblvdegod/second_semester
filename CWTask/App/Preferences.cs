@@ -15,7 +15,7 @@ public static class Preferences
 {
     public static int GridWidth { get; } = 12;
 
-    public static int GridHeight { get; } = 9;
+    public static int GridHeight { get; } = 8;
 
     public static int CellSize { get; } = 75;
 
