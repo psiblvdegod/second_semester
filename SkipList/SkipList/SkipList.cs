@@ -181,9 +181,13 @@ where T : IComparable
     /// <inheritdoc/>
     public bool Remove(T item)
     {
-        var result = false;
+        var result = Remove(this.root);
+        if (result)
+        {
+            --this.Count;
+        }
 
-        return Remove(this.root);
+        return result;
 
         bool Remove(Node<T> current)
         {
@@ -193,15 +197,14 @@ where T : IComparable
 
                 if (difference == 0)
                 {
-                    result = true;
-                    --this.Count;
-
                     current.Next = current.Next.Next;
 
                     if (current.Down is not null)
                     {
                         return Remove(current.Down);
                     }
+
+                    return current.Down is null || Remove(current.Down);
                 }
                 else if (difference < 0 && current.Down is not null)
                 {
@@ -217,7 +220,7 @@ where T : IComparable
                 return Remove(current.Down);
             }
 
-            return result;
+            return false;
         }
     }
 
