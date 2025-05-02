@@ -51,8 +51,8 @@ public class MainWindow : Window
     /// <summary>
     /// Moves button to random place on the screen when cursor gets to close to it.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
+    /// <param name="sender">Object that triggered the event.</param>
+    /// <param name="args">Event args.</param>
     public void MoveButtonOnPointerMoved(object? sender, PointerEventArgs args)
     {
         var cursorX = (int)args.GetPosition(this).X / Preferences.CellSize;

@@ -7,7 +7,7 @@ namespace App;
 using Avalonia.Controls;
 
 /// <summary>
-/// Configured grid for .
+/// Configured grid with button on it.
 /// </summary>
 public class MainGrid : Grid
 {
