@@ -287,7 +287,7 @@ public class IListMethods
     {
         var list = new SkipList<int>();
 
-        Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(0));
 
         int[] data = [0, 1, 2, 3, 4, 5];
 
@@ -303,14 +303,14 @@ public class IListMethods
 
         list.RemoveAt(5);
 
-        Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(5));
 
         Assert.That(list.Count, Is.EqualTo(5));
         Assert.That(list.Contains(5), Is.False);
 
         list.RemoveAt(0);
 
-        Assert.Throws<IndexOutOfRangeException>(() => list.RemoveAt(4));
+        Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(4));
 
         Assert.That(list.Count, Is.EqualTo(4));
         Assert.That(list.Contains(0), Is.False);
