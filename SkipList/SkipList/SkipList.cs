@@ -321,7 +321,9 @@ where T : IComparable
     /// <inheritdoc/>
     public IEnumerator<T> GetEnumerator()
     {
-        return new Enumerator(GetBottomOf(this.root), this.CollectionChanged);
+        var enumerator = new Enumerator(GetBottomOf(this.root));
+        this.CollectionChanged += enumerator.Invalidate;
+        return enumerator;
     }
 
     /// <inheritdoc/>
@@ -333,17 +335,11 @@ where T : IComparable
     private static Node<T> GetBottomOf(Node<T> node)
         => node.Down is null ? node : GetBottomOf(node.Down);
 
-    private class Enumerator : IEnumerator<T>
+    private class Enumerator(Node<T> top) : IEnumerator<T>
     {
         private bool isValid = true;
 
-        private Node<T> currentNode;
-
-        public Enumerator(Node<T> top, Action? collectionChanged)
-        {
-            this.currentNode = top;
-            collectionChanged += () => this.isValid = false;
-        }
+        private Node<T> currentNode = top;
 
         public T Current
             => this.currentNode.Item ?? throw new NullReferenceException("item in the list is null.");
@@ -372,5 +368,8 @@ where T : IComparable
 
         public void Reset()
             => throw new NotSupportedException();
+
+        public void Invalidate()
+            => this.isValid = false;
     }
 }
