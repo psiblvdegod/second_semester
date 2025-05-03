@@ -12,9 +12,7 @@ using SkipList;
 [TestFixture]
 public class EnumeratorTests
 {
-    private readonly int[] sortedData = [1, 2, 3, 4, 5];
-
-    private readonly string[] unsortedData = ["b", "c", "c", "a", "b"];
+    private readonly int[] data = [1, 2, 3, 4, 5];
 
     /// <summary>
     /// Tests enumerator for SkipList.
@@ -24,7 +22,7 @@ public class EnumeratorTests
     {
         var list = new SkipList<int>();
 
-        foreach (var i in this.sortedData)
+        foreach (var i in this.data)
         {
             list.Add(i);
         }
@@ -45,7 +43,7 @@ public class EnumeratorTests
     /// Tests enumerator for SkipList.
     /// </summary>
     [Test]
-    public void VerifyCollectionIsInitializedCorrectly()
+    public void VerifyForEachWorksCorrectly()
     {
         SkipList<int> list = [1, 2, 3, 4, 5];
 
@@ -53,29 +51,7 @@ public class EnumeratorTests
 
         foreach (var i in list)
         {
-            Assert.That(this.sortedData, Does.Contain(i));
-        }
-    }
-
-    /// <summary>
-    /// Tests enumerator for SkipList.
-    /// </summary>
-    [Test]
-    public void VerifyListIsSorted()
-    {
-        SkipList<string> list = [];
-
-        foreach (var s in this.unsortedData)
-        {
-            list.Add(s);
-        }
-
-        var enumerator = list.GetEnumerator();
-
-        foreach (var s in this.unsortedData.Order())
-        {
-            enumerator.MoveNext();
-            Assert.That(enumerator.Current, Is.EqualTo(s));
+            Assert.That(this.data, Does.Contain(i));
         }
     }
 

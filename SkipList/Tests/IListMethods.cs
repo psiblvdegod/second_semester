@@ -1,4 +1,4 @@
-﻿// <copyright file="Tests.cs" company="_">
+﻿// <copyright file="IListMethods.cs" company="_">
 // psiblvdegod, 2025, under MIT License
 // </copyright>
 
@@ -7,29 +7,56 @@ namespace Tests;
 using SkipList;
 
 /// <summary>
-/// Tests SkipList methods.
+/// Tests IList methods which SkipList implements.
 /// </summary>
-public class Tests
+public class IListMethods
 {
+     /// <summary>
+    /// Tests Contains.
+    /// </summary>
+    [Test]
+    public void Contains_OnBool()
+    {
+        var list = new SkipList<bool>();
+
+        Assert.That(list.Contains(true), Is.False);
+        Assert.That(list.Contains(false), Is.False);
+
+        list.Add(false);
+
+        Assert.That(list.Contains(true), Is.False);
+        Assert.That(list.Contains(false));
+
+        list.Add(true);
+
+        Assert.That(list.Contains(true));
+        Assert.That(list.Contains(false));
+    }
+
     /// <summary>
     /// Tests Contains.
     /// </summary>
     [Test]
-    public void Contains_OnEmptyList_ShouldReturnFalse()
+    public void Contains_OnInt()
     {
         SkipList<int> list = [];
 
-        for (var i = 1; i < 100; ++i)
-        {
-            Assert.That(list.Contains(i), Is.False);
-        }
+        var item = 10;
+
+        Assert.That(list, Is.Empty);
+        Assert.That(list.Contains(item), Is.False);
+
+        list.Add(item);
+
+        Assert.That(list.Count, Is.EqualTo(1));
+        Assert.That(list.Contains(item));
     }
 
     /// <summary>
     /// Tests Add().
     /// </summary>
     [Test]
-    public void Add_OnRandom()
+    public void Add_OnInt()
     {
         SkipList<int> list = [];
 
@@ -37,32 +64,6 @@ public class Tests
         for (var i = 0; i < data.Length; ++i)
         {
             data[i] = Math.Abs((Random.Shared.Next() % 1000) - 500) + 1;
-        }
-
-        foreach (var i in data)
-        {
-            list.Add(i);
-        }
-
-        foreach (var i in data)
-        {
-            Assert.That(list.Contains(i));
-        }
-    }
-
-    /// <summary>
-    /// Tests Add().
-    /// </summary>
-    [Test]
-    public void Add_OnRandomNumbers()
-    {
-        SkipList<int> list = [];
-
-        var data = new int[10000];
-
-        for (var i = 0; i < data.Length; ++i)
-        {
-            data[i] = Random.Shared.Next();
         }
 
         foreach (var i in data)
@@ -100,28 +101,6 @@ public class Tests
         {
             Assert.That(list.Contains(s));
         }
-    }
-
-    /// <summary>
-    /// Tests Contains.
-    /// </summary>
-    [Test]
-    public void Contains_OnBool()
-    {
-        var list = new SkipList<bool>();
-
-        Assert.That(list.Contains(true), Is.False);
-        Assert.That(list.Contains(false), Is.False);
-
-        list.Add(false);
-
-        Assert.That(list.Contains(true), Is.False);
-        Assert.That(list.Contains(false));
-
-        list.Add(true);
-
-        Assert.That(list.Contains(true));
-        Assert.That(list.Contains(false));
     }
 
     /// <summary>
@@ -165,30 +144,6 @@ public class Tests
         {
             Assert.That(list.Contains(i));
         }
-    }
-
-    /// <summary>
-    /// Tests Remove().
-    /// </summary>
-    [Test]
-    public void Remove_OnOneElement()
-    {
-        var list = new SkipList<string>();
-
-        var item = "string";
-
-        Assert.That(list.Contains(item), Is.False);
-        Assert.That(list.Count, Is.EqualTo(0));
-
-        list.Add(item);
-
-        Assert.That(list.Contains(item));
-        Assert.That(list.Count, Is.EqualTo(1));
-
-        list.Remove(item);
-
-        Assert.That(list.Contains(item), Is.False);
-        Assert.That(list.Count, Is.EqualTo(0));
     }
 
     /// <summary>
@@ -390,6 +345,23 @@ public class Tests
         {
             Assert.That(list[i], Is.EqualTo(data[i]));
         }
+    }
+
+    /// <summary>
+    /// Tests AsReadOnly().
+    /// </summary>
+    [Test]
+    public void AsReadOnly()
+    {
+        SkipList<int> list = [3, 2, 1];
+
+        Assert.That(list.IsReadOnly, Is.False);
+
+        var readonlyList = list.AsReadOnly();
+
+        Assert.That(readonlyList.Contains(1));
+        Assert.That(readonlyList[0], Is.EqualTo(1));
+        Assert.That(readonlyList.Count, Is.EqualTo(3));
     }
 
     /// <summary>

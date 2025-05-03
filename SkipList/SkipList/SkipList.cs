@@ -5,7 +5,7 @@
 namespace SkipList;
 
 using System.Collections;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 /// <summary>
 /// Implements sorted list using skip list data structure.
@@ -22,7 +22,7 @@ where T : IComparable
     public int Count { get; private set; } = 0;
 
     /// <inheritdoc/>
-    public bool IsReadOnly => throw new NotImplementedException();
+    public bool IsReadOnly => false;
 
     private int MaxHeight { get; set; } = 0;
 
