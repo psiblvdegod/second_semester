@@ -12,19 +12,15 @@ using SkipList;
 [TestFixture]
 public class EnumeratorTests
 {
-    private int[] sortedData;
+    private readonly int[] sortedData = [1, 2, 3, 4, 5];
 
-    private string[] unsortedData;
+    private readonly string[] unsortedData = ["b", "c", "c", "a", "b"];
 
-    [SetUp]
-    public void SetUp()
-    {
-        this.sortedData = [1, 2, 3, 4, 5];
-        this.unsortedData = ["b", "c", "c", "a", "b"];
-    }
-
+    /// <summary>
+    /// Tests enumerator for SkipList.
+    /// </summary>
     [Test]
-    public void Test1()
+    public void VerifyMoveNextAndCurrentWorkProperly()
     {
         var list = new SkipList<int>();
 
@@ -45,8 +41,11 @@ public class EnumeratorTests
         Assert.That(enumerator.MoveNext(), Is.False);
     }
 
+    /// <summary>
+    /// Tests enumerator for SkipList.
+    /// </summary>
     [Test]
-    public void Test2()
+    public void VerifyCollectionIsInitializedCorrectly()
     {
         SkipList<int> list = [1, 2, 3, 4, 5];
 
@@ -58,8 +57,11 @@ public class EnumeratorTests
         }
     }
 
+    /// <summary>
+    /// Tests enumerator for SkipList.
+    /// </summary>
     [Test]
-    public void Test3()
+    public void VerifyListIsSorted()
     {
         SkipList<string> list = [];
 
@@ -75,5 +77,26 @@ public class EnumeratorTests
             enumerator.MoveNext();
             Assert.That(enumerator.Current, Is.EqualTo(s));
         }
+    }
+
+    /// <summary>
+    /// Tests enumerator for SkipList.
+    /// </summary>
+    [Test]
+    public void VerifyEnumeratorInvalidatesOnChanges()
+    {
+        SkipList<bool> list = [false, true, false];
+
+        var enumerator = list.GetEnumerator();
+
+        Assert.That(enumerator.MoveNext(), Is.True);
+
+        Assert.That(enumerator.Current, Is.False);
+
+        list.Add(true);
+
+        Assert.Throws<InvalidOperationException>(() => enumerator.MoveNext());
+
+        Assert.That(enumerator.Current, Is.False);
     }
 }
