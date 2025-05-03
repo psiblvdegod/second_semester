@@ -4,35 +4,76 @@
 
 namespace Tests;
 
-/*
+using SkipList;
+
+/// <summary>
+/// Tests enumerator of SkipList class.
+/// </summary>
 [TestFixture]
 public class EnumeratorTests
 {
-    private SkipList<int> list;
-    private int[] data;
+    private int[] sortedData;
 
+    private string[] unsortedData;
 
     [SetUp]
     public void SetUp()
     {
-        list = [];
-        data = [0, 1, 2, 3, 4, 5];
+        this.sortedData = [1, 2, 3, 4, 5];
+        this.unsortedData = ["b", "c", "c", "a", "b"];
     }
 
     [Test]
-    public void TestForMoveNextAndCurrent()
+    public void Test1()
     {
-        var enumerator = list.GetEnumerator();
+        var list = new SkipList<int>();
 
-        Assert.Throws<InvalidOperationException>(() => { var _ = enumerator.Current; });
-
-        foreach (var i in data)
+        foreach (var i in this.sortedData)
         {
-            Assert.That(enumerator.MoveNext(), Is.True);
-            Assert.That(enumerator.Current, Is.EqualTo(i));
+            list.Add(i);
         }
 
-        Assert.Throws<InvalidOperationException>(() => { var _ = enumerator.Current; });
+        var enumerator = list.GetEnumerator();
+
+        for (var i = 0; i < 5; ++i)
+        {
+            Assert.That(enumerator.Current, Is.EqualTo(i));
+            Assert.That(enumerator.MoveNext(), Is.True);
+        }
+
+        Assert.That(enumerator.Current, Is.EqualTo(5));
+        Assert.That(enumerator.MoveNext(), Is.False);
+    }
+
+    [Test]
+    public void Test2()
+    {
+        SkipList<int> list = [1, 2, 3, 4, 5];
+
+        Assert.That(list, Has.Count.EqualTo(5));
+
+        foreach (var i in list)
+        {
+            Assert.That(this.sortedData, Does.Contain(i));
+        }
+    }
+
+    [Test]
+    public void Test3()
+    {
+        SkipList<string> list = [];
+
+        foreach (var s in this.unsortedData)
+        {
+            list.Add(s);
+        }
+
+        var enumerator = list.GetEnumerator();
+
+        foreach (var s in this.unsortedData.Order())
+        {
+            enumerator.MoveNext();
+            Assert.That(enumerator.Current, Is.EqualTo(s));
+        }
     }
 }
-*/
