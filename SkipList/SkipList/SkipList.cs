@@ -5,7 +5,6 @@
 namespace SkipList;
 
 using System.Collections;
-using System.Collections.ObjectModel;
 
 /// <summary>
 /// Implements sorted list using skip list data structure.
@@ -26,7 +25,15 @@ where T : IComparable
 
     private int MaxHeight { get; set; } = 0;
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Gets or sets the element at the specified index.
+    /// Set is not supported.
+    /// </summary>
+    /// <param name="index">The zero-based index of the element to get or set.</param>
+    /// <returns>The element at the specified index.</returns>
+    /// <exception cref="IndexOutOfRangeException">Is thrown when index greater than or equal to Count.</exception>
+    /// <exception cref="NullReferenceException">Is thrown when item in the list is null.</exception>
+    /// <exception cref="NotSupportedException">Is thrown when set is called.</exception>
     public T this[int index]
     {
         get
@@ -54,7 +61,11 @@ where T : IComparable
         set => throw new NotSupportedException("sorted list does not support index addition opperations.");
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Adds an item to the ICollection.
+    /// Invalidates all enumerators of the list.
+    /// </summary>
+    /// <param name="item">The object to add to the ICollection.</param>
     public void Add(T item)
     {
         ++this.Count;
@@ -182,7 +193,13 @@ where T : IComparable
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Removes the first occurrence of a specific object from the ICollection.
+    /// Invalidates all enumerators of the list if the item was deleted.
+    /// </summary>
+    /// <param name="item">Object which will be deleted.</param>
+    /// <returns> true if item was successfully removed from the ICollection; otherwise, false.
+    /// This method also returns false if item is not found in the original ICollection.</returns>
     public bool Remove(T item)
     {
         if (Remove(this.root))
@@ -229,7 +246,14 @@ where T : IComparable
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Copies the elements of the ICollection to an Array, starting at a particular Array index.
+    /// </summary>
+    /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ICollection. The Array must have zero-based indexing.</param>
+    /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+    /// <exception cref="InvalidOperationException">Is thrown if list is empty.</exception>
+    /// <exception cref="ArgumentException">Is thrown is array is to small to copy.</exception>
+    /// <exception cref="NullReferenceException">Is thrown if item in the list is null.</exception>
     public void CopyTo(T[] array, int arrayIndex = 0)
     {
         if (this.Count == 0)
@@ -239,7 +263,7 @@ where T : IComparable
 
         if (this.Count + arrayIndex > array.Length)
         {
-            throw new ArgumentException("array is to small to copy without resizing");
+            throw new ArgumentException("array is to small to copy");
         }
 
         var current = GetBottomOf(this.root).Next;
@@ -257,7 +281,10 @@ where T : IComparable
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Removes all items from the ICollection.
+    /// Invalidates all enumerators of the list.
+    /// </summary>
     public void Clear()
     {
         this.root = new();
@@ -290,13 +317,16 @@ where T : IComparable
         return -1;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Removes the IList item at the specified index.
+    /// Invalidates all enumerators of the list if the item was deleted.
+    /// </summary>
+    /// <param name="index">The zero-based index of the item to remove.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Is thrown if the index greater than or equal to Count.</exception>
+    /// <exception cref="NullReferenceException">Is thrown if item in the list is null.</exception>
     public void RemoveAt(int index)
     {
-        if (index >= this.Count)
-        {
-            throw new IndexOutOfRangeException();
-        }
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, this.Count);
 
         var current = GetBottomOf(this.root).Next;
 
@@ -314,7 +344,12 @@ where T : IComparable
         this.CollectionChanged?.Invoke();
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Not supported.
+    /// </summary>
+    /// <param name="index">The zero-based index at which item should be inserted.</param>
+    /// <param name="item">The object to insert into the list.</param>
+    /// <exception cref="NotSupportedException">Is thrown if Insert is called.</exception>
     public void Insert(int index, T item)
         => throw new NotSupportedException("sorted list does not support index addition opperations.");
 
@@ -347,7 +382,8 @@ where T : IComparable
         object IEnumerator.Current => this.Current;
 
         public void Dispose()
-            => Console.WriteLine("dispose called");
+        {
+        }
 
         public bool MoveNext()
         {
