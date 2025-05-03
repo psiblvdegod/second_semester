@@ -5,6 +5,7 @@
 namespace SkipList;
 
 using System.Collections;
+using System.ComponentModel;
 
 /// <summary>
 /// Implements sorted list using skip list data structure.
@@ -14,6 +15,8 @@ public class SkipList<T> : IList<T>
 where T : IComparable
 {
     private Node<T> root = new();
+
+    private event Action? CollectionChanged;
 
     /// <inheritdoc/>
     public int Count { get; private set; } = 0;
@@ -55,6 +58,7 @@ where T : IComparable
     public void Add(T item)
     {
         ++this.Count;
+        this.CollectionChanged?.Invoke();
 
         var path = CreatePath(CalculateHeight());
         Node<T> newNode = new(item);
@@ -181,13 +185,14 @@ where T : IComparable
     /// <inheritdoc/>
     public bool Remove(T item)
     {
-        var result = Remove(this.root);
-        if (result)
+        if (Remove(this.root))
         {
+            this.CollectionChanged?.Invoke();
             --this.Count;
+            return true;
         }
 
-        return result;
+        return false;
 
         bool Remove(Node<T> current)
         {
@@ -258,6 +263,7 @@ where T : IComparable
         this.root = new();
         this.MaxHeight = 0;
         this.Count = 0;
+        this.CollectionChanged?.Invoke();
     }
 
     /// <inheritdoc/>
@@ -305,6 +311,7 @@ where T : IComparable
         }
 
         this.Remove(current.Item);
+        this.CollectionChanged?.Invoke();
     }
 
     /// <inheritdoc/>
@@ -314,7 +321,7 @@ where T : IComparable
     /// <inheritdoc/>
     public IEnumerator<T> GetEnumerator()
     {
-        return new Enumerator();
+        return new Enumerator(GetBottomOf(this.root), this.CollectionChanged);
     }
 
     /// <inheritdoc/>
@@ -328,23 +335,42 @@ where T : IComparable
 
     private class Enumerator : IEnumerator<T>
     {
-        public T Current => throw new NotImplementedException();
+        private bool isValid = true;
+
+        private Node<T> currentNode;
+
+        public Enumerator(Node<T> top, Action? collectionChanged)
+        {
+            this.currentNode = top;
+            collectionChanged += () => this.isValid = false;
+        }
+
+        public T Current
+            => this.currentNode.Item ?? throw new NullReferenceException("item in the list is null.");
 
         object IEnumerator.Current => this.Current;
 
         public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+            => Console.WriteLine("dispose called");
 
         public bool MoveNext()
         {
-            throw new NotImplementedException();
+            if (!this.isValid)
+            {
+                throw new InvalidOperationException("enumerator is invalid.");
+            }
+
+            if (this.currentNode.Next is null)
+            {
+                return false;
+            }
+
+            this.currentNode = this.currentNode.Next;
+
+            return true;
         }
 
         public void Reset()
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotSupportedException();
     }
 }
