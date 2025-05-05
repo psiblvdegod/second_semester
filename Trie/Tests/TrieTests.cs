@@ -1,5 +1,5 @@
-﻿// <copyright file="TrieTests.cs" author="psiblvdegod" date ="2025">
-// under MIT license
+﻿// <copyright file="TrieTests.cs" author="psiblvdegod">
+// under MIT License
 // </copyright>
 
 // SA1600: Elements should be documented.
@@ -15,234 +15,235 @@ using Trie;
 [TestFixture]
 public class TrieTests
 {
-    [Test]
-    public void DoesContain_ElementIsNotInTrie()
-    {
-        var trie = new Trie();
+    private Trie trie;
 
-        Assert.That(!trie.DoesContain("element"));
-    }
+    [SetUp]
+    public void SetUp()
+        => this.trie = new();
 
     [Test]
-    public void Add_OrdinaryInput()
-    {
-        var trie = new Trie();
-
-        List<string> sequence = ["first", "second", "third"];
-
-        for (var i = 0; i < sequence.Count; ++i)
-        {
-            var errorCode = trie.Add(sequence[i]);
-
-            Assert.That(errorCode, Is.True);
-            Assert.That(trie.Size, Is.EqualTo(i + 1));
-        }
-
-        for (var i = 0; i < sequence.Count; ++i)
-        {
-            Assert.That(trie.DoesContain(sequence[i]), Is.True);
-        }
-    }
+    public void Contains_ElementIsNotInTrie()
+        => Assert.That(!this.trie.Contains("element"));
 
     [Test]
     public void Add_ElementIsAlreadyInTrie()
     {
-        var trie = new Trie(["element"]);
-
-        var errorCode = !trie.Add("element");
+        var errorCode = this.trie.Add("element");
 
         Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(1));
+
+        errorCode = this.trie.Add("element");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.False);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+        });
     }
 
     [Test]
     public void Add_EmptyStringAsInput()
-    {
-        var trie = new Trie();
-
-        Assert.Throws<ArgumentException>(() => trie.Add(string.Empty));
-    }
-
-    [Test]
-    public void Constructor_SequenceAsInput()
-    {
-        List<string> sequence = ["first", "second", "third"];
-
-        var trie = new Trie(sequence);
-
-        for (var i = 0; i < sequence.Count; ++i)
-        {
-            Assert.That(trie.DoesContain(sequence[i]));
-        }
-    }
-
-    [Test]
-    public void Remove_ElementIsInTrie()
-    {
-        var trie = new Trie(["element"]);
-
-        Assert.That(trie.Size, Is.EqualTo(1));
-
-        var errorCode = trie.Remove("element");
-
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(0));
-        Assert.That(!trie.DoesContain("element"));
-    }
+        => Assert.Throws<ArgumentException>(() => this.trie.Add(string.Empty));
 
     [Test]
     public void Remove_ElementIsNotInTrie()
     {
-        var trie = new Trie();
+        var errorCode = this.trie.Remove("element");
 
-        var errorCode = !trie.Remove("element");
+        Assert.That(errorCode, Is.False);
+    }
 
-        Assert.That(errorCode, Is.True);
+    [Test]
+    public void Count_OnEmptyTrie()
+        => Assert.That(this.trie.Count, Is.EqualTo(0));
+
+    [Test]
+    public void Count_WithAdd()
+    {
+        Assert.That(this.trie.Count, Is.EqualTo(0));
+
+        List<string> data = ["first", "second", "third"];
+
+        bool errorCode;
+
+        for (var i = 0; i < data.Count; ++i)
+        {
+            errorCode = this.trie.Add(data[i]);
+            Assert.Multiple(() =>
+            {
+                Assert.That(errorCode, Is.True);
+                Assert.That(this.trie.Count, Is.EqualTo(i + 1));
+            });
+        }
+
+        foreach (var s in data)
+        {
+            Assert.That(this.trie.Contains(s));
+        }
+    }
+
+    [Test]
+    public void Count_WithRemove()
+    {
+        Assert.That(this.trie.Count, Is.EqualTo(0));
+
+        bool errorCode;
+
+        errorCode = this.trie.Add("element");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+        });
+
+        errorCode = this.trie.Remove("element");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(0));
+            Assert.That(!this.trie.Contains("element"));
+        });
+    }
+
+    [Test]
+    public void Count_WithAddAndRemove()
+    {
+        Assert.That(this.trie.Count, Is.EqualTo(0));
+
+        bool errorCode;
+
+        errorCode = this.trie.Add("element");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+        });
+
+        errorCode = this.trie.Remove("element");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(0));
+        });
     }
 
     [Test]
     public void Remove_EmptyStringAsInput()
-    {
-        var trie = new Trie();
-
-        Assert.Throws<ArgumentException>(() => trie.Remove(string.Empty));
-    }
+        => Assert.Throws<ArgumentException>(() => this.trie.Remove(string.Empty));
 
     [Test]
-    public void CountWordsWithSuchPrefix_NoSuchWordsInTrie()
-    {
-        var trie = new Trie();
-
-        var input = "second";
-
-        var expectedResult = 0;
-
-        Assert.That(trie.CountWordsWithSuchPrefix(input), Is.EqualTo(expectedResult));
-    }
+    public void HowManyStartsWithPrefix_NoSuchWordsInTrie()
+        => Assert.That(this.trie.HowManyStartsWithPrefix("prefix"), Is.EqualTo(0));
 
     [Test]
-    public void CountWordsWithSuchPrefix_OrdinaryInput()
+    public void HowManyStartsWithPrefix_OrdinaryInput()
     {
         IEnumerable<string> data = ["first_1", "second_1", "second_2", "third_1", "third_2", "third_3"];
 
-        var trie = new Trie(data);
+        bool errorCode;
 
-        var input = "second";
+        foreach (var s in data)
+        {
+            errorCode = this.trie.Add(s);
+            Assert.That(errorCode, Is.True);
+        }
+
+        var prefix = "second";
 
         var expectedResult = 2;
 
-        Assert.That(trie.CountWordsWithSuchPrefix(input), Is.EqualTo(expectedResult));
+        Assert.That(this.trie.HowManyStartsWithPrefix(prefix), Is.EqualTo(expectedResult));
     }
 
     [Test]
-    public void CountWordsWithSuchPrefix_EmptyStringAsInput()
-    {
-        var trie = new Trie();
-
-        Assert.Throws<ArgumentException>(() => trie.CountWordsWithSuchPrefix(string.Empty));
-    }
-
-    [Test]
-    public void Size_EmptyTrie()
-    {
-        var trie = new Trie();
-
-        var expectedResult = 0;
-
-        Assert.That(trie.Size, Is.EqualTo(expectedResult));
-    }
-
-    [Test]
-    public void Size_Ordinary()
-    {
-        IEnumerable<string> data = ["1", "2", "3", "4", "5"];
-
-        var trie = new Trie(data);
-
-        var expectedResult = data.Count();
-
-        Assert.That(trie.Size, Is.EqualTo(expectedResult));
-    }
-
-    [Test]
-    public void Size_AddThenRemove()
-    {
-        var trie = new Trie();
-
-        bool errorCode;
-
-        errorCode = trie.Add("element");
-
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(1));
-
-        errorCode = trie.Remove("element");
-        Assert.That(errorCode, Is.True);
-
-        Assert.That(trie.Size, Is.EqualTo(0));
-    }
+    public void HowManyStartsWithPrefix_EmptyStringAsInput()
+        => Assert.Throws<ArgumentException>(() => this.trie.HowManyStartsWithPrefix(string.Empty));
 
     [Test]
     public void AddAndRemove_WithLotsOfAsserts()
     {
-        var trie = new Trie();
-
         bool errorCode;
 
-        errorCode = trie.Add("ABC");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(1));
-        Assert.That(trie.DoesContain("A"), Is.False);
-        Assert.That(trie.DoesContain("AB"), Is.False);
-        Assert.That(trie.DoesContain("ABC"));
+        errorCode = this.trie.Add("ABC");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+            Assert.That(this.trie.Contains("A"), Is.False);
+            Assert.That(this.trie.Contains("AB"), Is.False);
+            Assert.That(this.trie.Contains("ABC"));
+        });
 
-        errorCode = trie.Add("AB");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(2));
-        Assert.That(trie.DoesContain("AB"));
-        Assert.That(trie.DoesContain("ABC"));
+        errorCode = this.trie.Add("AB");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(2));
+            Assert.That(this.trie.Contains("AB"));
+            Assert.That(this.trie.Contains("ABC"));
+        });
 
-        errorCode = trie.Remove("AB");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(1));
-        Assert.That(trie.DoesContain("AB"), Is.False);
-        Assert.That(trie.DoesContain("ABC"));
+        errorCode = this.trie.Remove("AB");
 
-        errorCode = !trie.Remove("AB");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(1));
-        Assert.That(trie.DoesContain("AB"), Is.False);
-        Assert.That(trie.DoesContain("ABC"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(this.trie.Contains("AB"), Is.False);
+            Assert.That(this.trie.Contains("ABC"));
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+        });
 
-        errorCode = trie.Remove("ABC");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(0));
-        Assert.That(trie.DoesContain("AB"), Is.False);
-        Assert.That(trie.DoesContain("ABC"), Is.False);
+        errorCode = !this.trie.Remove("AB");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+            Assert.That(this.trie.Contains("AB"), Is.False);
+            Assert.That(this.trie.Contains("ABC"));
+        });
+
+        errorCode = this.trie.Remove("ABC");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(0));
+            Assert.That(this.trie.Contains("AB"), Is.False);
+            Assert.That(this.trie.Contains("ABC"), Is.False);
+        });
     }
 
     [Test]
-    public void AddAndRemove_OnRootSymbol()
+    public void OnRootSymbol()
     {
-        var trie = new Trie();
-
-        Assert.That(trie.DoesContain("/"), Is.False);
+        Assert.That(this.trie.Contains("/"), Is.False);
 
         bool errorCode;
 
-        errorCode = !trie.Remove("/");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(0));
-        Assert.That(trie.DoesContain("/"), Is.False);
+        errorCode = !this.trie.Remove("/");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(0));
+            Assert.That(this.trie.Contains("/"), Is.False);
+        });
 
-        errorCode = trie.Add("/");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(1));
-        Assert.That(trie.DoesContain("/"));
+        errorCode = this.trie.Add("/");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(1));
+            Assert.That(this.trie.Contains("/"));
+        });
 
-        errorCode = trie.Remove("/");
-        Assert.That(errorCode, Is.True);
-        Assert.That(trie.Size, Is.EqualTo(0));
-        Assert.That(trie.DoesContain("/"), Is.False);
+        errorCode = this.trie.Remove("/");
+        Assert.Multiple(() =>
+        {
+            Assert.That(errorCode, Is.True);
+            Assert.That(this.trie.Count, Is.EqualTo(0));
+            Assert.That(this.trie.Contains("/"), Is.False);
+        });
     }
 }
