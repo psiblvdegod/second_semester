@@ -1,0 +1,8 @@
+{
+    "settings": {
+      "documentationRules": {
+        "copyrightText": "<copyright file=\"{fileName}\" author=\"psiblvdegod\">\nunder MIT License\n</copyright>",
+        "xmlHeader": false
+        }
+    }
+}
