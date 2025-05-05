@@ -1,5 +1,5 @@
 ﻿// <copyright file="Functions.cs" author="psiblvdegod">
-// under MIT License.
+// under MIT License
 // </copyright>
 
 namespace Functions;
@@ -25,7 +25,7 @@ public static class Functions
             result.Add(func(element));
         }
 
-        return result;
+        return result.AsEnumerable();
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public static class Functions
             }
         }
 
-        return result;
+        return result.AsEnumerable();
     }
 
     /// <summary>
