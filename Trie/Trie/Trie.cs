@@ -9,7 +9,7 @@ namespace Trie;
 /// </summary>
 public class Trie
 {
-    private readonly Vertex root = new('/');
+    private readonly Node root = new('/');
 
     /// <summary>
     /// Gets amount of items in the Trie.
@@ -17,26 +17,26 @@ public class Trie
     public int Count => this.root.HeirsNumber;
 
     /// <summary>
-    /// Adds item to the Trie.
+    /// Adds an object to the Trie.
     /// </summary>
     /// <returns>true if item is successfully added; otherwise, false.</returns>
-    /// <param name="item">The item which will be added.</param>
+    /// <param name="item">The string to add to the Trie.</param>
     public bool Add(string item)
     {
         ArgumentException.ThrowIfNullOrEmpty(item);
 
-        IEnumerable<Vertex> path = [];
+        var path = new Node[item.Length];
         var current = this.root;
 
-        foreach (var c in item)
+        for (var i = 0; i < item.Length; ++i)
         {
-            path = path.Append(current);
+            path[i] = current;
 
-            var next = current.Find(c);
+            var next = current.Find(item[i]);
 
             if (next is null)
             {
-                next = new Vertex(c);
+                next = new Node(item[i]);
                 current.Link(next);
             }
 
@@ -50,24 +50,24 @@ public class Trie
 
         current.IsInTrie = true;
 
-        foreach (var v in path)
+        foreach (var node in path)
         {
-            ++v.HeirsNumber;
+            ++node.HeirsNumber;
         }
 
         return true;
     }
 
     /// <summary>
-    /// Removes item from the Trie.
+    /// Removes the first occurrence of a specific string from the Trie.
     /// </summary>
     /// <returns>true if item is successfully removed; otherwise, false.</returns>
-    /// <param name="item">The item which will be removed.</param>
+    /// <param name="item">The string to remove from the Trie.</param>
     public bool Remove(string item)
     {
         ArgumentException.ThrowIfNullOrEmpty(item);
 
-        IEnumerable<Vertex> path = [];
+        IEnumerable<Node> path = [];
         var current = this.root;
 
         foreach (var c in item)
@@ -111,10 +111,10 @@ public class Trie
     }
 
     /// <summary>
-    /// Finds item in the Trie.
+    /// Determines whether the Trie contains a specific value.
     /// </summary>
-    /// <returns>true if item was found; otherwise, false.</returns>
-    /// <param name="item">The item which will be searched for.</param>
+    /// <returns>true if the string is found in the Trie; otherwise, false.</returns>
+    /// <param name="item">The object to locate in the Trie.</param>
     public bool Contains(string item)
     {
         var current = this.root;
@@ -135,11 +135,11 @@ public class Trie
     }
 
     /// <summary>
-    /// Counts word with such prefix in the Trie.
+    /// Counts words with such prefix in the Trie.
     /// </summary>
     /// <returns>Number of items, which have such prefix.</returns>
-    /// <param name="prefix">The prefix which defines search key.</param>
-    public int CountWordsWithSuchPrefix(string prefix)
+    /// <param name="prefix">The prefix to locate in the Trie.</param>
+    public int HowManyStartsWithPrefix(string prefix)
     {
         ArgumentException.ThrowIfNullOrEmpty(prefix);
 
@@ -160,9 +160,9 @@ public class Trie
         return current.HeirsNumber;
     }
 
-    private class Vertex(char symbol, bool isInTrie = false)
+    private class Node(char symbol, bool isInTrie = false)
     {
-        private readonly List<Vertex> linked = [];
+        private readonly List<Node> linked = [];
 
         internal char Symbol { get; } = symbol;
 
@@ -170,10 +170,10 @@ public class Trie
 
         internal int HeirsNumber { get; set; }
 
-        internal void Link(Vertex vertex) => this.linked.Add(vertex);
+        internal void Link(Node node) => this.linked.Add(node);
 
-        internal bool Unlink(Vertex vertex) => this.linked.Remove(vertex);
+        internal bool Unlink(Node node) => this.linked.Remove(node);
 
-        internal Vertex? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
+        internal Node? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
     }
 }
