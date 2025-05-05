@@ -1,5 +1,5 @@
 // <copyright file="CustomType.cs" author="psiblvdegod">
-// under MIT License.
+// under MIT License
 // </copyright>
 
 namespace Functions.Tests;
