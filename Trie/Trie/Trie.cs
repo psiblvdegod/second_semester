@@ -1,5 +1,5 @@
-﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
-// under MIT license
+﻿// <copyright file="Trie.cs" author="psiblvdegod">
+// under MIT License
 // </copyright>
 
 namespace Trie;
@@ -9,52 +9,28 @@ namespace Trie;
 /// </summary>
 public class Trie
 {
-    private readonly Vertex root;
+    private readonly Vertex root = new('/');
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Trie"/> class.
+    /// Gets amount of items in the Trie.
     /// </summary>
-    public Trie()
-    {
-        this.root = new('/');
-    }
+    public int Count => this.root.HeirsNumber;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Trie"/> class filling it with passed sequence.
-    /// </summary>
-    /// <param name="elements">The sequence from which the Trie will be created.</param>
-    public Trie(IEnumerable<string> elements)
-        : this()
-    {
-        foreach (var element in elements)
-        {
-            this.Add(element);
-        }
-    }
-
-    /// <summary>
-    /// Gets amount of elements in the Trie.
-    /// </summary>
-    public int Size
-    {
-        get { return this.root.HeirsNumber; }
-    }
-
-    /// <summary>
-    /// Adds element to the Trie.
+    /// Adds item to the Trie.
     /// </summary>
     /// <returns>true if item is successfully added; otherwise, false.</returns>
-    /// <param name="element">The element which will be added.</param>
-    public bool Add(string element)
+    /// <param name="item">The item which will be added.</param>
+    public bool Add(string item)
     {
-        ArgumentException.ThrowIfNullOrEmpty(element);
+        ArgumentException.ThrowIfNullOrEmpty(item);
 
-        List<Vertex> path = [];
+        IEnumerable<Vertex> path = [];
         var current = this.root;
 
-        foreach (var c in element)
+        foreach (var c in item)
         {
-            path.Add(current);
+            path = path.Append(current);
 
             var next = current.Find(c);
 
@@ -83,20 +59,20 @@ public class Trie
     }
 
     /// <summary>
-    /// Removes element from the Trie.
+    /// Removes item from the Trie.
     /// </summary>
     /// <returns>true if item is successfully removed; otherwise, false.</returns>
-    /// <param name="element">The element which will be removed.</param>
-    public bool Remove(string element)
+    /// <param name="item">The item which will be removed.</param>
+    public bool Remove(string item)
     {
-        ArgumentException.ThrowIfNullOrEmpty(element);
+        ArgumentException.ThrowIfNullOrEmpty(item);
 
-        List<Vertex> path = [];
+        IEnumerable<Vertex> path = [];
         var current = this.root;
 
-        foreach (var c in element)
+        foreach (var c in item)
         {
-            path.Add(current);
+            path = path.Append(current);
 
             var next = current.Find(c);
 
@@ -115,15 +91,18 @@ public class Trie
 
         current.IsInTrie = false;
 
-        for (var i = 1; i < path.Count; ++i)
+        var previous = path.First();
+
+        foreach (var node in path.Skip(1))
         {
-            if (path[i].HeirsNumber == 1)
+            if (node.HeirsNumber == 1)
             {
-                path[i - 1].Unlink(path[i]);
+                previous.Unlink(node);
                 break;
             }
 
-            --path[i].HeirsNumber;
+            --node.HeirsNumber;
+            previous = node;
         }
 
         --this.root.HeirsNumber;
@@ -132,15 +111,15 @@ public class Trie
     }
 
     /// <summary>
-    /// Finds element in the Trie.
+    /// Finds item in the Trie.
     /// </summary>
     /// <returns>true if item was found; otherwise, false.</returns>
-    /// <param name="element">The element which will be searched for.</param>
-    public bool DoesContain(string element)
+    /// <param name="item">The item which will be searched for.</param>
+    public bool Contains(string item)
     {
         var current = this.root;
 
-        foreach (var c in element)
+        foreach (var c in item)
         {
             var next = current.Find(c);
 
@@ -158,7 +137,7 @@ public class Trie
     /// <summary>
     /// Counts word with such prefix in the Trie.
     /// </summary>
-    /// <returns>Number of elements, which have such prefix.</returns>
+    /// <returns>Number of items, which have such prefix.</returns>
     /// <param name="prefix">The prefix which defines search key.</param>
     public int CountWordsWithSuchPrefix(string prefix)
     {
