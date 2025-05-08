@@ -23,7 +23,7 @@ public class CompressionWithBWT
         => Assert.That(() => Decompress(string.Empty), Throws.ArgumentException);
 
     [Test]
-    public void Compress_Then_Decompress_On_Ordinary_Input()
+    public void Compress_Then_Decompress_OnSmallText()
     {
         var input = "some_simple_text_to_compress";
 
@@ -31,9 +31,9 @@ public class CompressionWithBWT
     }
 
     [Test]
-    public void Compress_Then_Decompress_On_Big_Text()
+    public void Compress_Then_Decompress_OnBigText()
     {
-        var path = "../../../../DataForTests/TestData.txt";
+        var path = "../../../../DataForTests/TextForTest.txt";
 
         var input = File.ReadAllText(path);
 

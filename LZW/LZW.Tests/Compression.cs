@@ -49,7 +49,7 @@ public class Compression
     [Test]
     public static void Compress_Then_Decompress_OnBigText()
     {
-        var path = "../../../../DataForTests/TestData.txt";
+        var path = "../../../../DataForTests/TextForTest.txt";
 
         var input = File.ReadAllText(path);
 
@@ -73,9 +73,9 @@ public class Compression
     }
 
     [Test]
-    public static void Compress_Then_Decompress_OnBigBinaryFile()
+    public static void Compress_Then_Decompress_OnBigBinary()
     {
-        var path = "../../../../DataForTests/TestData";
+        var path = "../../../../DataForTests/BinaryForTest";
 
         var input = File.ReadAllBytes(path);
 
