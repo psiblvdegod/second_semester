@@ -9,36 +9,12 @@ namespace Trie;
 /// </summary>
 public class Trie
 {
-    private readonly Vertex root;
+    private readonly Node root = new('/');
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Trie"/> class.
+    /// Gets amount of items in the Trie.
     /// </summary>
-    public Trie()
-    {
-        this.root = new('/');
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Trie"/> class filling it with passed sequence.
-    /// </summary>
-    /// <param name="elements">The sequence from which the Trie is created.</param>
-    public Trie(IEnumerable<string> elements)
-        : this()
-    {
-        foreach (var element in elements)
-        {
-            this.Add(element);
-        }
-    }
-
-    /// <summary>
-    /// Gets amount of elements in the Trie.
-    /// </summary>
-    public int Size
-    {
-        get { return this.root.HeirsNumber; }
-    }
+    public int Count => this.root.HeirsNumber;
 
     /// <summary>
     /// Adds element to the Trie.
@@ -49,7 +25,7 @@ public class Trie
     {
         ArgumentException.ThrowIfNullOrEmpty(element);
 
-        List<Vertex> path = [];
+        List<Node> path = [];
         var current = this.root;
         path.Add(current);
 
@@ -59,7 +35,7 @@ public class Trie
 
             if (next is null)
             {
-                next = new Vertex(c);
+                next = new Node(c);
                 current.Link(next);
             }
 
@@ -72,7 +48,7 @@ public class Trie
             return false;
         }
 
-        current.Number = this.Size;
+        current.Number = this.Count;
 
         foreach (var v in path)
         {
@@ -80,18 +56,6 @@ public class Trie
         }
 
         return true;
-    }
-
-    /// <summary>
-    /// Adds elements to the Trie. Does not report if element was added.
-    /// </summary>
-    /// <param name="element">The elements which will be added.</param>
-    public void Add(IEnumerable<string> element)
-    {
-        foreach (var s in element)
-        {
-            this.Add(s);
-        }
     }
 
     /// <summary>
@@ -111,7 +75,7 @@ public class Trie
     {
         ArgumentException.ThrowIfNullOrEmpty(element);
 
-        List<Vertex> path = [];
+        List<Node> path = [];
         var current = this.root;
         path.Add(current);
 
@@ -183,9 +147,9 @@ public class Trie
     public int FindNumberOf(char element)
         => this.FindNumberOf(element.ToString());
 
-    private class Vertex(char symbol, int number = -1)
+    private class Node(char symbol, int number = -1)
     {
-        private readonly List<Vertex> linked = [];
+        private readonly List<Node> linked = [];
 
         internal char Symbol { get; } = symbol;
 
@@ -193,10 +157,10 @@ public class Trie
 
         internal int HeirsNumber { get; set; }
 
-        internal void Link(Vertex vertex) => this.linked.Add(vertex);
+        internal void Link(Node node) => this.linked.Add(node);
 
-        internal bool Unlink(Vertex vertex) => this.linked.Remove(vertex);
+        internal bool Unlink(Node node) => this.linked.Remove(node);
 
-        internal Vertex? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
+        internal Node? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
     }
 }
