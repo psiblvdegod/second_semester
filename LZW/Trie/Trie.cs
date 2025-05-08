@@ -152,11 +152,11 @@ public class Trie
     }
 
     /// <summary>
-    /// Searches element in the Trie.
+    /// Searches number of element in the Trie.
     /// </summary>
-    /// <returns>(positive)number of item if it was found; otherwise, -1.</returns>
+    /// <returns>Number of item if it was found; otherwise, -1.</returns>
     /// <param name="element">The element which will be searched for.</param>
-    public int Find(string element)
+    public int FindNumberOf(string element)
     {
         var current = this.root;
 
@@ -176,12 +176,12 @@ public class Trie
     }
 
     /// <summary>
-    /// Searches element in the Trie.
+    /// Searches number of element in the Trie.
     /// </summary>
-    /// <returns>(positive)number of item if it was found; otherwise, -1.</returns>
+    /// <returns>Number of item if it was found; otherwise, -1.</returns>
     /// <param name="element">The element which will be searched for.</param>
-    public int Find(char element)
-     => this.Find(element.ToString());
+    public int FindNumberOf(char element)
+        => this.FindNumberOf(element.ToString());
 
     private class Vertex(char symbol, int number = -1)
     {

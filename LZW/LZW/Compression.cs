@@ -14,6 +14,8 @@ public static class Compression
 {
     private static char SeparatingSymbol { get; } = '$';
 
+    private static Encoding Encoding { get; } = Encoding.GetEncoding("ISO-8859-1");
+
     /// <summary>
     /// Compresses string using LZW algorithm.
     /// </summary>
@@ -38,7 +40,6 @@ public static class Compression
         output += SeparatingSymbol;
 
         var length = 16;
-        var freeSpace = (int)Math.Pow(2, length) - dictionary.Size;
 
         var tail = string.Empty;
 
@@ -48,11 +49,6 @@ public static class Compression
             {
                 output += GetBinNumber(tail);
                 tail = c.ToString();
-
-                if (--freeSpace <= 0)
-                {
-                    freeSpace = -(int)Math.Pow(2, length++) + (int)Math.Pow(2, length);
-                }
             }
             else
             {
@@ -62,9 +58,9 @@ public static class Compression
 
         return output + GetBinNumber(tail);
 
-        string GetBinNumber(string seq)
+        string GetBinNumber(string sequence)
         {
-            var significant = Convert.ToString(dictionary.Find(seq), 2);
+            var significant = Convert.ToString(dictionary.FindNumberOf(sequence), 2);
             var zeros = new string('0', length - significant.Length);
             return zeros + significant;
         }
@@ -76,7 +72,7 @@ public static class Compression
     /// <param name="input">Byte sequence which will be compressed.</param>
     /// <returns>Compressed byte sequence.</returns>
     public static byte[] Compress(byte[] input)
-        => Encoding.GetEncoding("ISO-8859-1").GetBytes(Compress(Encoding.GetEncoding("ISO-8859-1").GetString(input)));
+        => Encoding.GetBytes(Compress(Encoding.GetString(input)));
 
     /// <summary>
     /// Decompresses string using LZW algorithm.
@@ -97,7 +93,6 @@ public static class Compression
         }
 
         var length = 16;
-        var freeSpace = (int)Math.Pow(2, length) - dictionary.Count;
 
         var tail = dictionary[Convert.ToInt32(input[(separatorIndex + 1)..(separatorIndex + 1 + length)], 2)];
 
@@ -110,11 +105,6 @@ public static class Compression
             var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
 
             output += current;
-
-            if (--freeSpace <= 0)
-            {
-                freeSpace = -(int)Math.Pow(2, length++) + (int)Math.Pow(2, length);
-            }
 
             if (!dictionary.ContainsValue(tail + current[0]))
             {
@@ -133,5 +123,5 @@ public static class Compression
     /// <param name="input">Compressed byte sequence.</param>
     /// <returns>Initial byte sequence.</returns>
     public static byte[] Decompress(byte[] input)
-        => Encoding.GetEncoding("ISO-8859-1").GetBytes(Decompress(Encoding.GetEncoding("ISO-8859-1").GetString(input)));
+        => Encoding.GetBytes(Decompress(Encoding.GetString(input)));
 }

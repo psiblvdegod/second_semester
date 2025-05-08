@@ -21,7 +21,7 @@ public class Tests
 
     [Test]
     public void Find_ElementIsNotInTrie()
-        => Assert.That(this.trie.Find("element"), Is.EqualTo(-1));
+        => Assert.That(this.trie.FindNumberOf("element"), Is.EqualTo(-1));
 
     [Test]
     public void Add_OnSequenceOfString_ShouldReturnTrue_Multiply()
@@ -39,7 +39,7 @@ public class Tests
 
         for (var i = 0; i < InputData.Length; ++i)
         {
-            Assert.That(this.trie.Find(InputData[i]), Is.EqualTo(i));
+            Assert.That(this.trie.FindNumberOf(InputData[i]), Is.EqualTo(i));
         }
     }
 
@@ -67,7 +67,7 @@ public class Tests
 
         for (var i = 0; i < sequence.Count; ++i)
         {
-            Assert.That(this.trie.Find(sequence[i]), Is.EqualTo(i));
+            Assert.That(this.trie.FindNumberOf(sequence[i]), Is.EqualTo(i));
         }
     }
 
@@ -78,7 +78,7 @@ public class Tests
 
         Assert.That(this.trie.Remove("element"));
 
-        Assert.That(this.trie.Find("element"), Is.EqualTo(-1));
+        Assert.That(this.trie.FindNumberOf("element"), Is.EqualTo(-1));
     }
 
     [Test]
