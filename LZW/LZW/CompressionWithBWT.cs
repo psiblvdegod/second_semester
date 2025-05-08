@@ -1,16 +1,16 @@
-﻿// <copyright file = "Compression.cs" author = "psiblvdegod" date = "2025">
-// under MIT license
+// <copyright file="CompressionWithBWT.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace BWTxLZW;
+namespace LZW;
 
 using System.Text;
 using BWT;
 
 /// <summary>
-/// Contains methods from namespace LZW, improved by Burrows-Wheeler transform.
+/// Contains methods from LZW.Compression, improved by Burrows-Wheeler transform.
 /// </summary>
-public static class Compression
+public static class CompressionWithBWT
 {
     private static char SeparatingSymbol { get; } = '$';
 

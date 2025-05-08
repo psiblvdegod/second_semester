@@ -1,4 +1,4 @@
-﻿// <copyright file = "Tests.cs" author = "psiblvdegod" date = "2025">
+﻿// <copyright file = "Compression.cs" author = "psiblvdegod" date = "2025">
 // under MIT license
 // </copyright>
 
@@ -12,7 +12,7 @@ using static LZW.Compression;
 /// Tests methods from LZW.cs.
 /// </summary>
 [TestFixture]
-public class Tests
+public class Compression
 {
     [Test]
     public static void Compress_On_EmptyString_ShouldThrowException()

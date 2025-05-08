@@ -19,7 +19,7 @@ static double MeasureOnText(string path)
 {
     var input = File.ReadAllText(path);
     var outputWithNoBWT = LZW.Compression.Compress(input);
-    var outputWithBWT = BWTxLZW.Compression.Compress(input);
+    var outputWithBWT = LZW.CompressionWithBWT.Compress(input);
     return (double)outputWithNoBWT.Length / outputWithBWT.Length;
 }
 
@@ -27,6 +27,6 @@ static double MeasureOnBinary(string path)
 {
     var input = File.ReadAllBytes(path);
     var outputWithNoBWT = LZW.Compression.Compress(input);
-    var outputWithBWT = BWTxLZW.Compression.Compress(input);
+    var outputWithBWT = LZW.CompressionWithBWT.Compress(input);
     return (double)outputWithNoBWT.Length / outputWithBWT.Length;
 }

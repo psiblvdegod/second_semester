@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Trie\Trie.csproj" />
+    <ProjectReference Include="..\BWT\BWT.csproj" />
   </ItemGroup>
 
   <ItemGroup>
