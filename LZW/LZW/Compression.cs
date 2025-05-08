@@ -39,7 +39,7 @@ public static class Compression
 
         output += SeparatingSymbol;
 
-        var length = 16;
+        var length = 4;
 
         var tail = string.Empty;
 
@@ -60,7 +60,7 @@ public static class Compression
 
         string GetBinNumber(string sequence)
         {
-            var significant = Convert.ToString(dictionary.FindNumberOf(sequence), 2);
+            var significant = Convert.ToString(dictionary.FindNumberOf(sequence), 16);
             var zeros = new string('0', length - significant.Length);
             return zeros + significant;
         }
@@ -92,7 +92,7 @@ public static class Compression
             dictionary[i] = input[i].ToString();
         }
 
-        var length = 16;
+        var length = 4;
 
         var tail = dictionary[Convert.ToInt32(input[(separatorIndex + 1)..(separatorIndex + 1 + length)], 2)];
 
@@ -100,7 +100,7 @@ public static class Compression
 
         for (var i = separatorIndex + 1 + length; i + length <= input.Length; i += length)
         {
-            var code = Convert.ToInt32(input[i..(i + length)], 2);
+            var code = Convert.ToInt32(input[i..(i + length)], 16);
 
             var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
 

@@ -42,7 +42,7 @@ static void Compress(string path)
         File.WriteAllBytes(newFilePath, result);
     }
 
-    Console.WriteLine(GetCompressionRatio(path));
+    Console.WriteLine($"text without compression is {GetCompressionRatio(path)} times bigger.");
 }
 
 static void Decompress(string path)
@@ -57,13 +57,13 @@ static void Decompress(string path)
     if (path.EndsWith(".txt.zipped"))
     {
         var input = File.ReadAllText(path);
-        var result = LZW.Compression.Decompress(input);
+        var result = LZW.CompressionWithBWT.Decompress(input);
         File.WriteAllText(newFilePath, result);
     }
     else
     {
         var input = File.ReadAllBytes(path);
-        var result = LZW.Compression.Decompress(input);
+        var result = LZW.CompressionWithBWT.Decompress(input);
         File.WriteAllBytes(newFilePath, result);
     }
 }
