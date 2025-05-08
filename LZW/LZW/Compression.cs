@@ -12,9 +12,10 @@ using Trie;
 /// </summary>
 public static class Compression
 {
-    private static char SeparatingSymbol { get; } = '$';
-
-    private static Encoding Encoding { get; } = Encoding.GetEncoding("ISO-8859-1");
+    private static readonly char SeparatingSymbol = '$';
+    private static readonly Encoding Encoding = Encoding.GetEncoding("ISO-8859-1");
+    private static readonly int Base = 16;
+    private static readonly int InitialLength = 4;
 
     /// <summary>
     /// Compresses string using LZW algorithm.
@@ -26,20 +27,8 @@ public static class Compression
         ArgumentException.ThrowIfNullOrEmpty(input);
 
         var dictionary = new Trie();
-
-        var output = string.Empty;
-
-        foreach (var c in input)
-        {
-            if (dictionary.Add(c))
-            {
-                output += c;
-            }
-        }
-
-        output += SeparatingSymbol;
-
-        var length = 4;
+        var output = CreatePrefix();
+        var length = InitialLength;
 
         var tail = string.Empty;
 
@@ -47,7 +36,7 @@ public static class Compression
         {
             if (dictionary.Add(tail + c))
             {
-                output += GetBinNumber(tail);
+                output += GetCodeOfNumberOf(tail);
                 tail = c.ToString();
             }
             else
@@ -56,23 +45,30 @@ public static class Compression
             }
         }
 
-        return output + GetBinNumber(tail);
+        return output + GetCodeOfNumberOf(tail);
 
-        string GetBinNumber(string sequence)
+        string GetCodeOfNumberOf(string data)
         {
-            var significant = Convert.ToString(dictionary.FindNumberOf(sequence), 16);
+            var significant = Convert.ToString(dictionary.FindNumberOf(data), Base);
             var zeros = new string('0', length - significant.Length);
             return zeros + significant;
         }
-    }
 
-    /// <summary>
-    /// Compresses byte sequence using LZW algorithm.
-    /// </summary>
-    /// <param name="input">Byte sequence which will be compressed.</param>
-    /// <returns>Compressed byte sequence.</returns>
-    public static byte[] Compress(byte[] input)
-        => Encoding.GetBytes(Compress(Encoding.GetString(input)));
+        string CreatePrefix()
+        {
+            var result = string.Empty;
+
+            foreach (var symbol in input)
+            {
+                if (dictionary.Add(symbol))
+                {
+                    result += symbol;
+                }
+            }
+
+            return result + SeparatingSymbol;
+        }
+    }
 
     /// <summary>
     /// Decompresses string using LZW algorithm.
@@ -83,25 +79,16 @@ public static class Compression
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
 
-        var dictionary = new Dictionary<int, string>();
-
         var separatorIndex = input.IndexOf(SeparatingSymbol);
+        var dictionary = InitializeDictionaryWithPrefix();
+        var length = InitialLength;
 
-        for (var i = 0; i < separatorIndex; ++i)
-        {
-            dictionary[i] = input[i].ToString();
-        }
-
-        var length = 4;
-
-        var tail = dictionary[Convert.ToInt32(input[(separatorIndex + 1)..(separatorIndex + 1 + length)], 2)];
-
+        var tail = string.Empty;
         var output = tail;
 
-        for (var i = separatorIndex + 1 + length; i + length <= input.Length; i += length)
+        for (var i = separatorIndex + 1; i + length <= input.Length; i += length)
         {
-            var code = Convert.ToInt32(input[i..(i + length)], 16);
-
+            var code = Convert.ToInt32(input[i..(i + length)], Base);
             var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
 
             output += current;
@@ -115,7 +102,27 @@ public static class Compression
         }
 
         return output;
+
+        Dictionary<int, string> InitializeDictionaryWithPrefix()
+        {
+            var dictionary = new Dictionary<int, string>();
+
+            for (var i = 0; i < separatorIndex; ++i)
+            {
+                dictionary[i] = input[i].ToString();
+            }
+
+            return dictionary;
+        }
     }
+
+    /// <summary>
+    /// Compresses byte sequence using LZW algorithm.
+    /// </summary>
+    /// <param name="input">Byte sequence which will be compressed.</param>
+    /// <returns>Compressed byte sequence.</returns>
+    public static byte[] Compress(byte[] input)
+        => Encoding.GetBytes(Compress(Encoding.GetString(input)));
 
     /// <summary>
     /// Decompresses byte sequence using LZW algorithm.

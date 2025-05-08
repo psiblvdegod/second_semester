@@ -12,7 +12,8 @@ using BWT;
 /// </summary>
 public static class CompressionWithBWT
 {
-    private static char SeparatingSymbol { get; } = '$';
+    private static readonly Encoding Encoding = Encoding.GetEncoding("ISO-8859-1");
+    private static readonly char SeparatingSymbol = '$';
 
     /// <summary>
     /// Compresses string using LZW and BWT algorithms.
@@ -22,9 +23,7 @@ public static class CompressionWithBWT
     public static string Compress(string input)
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
-
-        var (output, position) = BWT.Transform(LZW.Compression.Compress(input));
-
+        var (output, position) = BWT.Transform(Compression.Compress(input));
         return string.Concat(position, SeparatingSymbol, output);
     }
 
@@ -34,7 +33,7 @@ public static class CompressionWithBWT
     /// <param name="input">Byte sequence which will be compressed.</param>
     /// <returns>Compressed byte sequence.</returns>
     public static byte[] Compress(byte[] input)
-        => Encoding.GetEncoding("ISO-8859-1").GetBytes(Compress(Encoding.GetEncoding("ISO-8859-1").GetString(input)));
+        => Encoding.GetBytes(Compress(Encoding.GetString(input)));
 
     /// <summary>
     /// Decompresses string which has been transformed with Compress() method.
@@ -44,12 +43,9 @@ public static class CompressionWithBWT
     public static string Decompress(string input)
     {
         ArgumentException.ThrowIfNullOrEmpty(input);
-
         var separatorIndex = input.IndexOf(SeparatingSymbol);
-
         var position = int.Parse(input[..separatorIndex]);
-
-        return LZW.Compression.Decompress(BWT.Detransform(input[(separatorIndex + 1)..], position));
+        return Compression.Decompress(BWT.Detransform(input[(separatorIndex + 1)..], position));
     }
 
     /// <summary>
@@ -58,5 +54,5 @@ public static class CompressionWithBWT
     /// <param name="input">Byte sequence which will be decompressed.</param>
     /// <returns>Initial byte sequence.</returns>
     public static byte[] Decompress(byte[] input)
-        => Encoding.GetEncoding("ISO-8859-1").GetBytes(Decompress(Encoding.GetEncoding("ISO-8859-1").GetString(input)));
+        => Encoding.GetBytes(Decompress(Encoding.GetString(input)));
 }
