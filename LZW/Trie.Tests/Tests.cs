@@ -35,7 +35,10 @@ public class Tests
     [Test]
     public void Find_SequenceAsInput()
     {
-        this.trie.Add(InputData);
+        foreach (var c in InputData)
+        {
+            Assert.That(this.trie.Add(c), Is.True);
+        }
 
         for (var i = 0; i < InputData.Length; ++i)
         {
@@ -90,26 +93,29 @@ public class Tests
         => Assert.Throws<ArgumentException>(() => this.trie.Remove(string.Empty));
 
     [Test]
-    public void Size_EmptyTrie()
-        => Assert.That(this.trie.Size, Is.EqualTo(0));
+    public void Count_EmptyTrie()
+        => Assert.That(this.trie.Count, Is.EqualTo(0));
 
     [Test]
-    public void Size_Ordinary()
+    public void Count_Ordinary()
     {
-        this.trie.Add(InputData);
+        foreach (var c in InputData)
+        {
+            Assert.That(this.trie.Add(c), Is.True);
+        }
 
-        Assert.That(this.trie.Size, Is.EqualTo(5));
+        Assert.That(this.trie.Count, Is.EqualTo(5));
     }
 
     [Test]
-    public void Size_AddThenRemove()
+    public void Count_AddThenRemove()
     {
         this.trie.Add("element");
 
-        Assert.That(this.trie.Size, Is.EqualTo(1));
+        Assert.That(this.trie.Count, Is.EqualTo(1));
 
         this.trie.Remove("element");
 
-        Assert.That(this.trie.Size, Is.EqualTo(0));
+        Assert.That(this.trie.Count, Is.EqualTo(0));
     }
 }
