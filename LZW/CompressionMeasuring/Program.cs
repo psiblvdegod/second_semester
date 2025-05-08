@@ -12,10 +12,10 @@ var resultOfFirstMeasurement = MeasureOnText(pathForFirstMeasurement);
 var pathForSecondMeasurement = "../DataForTests/BigBinaryForTest";
 var resultOfSecondMeasurement = MeasureOnBinary(pathForSecondMeasurement);
 
-Console.WriteLine($"first measure: text is {resultOfFirstMeasurement} times bigger with no BWT.");
-Console.WriteLine($"second measure: text is {resultOfSecondMeasurement} times bigger with no BWT.");
+Console.WriteLine($"on text: compression ratio = {resultOfFirstMeasurement.CompressionRatio}, text is {resultOfFirstMeasurement.BWTImpact} times bigger with no BWT.");
+Console.WriteLine($"on binary: copression ratio = {resultOfSecondMeasurement.CompressionRatio}, text is {resultOfSecondMeasurement.BWTImpact} times bigger with no BWT.");
 
-static double MeasureOnText(string path)
+static Measurement MeasureOnText(string path)
 {
     var input = File.ReadAllText(path);
     var outputWithNoBWT = LZW.Compression.Compress(input);
@@ -30,10 +30,12 @@ static double MeasureOnText(string path)
         throw new Exception("Compression with BWT corrupted the data.");
     }
 
-    return (double)outputWithNoBWT.Length / outputWithBWT.Length;
+    var compressionRatio = (double)input.Length / outputWithBWT.Length;
+    var BWTImpact = (double)outputWithNoBWT.Length / outputWithBWT.Length;
+    return new (compressionRatio, BWTImpact);
 }
 
-static double MeasureOnBinary(string path)
+static Measurement MeasureOnBinary(string path)
 {
     var input = File.ReadAllBytes(path);
     var outputWithNoBWT = LZW.Compression.Compress(input);
@@ -48,5 +50,9 @@ static double MeasureOnBinary(string path)
         throw new Exception("Compression with BWT corrupted the data.");
     }
 
-    return (double)outputWithNoBWT.Length / outputWithBWT.Length;
+    var compressionRatio = (double)input.Length / outputWithBWT.Length;
+    var BWTImpact = (double)outputWithNoBWT.Length / outputWithBWT.Length;
+    return new (compressionRatio, BWTImpact);
 }
+
+record Measurement(double CompressionRatio, double BWTImpact);
