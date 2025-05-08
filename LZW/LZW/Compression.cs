@@ -15,7 +15,6 @@ public static class Compression
     private static readonly char SeparatingSymbol = '$';
     private static readonly Encoding Encoding = Encoding.GetEncoding("ISO-8859-1");
     private static readonly int Base = 16;
-    private static readonly int InitialLength = 4;
 
     /// <summary>
     /// Compresses string using LZW algorithm.
@@ -28,15 +27,13 @@ public static class Compression
 
         var dictionary = new Trie();
         var output = CreatePrefix();
-        var length = InitialLength;
-
         var tail = string.Empty;
 
         foreach (var c in input)
         {
             if (dictionary.Add(tail + c))
             {
-                output += GetCodeOfNumberOf(tail);
+                output += GetCodeOfNumberOf(tail) + SeparatingSymbol;
                 tail = c.ToString();
             }
             else
@@ -48,11 +45,7 @@ public static class Compression
         return output + GetCodeOfNumberOf(tail);
 
         string GetCodeOfNumberOf(string data)
-        {
-            var significant = Convert.ToString(dictionary.FindNumberOf(data), Base);
-            var zeros = new string('0', length - significant.Length);
-            return zeros + significant;
-        }
+            => Convert.ToString(dictionary.FindNumberOf(data), Base);
 
         string CreatePrefix()
         {
@@ -81,16 +74,15 @@ public static class Compression
 
         var separatorIndex = input.IndexOf(SeparatingSymbol);
         var dictionary = InitializeDictionaryWithPrefix();
-        var length = InitialLength;
-
         var tail = string.Empty;
         var output = tail;
 
-        for (var i = separatorIndex + 1; i + length <= input.Length; i += length)
-        {
-            var code = Convert.ToInt32(input[i..(i + length)], Base);
-            var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
+        var records = input[(separatorIndex + 1)..].Split(SeparatingSymbol);
 
+        foreach (var record in records)
+        {
+            var code = Convert.ToInt32(record, Base);
+            var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
             output += current;
 
             if (!dictionary.ContainsValue(tail + current[0]))
