@@ -1,5 +1,5 @@
-// <copyright file = "CompressionWithBWT.cs" author = "psiblvdegod" date = "2025">
-// under MIT license
+// <copyright file="CompressionWithBWT.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 #pragma warning disable SA1600

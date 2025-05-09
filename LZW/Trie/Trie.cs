@@ -1,5 +1,5 @@
-﻿// <copyright file="Trie.cs" author="psiblvdegod" date ="2025">
-// under MIT license
+﻿// <copyright file="Trie.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace Trie;

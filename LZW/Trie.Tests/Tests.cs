@@ -1,5 +1,5 @@
-﻿// <copyright file="Tests.cs" author="psiblvdegod" date ="2025">
-// under MIT license
+﻿// <copyright file="Tests.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 #pragma warning disable SA1600
