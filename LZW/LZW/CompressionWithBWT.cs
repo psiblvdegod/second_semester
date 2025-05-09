@@ -1,5 +1,5 @@
-// <copyright file="CompressionWithBWT.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CompressionWithBWT.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace LZW;

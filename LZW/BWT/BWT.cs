@@ -1,5 +1,5 @@
-﻿// <copyright file = "BWT.cs" author = "psiblvdegod" date = "2025">
-// under MIT license
+﻿// <copyright file="BWT.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace BWT;

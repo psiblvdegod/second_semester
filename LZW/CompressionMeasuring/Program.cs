@@ -1,21 +1,20 @@
-﻿// <copyright file = "Program.cs" author = "psiblvdegod" date = "2025">
-// under MIT license
+﻿// <copyright file="Program.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 /// <summary>
-/// measures the effect of BWT on compression ratio.
+/// Measures the effect of BWT on compression ratio.
 /// </summary>
-
 var pathForFirstMeasurement = "../DataForTests/BigTextForTest.txt";
 var resultOfFirstMeasurement = MeasureOnText(pathForFirstMeasurement);
 
 var pathForSecondMeasurement = "../DataForTests/BigBinaryForTest";
 var resultOfSecondMeasurement = MeasureOnBinary(pathForSecondMeasurement);
 
-Console.WriteLine($"on text: compression ratio = {resultOfFirstMeasurement.CompressionRatio}, text is {resultOfFirstMeasurement.BWTImpact} times bigger with no BWT.");
-Console.WriteLine($"on binary: copression ratio = {resultOfSecondMeasurement.CompressionRatio}, text is {resultOfSecondMeasurement.BWTImpact} times bigger with no BWT.");
+Console.WriteLine($"on text: compression ratio = {resultOfFirstMeasurement.CompressionRatio}, text is {resultOfFirstMeasurement.ImpactOfBWT} times bigger with no BWT.");
+Console.WriteLine($"on binary: copression ratio = {resultOfSecondMeasurement.CompressionRatio}, text is {resultOfSecondMeasurement.ImpactOfBWT} times bigger with no BWT.");
 
-static Measurement MeasureOnText(string path)
+static (double CompressionRatio, double ImpactOfBWT) MeasureOnText(string path)
 {
     var input = File.ReadAllText(path);
     var outputWithNoBWT = LZW.Compression.Compress(input);
@@ -25,17 +24,18 @@ static Measurement MeasureOnText(string path)
     {
         throw new Exception("Compression corrupted the data.");
     }
+
     if (LZW.CompressionWithBWT.Decompress(outputWithBWT) != input)
     {
         throw new Exception("Compression with BWT corrupted the data.");
     }
 
     var compressionRatio = (double)input.Length / outputWithBWT.Length;
-    var BWTImpact = (double)outputWithNoBWT.Length / outputWithBWT.Length;
-    return new (compressionRatio, BWTImpact);
+    var impactOfBWT = (double)outputWithNoBWT.Length / outputWithBWT.Length;
+    return (compressionRatio, impactOfBWT);
 }
 
-static Measurement MeasureOnBinary(string path)
+static (double CompressionRatio, double ImpactOfBWT) MeasureOnBinary(string path)
 {
     var input = File.ReadAllBytes(path);
     var outputWithNoBWT = LZW.Compression.Compress(input);
@@ -45,14 +45,13 @@ static Measurement MeasureOnBinary(string path)
     {
         throw new Exception("Compression corrupted the data.");
     }
+
     if (!LZW.CompressionWithBWT.Decompress(outputWithBWT).SequenceEqual(input))
     {
         throw new Exception("Compression with BWT corrupted the data.");
     }
 
     var compressionRatio = (double)input.Length / outputWithBWT.Length;
-    var BWTImpact = (double)outputWithNoBWT.Length / outputWithBWT.Length;
-    return new (compressionRatio, BWTImpact);
+    var impactOfBWT = (double)outputWithNoBWT.Length / outputWithBWT.Length;
+    return (compressionRatio, impactOfBWT);
 }
-
-record Measurement(double CompressionRatio, double BWTImpact);

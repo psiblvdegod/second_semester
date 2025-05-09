@@ -1,4 +1,8 @@
-﻿using LZW;
+﻿// <copyright file="Program.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
+// </copyright>
+
+using LZW;
 
 Run(args);
 
@@ -16,10 +20,10 @@ static void Run(string[] args)
     {
         case "--c":
             Compress(args[0]);
-        break;
+            break;
         case "--u":
             Decompress(args[0]);
-        break;
+            break;
         default:
             throw new ArgumentException("Invalid switch passed.");
     }
