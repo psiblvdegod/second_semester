@@ -1,5 +1,5 @@
-﻿// <copyright file = "Compression.cs" author = "psiblvdegod" date = "2025">
-// under MIT license
+﻿// <copyright file="Compression.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace LZW;
@@ -18,7 +18,7 @@ public static class Compression
         = Encoding.GetEncoding("ISO-8859-1");
 
     private static readonly Encoder Encoder
-        = new("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ()");
+        = new("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#%&'()*+,-./:;<=>?@[]^_`{|}~¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ");
 
     /// <summary>
     /// Compresses string using LZW algorithm.
