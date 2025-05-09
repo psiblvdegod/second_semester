@@ -14,7 +14,6 @@ public static class Compression
 {
     private static readonly char SeparatingSymbol = '$';
     private static readonly Encoding Encoding = Encoding.GetEncoding("ISO-8859-1");
-    private static readonly int Base = 16;
 
     /// <summary>
     /// Compresses string using LZW algorithm.
@@ -45,7 +44,7 @@ public static class Compression
         return output + GetCodeOfNumberOf(tail);
 
         string GetCodeOfNumberOf(string data)
-            => Convert.ToString(dictionary.FindNumberOf(data), Base);
+            => Base64Encoding.Encode(dictionary.FindNumberOf(data));
 
         string CreatePrefix()
         {
@@ -81,7 +80,7 @@ public static class Compression
 
         foreach (var record in records)
         {
-            var code = Convert.ToInt32(record, Base);
+            var code = Base64Encoding.Decode(record);
             var current = code < dictionary.Count ? dictionary[code] : tail + tail[0];
             output += current;
 
