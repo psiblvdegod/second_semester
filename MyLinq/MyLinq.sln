@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C8D0CCED-8B1D-4143-A284-D2F550F82C8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functions", "Functions\Functions.csproj", "{3DD63794-1E11-4F89-A8F5-E822FD11E162}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLinq", "MyLinq\MyLinq.csproj", "{C60DC613-BE3F-4B64-AEEB-5FF0686DA325}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +20,9 @@ Global
 		{C8D0CCED-8B1D-4143-A284-D2F550F82C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8D0CCED-8B1D-4143-A284-D2F550F82C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8D0CCED-8B1D-4143-A284-D2F550F82C8E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DD63794-1E11-4F89-A8F5-E822FD11E162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DD63794-1E11-4F89-A8F5-E822FD11E162}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DD63794-1E11-4F89-A8F5-E822FD11E162}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DD63794-1E11-4F89-A8F5-E822FD11E162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C60DC613-BE3F-4B64-AEEB-5FF0686DA325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C60DC613-BE3F-4B64-AEEB-5FF0686DA325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C60DC613-BE3F-4B64-AEEB-5FF0686DA325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C60DC613-BE3F-4B64-AEEB-5FF0686DA325}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
