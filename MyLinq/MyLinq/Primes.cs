@@ -1,7 +1,18 @@
-﻿namespace MyLinq;
+﻿// <copyright file="Primes.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
+// </copyright>
 
+namespace MyLinq;
+
+/// <summary>
+/// Implements operations with prime numbers.
+/// </summary>
 public static class Primes
 {
+    /// <summary>
+    /// Gets sequence of prime numbers.
+    /// </summary>
+    /// <returns>An IEnumerable which represents infinity sequence of prime numbers.</returns>
     public static IEnumerable<int> Get()
     {
         for (var current = 1; ; current = GetNextPrime(current))
