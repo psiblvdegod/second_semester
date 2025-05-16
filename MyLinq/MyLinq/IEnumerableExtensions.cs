@@ -20,7 +20,7 @@ public static class IEnumerableExtensions
     {
         IEnumerator<TSource> enumerator = source.GetEnumerator();
 
-        for (var counter = 0; counter < count && enumerator.MoveNext(); ++counter)
+        for (var counter = 0; enumerator.MoveNext() && counter < count; ++counter)
         {
             yield return enumerator.Current;
         }

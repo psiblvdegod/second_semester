@@ -26,7 +26,6 @@ public static class Primes
         while (true)
         {
             ++current;
-
             var isPrime = true;
 
             for (var divider = 2; divider <= (int)Math.Sqrt(current); ++divider)
