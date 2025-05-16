@@ -73,6 +73,20 @@ public class Tests
     }
 
     [Test]
+    public void Primes_Get()
+    {
+        var expectedCollection = IntSource;
+        var enumeratorOfActualCollection = Primes.Get().GetEnumerator();
+        enumeratorOfActualCollection.MoveNext();
+        foreach (var expectedItem in expectedCollection)
+        {
+            var actualItem = enumeratorOfActualCollection.Current;
+            Assert.That(actualItem, Is.EqualTo(expectedItem));
+            enumeratorOfActualCollection.MoveNext();
+        }
+    }
+
+    [Test]
     public void Primes_Get_WithMyTake()
     {
         var count = 7;
