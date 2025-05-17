@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <NoWarn>$(NoWarn),SA0001</NoWarn>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
