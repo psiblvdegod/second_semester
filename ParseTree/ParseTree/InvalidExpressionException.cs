@@ -1,11 +1,11 @@
-// <copyright file="InvalidExpressionException.cs" author="psiblvdegod">
-// under MIT License.
+// <copyright file="InvalidExpressionException.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree;
 
 /// <summary>
-/// Exception which ought to be thrown if expression passed to build ParseTree.Tree.
+/// Exception which ought to be thrown if expression passed to build ParseTree.Tree is invalid.
 /// </summary>
 public class InvalidExpressionException : Exception
 {
