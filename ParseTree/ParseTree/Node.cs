@@ -1,11 +1,11 @@
-// <copyright file="Node.cs" author="psiblvdegod">
-// under MIT License.
+// <copyright file="Node.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree;
 
 /// <summary>
-/// Abstract class that class Tree uses to store data.
+/// Abstract class that class Tree uses to store item.
 /// </summary>
 public abstract class Node
 {
