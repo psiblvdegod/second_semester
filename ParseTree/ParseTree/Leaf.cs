@@ -1,5 +1,5 @@
-﻿// <copyright file="Leaf.cs" author="psiblvdegod">
-// under MIT License.
+﻿// <copyright file="Leaf.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree;
@@ -7,16 +7,16 @@ namespace ParseTree;
 /// <summary>
 /// Node that stores integer and has no children.
 /// </summary>
-/// <param name="data">Value that node stores.</param>
-public class Leaf(int data) : Node
+/// <param name="item">Value that node stores.</param>
+public class Leaf(int item) : Node
 {
-    private readonly int data = data;
+    private readonly int item = item;
 
     /// <inheritdoc/>
     public override int Calculate()
-        => this.data;
+        => this.item;
 
     /// <inheritdoc/>
     public override void Print()
-        => Console.WriteLine($"{this.data}");
+        => Console.Write($"{this.item}");
 }
