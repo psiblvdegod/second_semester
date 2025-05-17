@@ -1,11 +1,13 @@
-// <copyright file="Tree.cs" author="psiblvdegod">
-// under MIT License.
+// <copyright file="Tree.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree;
 
 /// <summary>
 /// Implements parse tree data structure that allows store expression and calculates it.
+/// Has addition, subtraction, multiplication and division as operations.
+/// Allows add custom integer binary operations.
 /// </summary>
 public class Tree
 {
@@ -15,13 +17,13 @@ public class Tree
         ["-"] = (x, y) => x - y,
         ["*"] = (x, y) => x * y,
         ["/"] = (x, y) => x / y,
-        ["pow"] = (x, y) => (int)Math.Pow(x, y),
     };
 
     private readonly Node root;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Tree"/> class.
+    /// Builds parse tree by passed expression.
     /// </summary>
     /// <param name="expression">Expression that will be parsed to build tree.</param>
     public Tree(string expression)
@@ -29,7 +31,6 @@ public class Tree
         ArgumentException.ThrowIfNullOrEmpty(expression);
 
         var tokens = expression.Split(' ');
-
         this.root = Parse(tokens[0]);
 
         if (tokens.Length == 1 && this.root is Leaf)
@@ -56,29 +57,32 @@ public class Tree
                 throw new InvalidExpressionException();
             }
 
-            var current = stack.Peek();
-
-            var parsed = Parse(token);
-
-            if (current.LeftChild is null)
-            {
-                current.LeftChild = parsed;
-            }
-            else if (current.RightChild is null)
-            {
-                current.RightChild = parsed;
-                stack.Pop();
-            }
-
-            if (parsed is Operator @operator)
-            {
-                stack.Push(@operator);
-            }
+            AddNodeToTree(Parse(token));
         }
 
         if (stack.Count != 0)
         {
             throw new InvalidExpressionException();
+        }
+
+        void AddNodeToTree(Node node)
+        {
+            var current = stack.Peek();
+
+            if (current.LeftChild is null)
+            {
+                current.LeftChild = node;
+            }
+            else if (current.RightChild is null)
+            {
+                current.RightChild = node;
+                stack.Pop();
+            }
+
+            if (node is Operator op)
+            {
+                stack.Push(op);
+            }
         }
     }
 
@@ -111,13 +115,13 @@ public class Tree
         {
             return new Leaf(parsed);
         }
-        else if (SupportedOperators.ContainsKey(token))
+        else if (SupportedOperators.TryGetValue(token, out Func<int, int, int>? value))
         {
-            return new Operator(SupportedOperators[token], token);
+            return new Operator(value, token);
         }
         else
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("token is not recognized.");
         }
     }
 }
