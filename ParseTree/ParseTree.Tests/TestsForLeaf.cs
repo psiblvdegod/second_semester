@@ -1,5 +1,5 @@
-// <copyright file="TestsForLeaf.cs" author="psiblvdegod">
-// under MIT License.
+// <copyright file="TestsForLeaf.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree.Tests;
@@ -7,7 +7,7 @@ namespace ParseTree.Tests;
 #pragma warning disable SA1600
 
 /// <summary>
-/// Tests methods of class Leaf .
+/// Tests methods of class Leaf.
 /// </summary>
 [TestFixture]
 public class TestsForLeaf
@@ -15,9 +15,9 @@ public class TestsForLeaf
     [Test]
     public void TestForCalculate()
     {
-        var data = 1;
-        Leaf leaf = new(data);
-        var expectedResult = data;
+        var item = 1;
+        Leaf leaf = new(item);
+        var expectedResult = item;
 
         var actualResult = leaf.Calculate();
 
@@ -27,9 +27,9 @@ public class TestsForLeaf
     [Test]
     public void TestForPrint()
     {
-        var data = 1;
-        Leaf leaf = new(data);
-        var expectedResult = $"{data}\n";
+        var item = 1;
+        Leaf leaf = new(item);
+        var expectedResult = $"{item}";
 
         var output = new StringWriter();
         Console.SetOut(output);

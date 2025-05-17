@@ -1,5 +1,5 @@
-// <copyright file="TestsForOperator.cs" author="psiblvdegod">
-// under MIT License.
+// <copyright file="TestsForOperator.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree.Tests;
@@ -17,7 +17,7 @@ public class TestsForOperator
     {
         Func<int, int, int> operation = (x, y) => x * y;
 
-        var root = new Operator(operation, string.Empty)
+        var root = new Operator(operation)
         {
             LeftChild = new Leaf(2),
             RightChild = new Leaf(3),
@@ -37,15 +37,15 @@ public class TestsForOperator
         Func<int, int, int> operation2 = (x, y) => x - y;
         Func<int, int, int> operation3 = (x, y) => x % y;
 
-        var root = new Operator(operation1, string.Empty);
+        var root = new Operator(operation1);
 
-        var left = new Operator(operation2, string.Empty)
+        var left = new Operator(operation2)
         {
             LeftChild = new Leaf(3),
             RightChild = new Leaf(1),
         };
 
-        var right = new Operator(operation3, string.Empty)
+        var right = new Operator(operation3)
         {
             LeftChild = new Leaf(5),
             RightChild = new Leaf(3),
@@ -64,7 +64,7 @@ public class TestsForOperator
     [Test]
     public void Calculate_OnOperatorWithOneOrWithNoOperands_ShouldThrowException()
     {
-        var root = new Operator((x, y) => x + y, string.Empty);
+        var root = new Operator((x, y) => x + y);
 
         Assert.Throws<InvalidOperationException>(() => root.Calculate());
 
@@ -82,13 +82,12 @@ public class TestsForOperator
     {
         var token = "+";
         var node = new Operator((x, y) => x + y, token);
-        var expectedResult = $"{token}\n";
 
         var output = new StringWriter();
         Console.SetOut(output);
 
         node.Print();
 
-        Assert.That(output.ToString(), Is.EqualTo(expectedResult));
+        Assert.That(output.ToString(), Is.EqualTo(token));
     }
 }

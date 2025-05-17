@@ -1,5 +1,5 @@
-﻿// <copyright file="TestsForTree.cs" author="psiblvdegod">
-// under MIT License.
+﻿// <copyright file="TestsForTree.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree.Tests;
@@ -52,9 +52,15 @@ public class TestsForTree
     }
 
     [Test]
-    public void Calculate_OnExpressionWithUnusualOperator()
+    public void AddOperationToSupportedOnes_OnPow()
     {
-        var expression = "- pow 2 5 2";
+        Func<int, int, int> operation = (x, y) => (int)Math.Pow(x, y);
+
+        var token = "pow";
+
+        Tree.AddOperationToSupportedOnes(token, operation);
+
+        var expression = $"- {token} 2 5 2";
 
         var expectedResult = 30;
 
@@ -64,7 +70,7 @@ public class TestsForTree
     }
 
     [Test]
-    public void AddOperationToSupportedOnes_OnSimpleOperationToAdd()
+    public void AddOperationToSupportedOnes_OnConcat()
     {
         Func<int, int, int> operation = (x, y) => int.Parse($"{x}{y}");
 
@@ -83,7 +89,5 @@ public class TestsForTree
 
     [Test]
     public void AddOperationToSupportedOnes_OnExistingOperation_ShouldThrowException()
-    {
-        Assert.Throws<InvalidOperationException>(() => Tree.AddOperationToSupportedOnes("+", (x, y) => x + y));
-    }
+        => Assert.Throws<InvalidOperationException>(() => Tree.AddOperationToSupportedOnes("+", (x, y) => x + y));
 }
