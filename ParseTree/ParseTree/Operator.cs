@@ -1,5 +1,5 @@
-// <copyright file="Operator.cs" author="psiblvdegod">
-// under MIT License.
+// <copyright file="Operator.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace ParseTree;
@@ -11,6 +11,8 @@ namespace ParseTree;
 /// <param name="token">Token which Print() writes to console.</param>
 public class Operator(Func<int, int, int> operation, string token = "") : Node
 {
+    private readonly Func<int, int, int> operation = operation;
+
     private readonly string token = token;
 
     /// <summary>
@@ -23,8 +25,6 @@ public class Operator(Func<int, int, int> operation, string token = "") : Node
     /// </summary>
     public Node? RightChild { get; set; }
 
-    private Func<int, int, int> Operation { get; } = operation;
-
     /// <inheritdoc/>
     public override int Calculate()
     {
@@ -33,10 +33,10 @@ public class Operator(Func<int, int, int> operation, string token = "") : Node
             throw new InvalidOperationException("operand is missing.");
         }
 
-        return this.Operation(this.LeftChild.Calculate(), this.RightChild.Calculate());
+        return this.operation(this.LeftChild.Calculate(), this.RightChild.Calculate());
     }
 
     /// <inheritdoc/>
     public override void Print()
-        => Console.WriteLine(this.token);
+        => Console.Write(this.token);
 }
