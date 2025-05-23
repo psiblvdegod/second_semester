@@ -2,13 +2,15 @@
 // psiblvdegod, 2025, under MIT License.
 // </copyright>
 
+using System.Collections;
+
 namespace MyList;
 
 /// <summary>
 /// Collection which allows add items and use enumerator on them.
 /// </summary>
 /// <typeparam name="T">Type of items in the collection.</typeparam>
-public class List<T>
+public class List<T> : IEnumerable<T>
 {
     private static readonly int InitialLenght = 10;
     private T[] items = new T[InitialLenght];
@@ -54,31 +56,15 @@ public class List<T>
     /// </summary>
     /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
     public IEnumerator<T> GetEnumerator()
-        => new Enumerator(this.items, this.Count);
-
-    private class Enumerator(T[] items, int count) : IEnumerator<T>
     {
-        private T[] items = items;
-
-        private int count = count;
-
-        private int index = -1;
-
-        public T Current
-            => this.items[this.index];
-
-        object? System.Collections.IEnumerator.Current
-            => this.Current;
-
-        public bool MoveNext()
-            => ++this.index < this.count;
-
-        public void Dispose()
+        for (int index = 0; index < this.Count; index++)
         {
+            yield return this.items[index];
         }
+    }
 
-        public void Reset()
-        {
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
