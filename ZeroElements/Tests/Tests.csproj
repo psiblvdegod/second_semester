@@ -29,4 +29,8 @@
     <ProjectReference Include="..\MyList\MyList.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" />
+  </ItemGroup>
+
 </Project>
