@@ -9,9 +9,11 @@ using MyList;
 
 public class Tests
 {
-    private static readonly int[] IntItems = [1, 0, 2, 0, 3, 0, 4, 0];
+    private static readonly int[] IntItems = [1, 2, 3, 4, 5, 6, 7, 8];
 
     private static readonly string[] StringItems = [string.Empty, "123", "100", string.Empty, string.Empty, "A"];
+
+    private static readonly bool[] BoolItems = [false, true, false, true, false];
 
     [Test]
     public void CountNulls_OnInts()
@@ -23,9 +25,9 @@ public class Tests
             list.Add(item);
         }
 
-        Predicate<int> isNull = x => x == 0;
+        Predicate<int> isNull = x => x % 2 == 0;
 
-        var expectedResult = 4;
+        var expectedResult = IntItems.Count(x => x % 2 == 0);
         var actualResult = list.CountNulls(isNull);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
@@ -43,9 +45,28 @@ public class Tests
 
         Predicate<string> isNull = x => x == string.Empty;
 
-        var expectedResult = 3;
+        var expectedResult = StringItems.Count(x => x == string.Empty);
         var actualResult = list.CountNulls(isNull);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void CountNulls_OnCustomRecognizer()
+    {
+        var list = new MyList.List<bool>();
+
+        foreach (var item in BoolItems)
+        {
+            list.Add(item);
+        }
+
+        var recognizer = new NullRecognizer();
+
+        var expectedResult = BoolItems.Count(x => x is false);
+
+        var actualResult = list.CountNulls(recognizer);
+
+        Assert.That(expectedResult, Is.EqualTo(actualResult));
     }
 }
