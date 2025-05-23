@@ -1,5 +1,5 @@
-// <copyright file="INullRecognizer.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="INullRecognizer.cs" company="_">
+// psiblvdegod, 2025, under MIT License.
 // </copyright>
 
 namespace MyList;
