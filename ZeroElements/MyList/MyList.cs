@@ -29,15 +29,16 @@ public class List<T>
     }
 
     public IEnumerator<T> GetEnumerator()
-    {
-        return new Enumerator(items);
-    }
+        => new Enumerator(items, this.Count);
+    
 
-    private class Enumerator(T[] items) : IEnumerator<T>
+    private class Enumerator(T[] items, int count) : IEnumerator<T>
     {
         private T[] items = items;
 
-        int index = 0;
+        private int count = count;
+
+        int index = -1;
 
         public T Current
             => items[this.index];
@@ -45,7 +46,7 @@ public class List<T>
         object System.Collections.IEnumerator.Current => this.Current;
 
         public bool MoveNext()
-            => ++this.index < items.Length;
+            => ++this.index < count;
 
         public void Dispose()
         {
