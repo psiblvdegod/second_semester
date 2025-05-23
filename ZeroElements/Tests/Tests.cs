@@ -69,4 +69,20 @@ public class Tests
 
         Assert.That(expectedResult, Is.EqualTo(actualResult));
     }
+
+    [Test]
+    public void AssertThat_EnumeratorInvalidates_IfCollectionChanges()
+    {
+        var list = new MyList.List<int>();
+
+        list.Add(1);
+
+        var enumerator = list.GetEnumerator();
+
+        Assert.That(enumerator.MoveNext(), Is.True);
+
+        list.Add(2);
+
+        Assert.Throws<InvalidOperationException>(() => enumerator.MoveNext());
+    }
 }

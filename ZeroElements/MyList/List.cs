@@ -54,15 +54,20 @@ public class List<T> : IEnumerable<T>
     /// <inheritdoc/>
     public IEnumerator<T> GetEnumerator()
     {
+        var asserter = this.Count;
+
         for (int index = 0; index < this.Count; index++)
         {
+            if (this.Count != asserter)
+            {
+                throw new InvalidOperationException("collection was changed.");
+            }
+
             yield return this.items[index];
         }
     }
 
     /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator()
-    {
-        return this.GetEnumerator();
-    }
+        => this.GetEnumerator();
 }
