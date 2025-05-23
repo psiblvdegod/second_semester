@@ -1,25 +1,29 @@
-﻿namespace Tests;
+﻿using MyList;
+
+namespace Tests;
 
 public class Tests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
+    private static readonly int[] IntItems = [ 1, 0, 2, 0, 3, 0, 4, 0];
+
+    private static readonly string[] StringItems;
 
     [Test]
     public void Test1()
     {
         var list = new MyList.List<int>();
 
-        for (var i = 0; i < 15; ++i)
+        foreach (var item in IntItems)
         {
-            list.Add(i);
+            list.Add(item);
         }
 
-        foreach (var i in list)
-        {
-            Console.WriteLine(i);
-        }
+        Predicate<int> IsNull = x => x == 0;
+
+        var expectedResult = 4;
+
+        var actualResult = list.CountNulls(IsNull);
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
 }
