@@ -2,9 +2,9 @@
 // psiblvdegod, 2025, under MIT License.
 // </copyright>
 
-using System.Collections;
-
 namespace MyList;
+
+using System.Collections;
 
 /// <summary>
 /// Collection which allows add items and use enumerator on them.
@@ -51,10 +51,7 @@ public class List<T> : IEnumerable<T>
         }
     }
 
-    /// <summary>
-    /// Returns an enumerator that iterates through a collection.
-    /// </summary>
-    /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
+    /// <inheritdoc/>
     public IEnumerator<T> GetEnumerator()
     {
         for (int index = 0; index < this.Count; index++)
@@ -63,8 +60,9 @@ public class List<T> : IEnumerable<T>
         }
     }
 
+    /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();
+        return this.GetEnumerator();
     }
 }
