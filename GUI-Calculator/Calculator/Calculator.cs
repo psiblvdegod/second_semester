@@ -11,6 +11,8 @@ using System.ComponentModel;
 /// </summary>
 public class Calculator : INotifyPropertyChanged
 {
+    private static readonly double Epsilon = 0.000001;
+
     /// <summary>
     /// Store intermediate states.
     /// </summary>
@@ -31,7 +33,7 @@ public class Calculator : INotifyPropertyChanged
         ['+'] = (x, y) => x + y,
         ['*'] = (x, y) => x * y,
         ['-'] = (x, y) => x - y,
-        ['/'] = (x, y) => x / y,
+        ['/'] = (x, y) => Math.Abs(y) < Epsilon ? throw new DivideByZeroException() : x / y,
         ['^'] = Math.Pow,
     };
 
@@ -98,7 +100,7 @@ public class Calculator : INotifyPropertyChanged
         }
         else
         {
-            return;
+            throw new ArgumentException("passed token is not allowed in the current context.");
         }
 
         this.PropertyChanged?.Invoke(this, new(nameof(this.State)));
