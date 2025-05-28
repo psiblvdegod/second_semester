@@ -166,4 +166,17 @@ public class Tests
             Assert.That(this.calculator.State, Is.EqualTo("-"));
         }
     }
+
+    [Test]
+    public void Calculator_OnCleanToken()
+    {
+        var tokens = $"C1+1=C0";
+        string[] expectedStates = [string.Empty, "1", "1+", "1+1", "2", string.Empty, "0"];
+
+        for (var i = 0; i < tokens.Length; ++i)
+        {
+            this.calculator.AddToken(tokens[i]);
+            Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
+        }
+    }
 }
