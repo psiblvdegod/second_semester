@@ -9,7 +9,7 @@
 namespace Calculator.Tests;
 
 /// <summary>
-/// Tests Calculator class.
+/// Tests class Calculator.
 /// </summary>
 public class Tests
 {
@@ -73,21 +73,6 @@ public class Tests
     }
 
     [Test]
-    public void Calculator_OnIncorrectExpression()
-    {
-        var input = "==10++20//***30=";
-
-        foreach (var token in input)
-        {
-            this.calculator.AddToken(token);
-        }
-
-        var expectedResult = "1";
-
-        Assert.That(this.calculator.State, Is.EqualTo(expectedResult));
-    }
-
-    [Test]
     public void Calculator_TestingIntermediateStates()
     {
         var input = "10*20+";
@@ -102,18 +87,16 @@ public class Tests
     }
 
     [Test]
-    public void Calculator_TestingIntermediateStates_WithIncorrectExpression()
+    public void Calculator_ShouldThrow_WhenRightOperandIsMissing()
     {
-        var input = "-10++20--20*/=20=";
+        var expression = "-10+";
 
-        string[] expectedStates =
-            ["-", "-1", "-10", "-10+", "-10+", "-10+2", "-10+20", "10-", "10--", "10--2", "10--20", "30*", "30*", "30*", "30*2", "30*20", "600"];
-
-        for (var i = 0; i < input.Length; ++i)
+        foreach (var token in expression)
         {
-            this.calculator.AddToken(input[i]);
-            Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
+            this.calculator.AddToken(token);
         }
+
+        Assert.Throws<ArgumentException>(() => this.calculator.AddToken('='));
     }
 
     [Test]
@@ -147,23 +130,13 @@ public class Tests
     }
 
     [Test]
-    public void Calculator_WhenGetsOperatorsWithNoOperands_ShouldNotReact()
+    public void Calculator_ShouldThrow_IfGetsOperatorsWithNoOperands()
     {
         var tokens = $"{Floor}{Ceiling}/*=+^";
 
-        for (var i = 0; i < tokens.Length; ++i)
+        foreach (var token in tokens)
         {
-            this.calculator.AddToken(tokens[i]);
-            Assert.That(this.calculator.State, Is.EqualTo(string.Empty));
-        }
-
-        this.calculator.AddToken('-');
-        Assert.That(this.calculator.State, Is.EqualTo("-"));
-
-        for (var i = 0; i < tokens.Length; ++i)
-        {
-            this.calculator.AddToken(tokens[i]);
-            Assert.That(this.calculator.State, Is.EqualTo("-"));
+            Assert.Throws<ArgumentException>(() => this.calculator.AddToken(token));
         }
     }
 
@@ -178,5 +151,31 @@ public class Tests
             this.calculator.AddToken(tokens[i]);
             Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
+    }
+
+    [Test]
+    public void Calculator_ShouldThrow_OnDivizionByZero()
+    {
+        var expression = "10/0";
+
+        foreach (var token in expression)
+        {
+            this.calculator.AddToken(token);
+        }
+
+        Assert.Throws<DivideByZeroException>(() => this.calculator.AddToken('='));
+    }
+
+    [Test]
+    public void Calculator_ShouldNotThrow_IfDivizionByZeroWasCanceledByClean()
+    {
+        var expression = "10/0";
+
+        foreach (var token in expression)
+        {
+            this.calculator.AddToken(token);
+        }
+
+        Assert.DoesNotThrow(() => this.calculator.AddToken('C'));
     }
 }
