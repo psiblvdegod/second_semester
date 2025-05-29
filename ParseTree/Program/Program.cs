@@ -11,8 +11,10 @@ if (args.Length != 1)
 
 string expression = File.ReadAllText(args[0]);
 
-var expressionAsParseTree = new Tree(expression);
+var tree = new ParseTree.Tree();
 
-var result = expressionAsParseTree.Calculate();
+tree.Parse(expression);
+
+var result = tree.Calculate();
 
 Console.WriteLine($"result: {result}");
