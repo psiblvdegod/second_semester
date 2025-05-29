@@ -16,7 +16,7 @@ public class TestsForLeaf
     public void Calculate()
     {
         var item = 1;
-        Leaf leaf = new(item);
+        var leaf = new Leaf(item);
         var expectedResult = item;
 
         var actualResult = leaf.Calculate();
@@ -28,7 +28,7 @@ public class TestsForLeaf
     public void Print()
     {
         var item = 1;
-        Leaf leaf = new(item);
+        var leaf = new Leaf(item);
         var expectedResult = $"{item}";
 
         var output = new StringWriter();

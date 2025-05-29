@@ -18,5 +18,5 @@ public class Leaf(int item) : Node
 
     /// <inheritdoc/>
     public override void Print()
-        => Console.Write($"{this.item}");
+        => Console.Write(this.item);
 }
