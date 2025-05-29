@@ -13,7 +13,7 @@ namespace ParseTree.Tests;
 public class TestsForLeaf
 {
     [Test]
-    public void TestForCalculate()
+    public void Calculate()
     {
         var item = 1;
         Leaf leaf = new(item);
@@ -25,7 +25,7 @@ public class TestsForLeaf
     }
 
     [Test]
-    public void TestForPrint()
+    public void Print()
     {
         var item = 1;
         Leaf leaf = new(item);
