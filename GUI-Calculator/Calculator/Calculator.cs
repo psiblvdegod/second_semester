@@ -25,10 +25,7 @@ public class Calculator : INotifyPropertyChanged
     /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    /// <summary>
-    /// Gets binary operations which calculator supports.
-    /// </summary>
-    public static Dictionary<char, Func<double, double, double>> BinaryOperations { get; } = new()
+    private static Dictionary<char, Func<double, double, double>> BinaryOperations { get; } = new()
     {
         ['+'] = (x, y) => x + y,
         ['*'] = (x, y) => x * y,
@@ -37,13 +34,24 @@ public class Calculator : INotifyPropertyChanged
         ['^'] = Math.Pow,
     };
 
-    /// <summary>
-    /// Gets unary operations which calculator supports.
-    /// </summary>
-    public static Dictionary<char, Func<double, double>> UnaryOperations { get; } = new()
+    private static Dictionary<char, Func<double, double>> UnaryOperations { get; } = new()
     {
         ['\u2191'] = Math.Ceiling,
         ['\u2193'] = Math.Floor,
+    };
+
+    public static char GetTokenByNameOfOperation(_Operation name) => name switch
+    {
+        _Operation.Addition => '+',
+        _Operation.Substraction => '-',
+        _Operation.Multiplication => '*',
+        _Operation.Division => '/',
+        _Operation.Pow => '^',
+        _Operation.Floor => '\u2193',
+        _Operation.Ceiling => '\u2191',
+        _Operation.Clean => 'C',
+        _Operation.Evaluation => '=',
+        _ => throw new ArgumentException("Unknown name."),
     };
 
     /// <summary>
@@ -105,4 +113,17 @@ public class Calculator : INotifyPropertyChanged
 
         this.PropertyChanged?.Invoke(this, new(nameof(this.State)));
     }
+}
+
+public enum _Operation
+{
+    Addition,
+    Substraction,
+    Multiplication,
+    Division,
+    Pow,
+    Floor,
+    Ceiling,
+    Clean,
+    Evaluation,
 }
