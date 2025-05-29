@@ -1,4 +1,4 @@
-﻿// <copyright file="Trie.cs" author="psiblvdegod">
+// <copyright file="Trie.cs" author="psiblvdegod">
 // under MIT License
 // </copyright>
 
@@ -9,50 +9,50 @@ namespace Trie;
 /// </summary>
 public class Trie
 {
-    private readonly Node root = new('/');
+    private readonly Node root = new();
 
     /// <summary>
     /// Gets amount of items in the Trie.
     /// </summary>
-    public int Count => this.root.HeirsNumber;
+    public int Count => this.root.PrefixCounter;
 
     /// <summary>
     /// Adds an object to the Trie.
     /// </summary>
     /// <returns>true if item is successfully added; otherwise, false.</returns>
-    /// <param name="item">The string to add to the Trie.</param>
-    public bool Add(string item)
+    /// <param name="element">The string to add to the Trie.</param>
+    public bool Add(string element)
     {
-        ArgumentException.ThrowIfNullOrEmpty(item);
+        ArgumentException.ThrowIfNullOrEmpty(element);
 
-        var path = new Node[item.Length];
+        var path = new Node[element.Length + 1];
         var current = this.root;
+        path[0] = this.root;
 
-        for (var i = 0; i < item.Length; ++i)
+        for (var i = 0; i < element.Length; ++i)
         {
-            path[i] = current;
-
-            var next = current.Find(item[i]);
+            var next = current.Find(element[i]);
 
             if (next is null)
             {
-                next = new Node(item[i]);
-                current.Link(next);
+                next = new Node();
+                current.Link(element[i], next);
             }
 
             current = next;
+            path[i + 1] = current;
         }
 
-        if (current.IsInTrie)
+        if (current.IsTerminal)
         {
             return false;
         }
 
-        current.IsInTrie = true;
+        current.IsTerminal = true;
 
         foreach (var node in path)
         {
-            ++node.HeirsNumber;
+            ++node.PrefixCounter;
         }
 
         return true;
@@ -62,19 +62,18 @@ public class Trie
     /// Removes the first occurrence of a specific string from the Trie.
     /// </summary>
     /// <returns>true if item is successfully removed; otherwise, false.</returns>
-    /// <param name="item">The string to remove from the Trie.</param>
-    public bool Remove(string item)
+    /// <param name="element">The string to remove from the Trie.</param>
+    public bool Remove(string element)
     {
-        ArgumentException.ThrowIfNullOrEmpty(item);
+        ArgumentException.ThrowIfNullOrEmpty(element);
 
-        IEnumerable<Node> path = [];
+        var path = new List<Node>();
         var current = this.root;
+        path.Add(this.root);
 
-        foreach (var c in item)
+        for (var i = 0; i < element.Length; ++i)
         {
-            path = path.Append(current);
-
-            var next = current.Find(c);
+            var next = current.Find(element[i]);
 
             if (next is null)
             {
@@ -82,31 +81,31 @@ public class Trie
             }
 
             current = next;
+            path.Add(current);
         }
 
-        if (!current.IsInTrie)
+        if (current.IsTerminal is false)
         {
             return false;
         }
 
-        current.IsInTrie = false;
+        current.IsTerminal = false;
 
-        var previous = path.First();
+        var previous = path[0];
 
-        foreach (var node in path.Skip(1))
+        for (var i = 1; i < path.Count; ++i)
         {
-            if (node.HeirsNumber == 1)
+            if (path[i].PrefixCounter == 1)
             {
-                previous.Unlink(node);
+                previous.Unlink(element[i]);
                 break;
             }
 
-            --node.HeirsNumber;
-            previous = node;
+            --path[i].PrefixCounter;
+            previous = path[i];
         }
 
-        --this.root.HeirsNumber;
-
+        --this.root.PrefixCounter;
         return true;
     }
 
@@ -114,14 +113,16 @@ public class Trie
     /// Determines whether the Trie contains a specific value.
     /// </summary>
     /// <returns>true if the string is found in the Trie; otherwise, false.</returns>
-    /// <param name="item">The object to locate in the Trie.</param>
-    public bool Contains(string item)
+    /// <param name="element">The object to locate in the Trie.</param>
+    public bool Contains(string element)
     {
+        ArgumentException.ThrowIfNullOrEmpty(element);
+
         var current = this.root;
 
-        foreach (var c in item)
+        foreach (var symbol in element)
         {
-            var next = current.Find(c);
+            var next = current.Find(symbol);
 
             if (next is null)
             {
@@ -131,7 +132,7 @@ public class Trie
             current = next;
         }
 
-        return current.IsInTrie;
+        return current.IsTerminal;
     }
 
     /// <summary>
@@ -145,9 +146,9 @@ public class Trie
 
         var current = this.root;
 
-        foreach (var c in prefix)
+        foreach (var symbol in prefix)
         {
-            var next = current.Find(c);
+            var next = current.Find(symbol);
 
             if (next is null)
             {
@@ -157,23 +158,31 @@ public class Trie
             current = next;
         }
 
-        return current.HeirsNumber;
+        return current.PrefixCounter;
     }
 
-    private class Node(char symbol, bool isInTrie = false)
+    private class Node
     {
-        private readonly List<Node> linked = [];
+        private Dictionary<char, Node> nextNodes = [];
 
-        internal char Symbol { get; } = symbol;
+        public bool IsTerminal { get; set; } = false;
 
-        internal bool IsInTrie { get; set; } = isInTrie;
+        public int PrefixCounter { get; set; } = 0;
 
-        internal int HeirsNumber { get; set; }
+        public Node? Find(char symbol)
+        {
+            if (this.nextNodes.TryGetValue(symbol, out Node? value))
+            {
+                return value;
+            }
 
-        internal void Link(Node node) => this.linked.Add(node);
+            return null;
+        }
 
-        internal bool Unlink(Node node) => this.linked.Remove(node);
+        public void Link(char symbol, Node node)
+            => this.nextNodes[symbol] = node;
 
-        internal Node? Find(char symbol) => this.linked.Find(x => x.Symbol == symbol);
+        public void Unlink(char symbol)
+            => this.nextNodes.Remove(symbol);
     }
 }
