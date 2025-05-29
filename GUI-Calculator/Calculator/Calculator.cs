@@ -114,16 +114,3 @@ public class Calculator : INotifyPropertyChanged
         this.PropertyChanged?.Invoke(this, new(nameof(this.State)));
     }
 }
-
-public enum _Operation
-{
-    Addition,
-    Substraction,
-    Multiplication,
-    Division,
-    Pow,
-    Floor,
-    Ceiling,
-    Clean,
-    Evaluation,
-}
