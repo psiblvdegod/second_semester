@@ -108,7 +108,7 @@ public class TestsForTree
     {
         var expression = "+ * 100 - 200 300 400";
         this.tree.Parse(expression);
-        var extectedResult = "100 * 200 - 300 + 400";
+        var extectedResult = expression;
 
         var actualResult = new StringWriter();
         Console.SetOut(actualResult);

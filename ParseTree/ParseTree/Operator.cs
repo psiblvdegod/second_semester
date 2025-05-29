@@ -43,13 +43,12 @@ public class Operator(Func<int, int, int> operation, string token = "") : Node
     /// <inheritdoc/>
     public override void Print()
     {
+        Console.Write(this.token);
         if (this.LeftChild is not null)
         {
-            this.LeftChild.Print();
             Console.Write(' ');
+            this.LeftChild.Print();
         }
-
-        Console.Write(this.token);
 
         if (this.RightChild is not null)
         {

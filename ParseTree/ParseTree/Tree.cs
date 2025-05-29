@@ -62,7 +62,7 @@ public class Tree
     }
 
     /// <summary>
-    /// Prints expression presented in the tree.
+    /// Prints expression presented in the tree in Polish notation.
     /// </summary>
     /// <exception cref="InvalidOperationException">Is thrown if tree is not initialized with an expression.</exception>
     public void Print()

@@ -101,7 +101,7 @@ public class TestsForOperator
             RightChild = new Leaf(200),
         };
 
-        var expectedResult = "100 + 200";
+        var expectedResult = "+ 100 200";
 
         var actualResult = new StringWriter();
         Console.SetOut(actualResult);
