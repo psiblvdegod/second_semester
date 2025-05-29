@@ -4,6 +4,7 @@
 
 namespace ParseTree.Tests;
 
+// Elements should be documented
 #pragma warning disable SA1600
 
 /// <summary>
@@ -62,7 +63,7 @@ public class TestsForOperator
     }
 
     [Test]
-    public void Calculate_OnOperatorWithOneOrWithNoOperands_ShouldThrowException()
+    public void Calculate_Throws_OnOperatorWithOneOrWithNoOperands()
     {
         var root = new Operator((x, y) => x + y);
 
@@ -78,7 +79,7 @@ public class TestsForOperator
     }
 
     [Test]
-    public void TestForPrint()
+    public void Print_WithNoOperands()
     {
         var token = "+";
         var node = new Operator((x, y) => x + y, token);
@@ -89,5 +90,25 @@ public class TestsForOperator
         node.Print();
 
         Assert.That(output.ToString(), Is.EqualTo(token));
+    }
+
+    [Test]
+    public void Print_WithOperands()
+    {
+        var token = "+";
+        var node = new Operator((x, y) => x + y, token)
+        {
+            LeftChild = new Leaf(100),
+            RightChild = new Leaf(200),
+        };
+
+        var expectedResult = "100 + 200";
+
+        var actualResult = new StringWriter();
+        Console.SetOut(actualResult);
+
+        node.Print();
+
+        Assert.That(actualResult.ToString(), Is.EqualTo(expectedResult));
     }
 }

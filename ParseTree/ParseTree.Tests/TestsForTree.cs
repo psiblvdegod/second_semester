@@ -94,6 +94,22 @@ public class TestsForTree
     }
 
     [Test]
+    public void Print()
+    {
+        var expression = "+ * 100 - 200 300 400";
+        this.tree.Parse(expression);
+
+        var extectedResult = "100 * 200 - 300 + 400";
+
+        var actualResult = new StringWriter();
+        Console.SetOut(actualResult);
+
+        this.tree.Print();
+
+        Assert.That(actualResult.ToString(), Is.EqualTo(extectedResult));
+    }
+
+    [Test]
     public void TryGetRegisteredOperation_OnExistingOperator()
         => Assert.That(this.tree.TryGetRegisteredOperation("+", out _), Is.True);
 
