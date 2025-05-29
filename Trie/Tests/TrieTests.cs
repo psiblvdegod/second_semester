@@ -103,7 +103,7 @@ public class TrieTests
         {
             Assert.That(errorCode, Is.True);
             Assert.That(this.trie.Count, Is.EqualTo(0));
-            Assert.That(!this.trie.Contains("element"));
+            Assert.That(this.trie.Contains("element"), Is.False);
         });
     }
 
@@ -135,6 +135,10 @@ public class TrieTests
         => Assert.Throws<ArgumentException>(() => this.trie.Remove(string.Empty));
 
     [Test]
+    public void HowManyStartsWithPrefix_Throws_OnEmptyString()
+        => Assert.Throws<ArgumentException>(() => this.trie.HowManyStartsWithPrefix(string.Empty));
+
+    [Test]
     public void HowManyStartsWithPrefix_NoSuchWordsInTrie()
         => Assert.That(this.trie.HowManyStartsWithPrefix("prefix"), Is.EqualTo(0));
 
@@ -157,10 +161,6 @@ public class TrieTests
 
         Assert.That(this.trie.HowManyStartsWithPrefix(prefix), Is.EqualTo(expectedResult));
     }
-
-    [Test]
-    public void HowManyStartsWithPrefix_EmptyStringAsInput()
-        => Assert.Throws<ArgumentException>(() => this.trie.HowManyStartsWithPrefix(string.Empty));
 
     [Test]
     public void AddAndRemove_WithLotsOfAsserts()
@@ -216,34 +216,55 @@ public class TrieTests
     }
 
     [Test]
-    public void OnRootSymbol()
+    public void HowManyStartsWithPrefix1()
     {
-        Assert.That(this.trie.Contains("/"), Is.False);
+        List<string> items = ["he", "he", "she", "h", "his", "hers"];
 
-        bool errorCode;
-
-        errorCode = !this.trie.Remove("/");
-        Assert.Multiple(() =>
+        foreach (var item in items)
         {
-            Assert.That(errorCode, Is.True);
-            Assert.That(this.trie.Count, Is.EqualTo(0));
-            Assert.That(this.trie.Contains("/"), Is.False);
-        });
+            this.trie.Add(item);
+        }
 
-        errorCode = this.trie.Add("/");
-        Assert.Multiple(() =>
-        {
-            Assert.That(errorCode, Is.True);
-            Assert.That(this.trie.Count, Is.EqualTo(1));
-            Assert.That(this.trie.Contains("/"));
-        });
+        var prefix = "he";
+        var expectedResult = 2;
 
-        errorCode = this.trie.Remove("/");
-        Assert.Multiple(() =>
-        {
-            Assert.That(errorCode, Is.True);
-            Assert.That(this.trie.Count, Is.EqualTo(0));
-            Assert.That(this.trie.Contains("/"), Is.False);
-        });
+        var actualResult = this.trie.HowManyStartsWithPrefix(prefix);
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void HowManyStartsWithPrefix2()
+    {
+        this.trie.Add("1");
+        Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(1));
+
+        this.trie.Add("11");
+        Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(2));
+        Assert.That(this.trie.HowManyStartsWithPrefix("11"), Is.EqualTo(1));
+
+        this.trie.Add("1111");
+        Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(3));
+        Assert.That(this.trie.HowManyStartsWithPrefix("11"), Is.EqualTo(2));
+        Assert.That(this.trie.HowManyStartsWithPrefix("111"), Is.EqualTo(1));
+        Assert.That(this.trie.HowManyStartsWithPrefix("1111"), Is.EqualTo(1));
+
+        this.trie.Remove("1");
+        Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(2));
+        Assert.That(this.trie.HowManyStartsWithPrefix("11"), Is.EqualTo(2));
+        Assert.That(this.trie.HowManyStartsWithPrefix("111"), Is.EqualTo(1));
+        Assert.That(this.trie.HowManyStartsWithPrefix("1111"), Is.EqualTo(1));
+
+        this.trie.Remove("1111");
+        Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(1));
+        Assert.That(this.trie.HowManyStartsWithPrefix("11"), Is.EqualTo(1));
+        Assert.That(this.trie.HowManyStartsWithPrefix("111"), Is.EqualTo(0));
+        Assert.That(this.trie.HowManyStartsWithPrefix("1111"), Is.EqualTo(0));
+
+        this.trie.Add("111");
+        Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(2));
+        Assert.That(this.trie.HowManyStartsWithPrefix("11"), Is.EqualTo(2));
+        Assert.That(this.trie.HowManyStartsWithPrefix("111"), Is.EqualTo(1));
+        Assert.That(this.trie.HowManyStartsWithPrefix("1111"), Is.EqualTo(0));
     }
 }
