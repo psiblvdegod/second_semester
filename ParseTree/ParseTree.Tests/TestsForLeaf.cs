@@ -31,11 +31,10 @@ public class TestsForLeaf
         var leaf = new Leaf(item);
         var expectedResult = $"{item}";
 
-        var output = new StringWriter();
-        Console.SetOut(output);
-
+        var actualResult = new StringWriter();
+        Console.SetOut(actualResult);
         leaf.Print();
 
-        Assert.That(output.ToString(), Is.EqualTo(expectedResult));
+        Assert.That(actualResult.ToString(), Is.EqualTo(expectedResult));
     }
 }

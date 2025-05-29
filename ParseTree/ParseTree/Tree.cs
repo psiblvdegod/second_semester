@@ -5,7 +5,7 @@
 namespace ParseTree;
 
 /// <summary>
-/// Implements parse tree data structure that allows store expression and calculate it.
+/// Implements parse tree data structure that allows Parse() expression and Calculate() and Print() it.
 /// Has addition, subtraction, multiplication and division as operations.
 /// Allows add custom integer binary operations.
 /// </summary>

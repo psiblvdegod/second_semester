@@ -5,7 +5,7 @@
 namespace ParseTree;
 
 /// <summary>
-/// Abstract class that class Tree uses to store items.
+/// Abstract class that class Tree uses to store items and Calculate() and Print() them.
 /// </summary>
 public abstract class Node
 {

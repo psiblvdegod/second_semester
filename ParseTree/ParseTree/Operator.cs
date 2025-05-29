@@ -5,7 +5,7 @@
 namespace ParseTree;
 
 /// <summary>
-/// Node that has two children, stores operation and associated tokens and allows Calculate() and Print() subtree.
+/// Node that has two children, stores operation and associated token.
 /// </summary>
 /// <param name="operation">Function that will be used in Calculate().</param>
 /// <param name="token">Token which Print() writes to console.</param>
@@ -46,14 +46,14 @@ public class Operator(Func<int, int, int> operation, string token = "") : Node
         if (this.LeftChild is not null)
         {
             this.LeftChild.Print();
-            Console.Write(" ");
+            Console.Write(' ');
         }
 
         Console.Write(this.token);
 
         if (this.RightChild is not null)
         {
-            Console.Write(" ");
+            Console.Write(' ');
             this.RightChild.Print();
         }
     }

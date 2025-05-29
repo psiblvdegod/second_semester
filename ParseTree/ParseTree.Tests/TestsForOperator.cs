@@ -17,7 +17,6 @@ public class TestsForOperator
     public void Calculate_OnTwoLeavesAsOperands()
     {
         Func<int, int, int> operation = (x, y) => x * y;
-
         var root = new Operator(operation)
         {
             LeftChild = new Leaf(2),
@@ -106,7 +105,6 @@ public class TestsForOperator
 
         var actualResult = new StringWriter();
         Console.SetOut(actualResult);
-
         node.Print();
 
         Assert.That(actualResult.ToString(), Is.EqualTo(expectedResult));
