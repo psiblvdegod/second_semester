@@ -2,6 +2,7 @@
 
 public enum _Operation
 {
+    Null,
     Addition,
     Substraction,
     Multiplication,
