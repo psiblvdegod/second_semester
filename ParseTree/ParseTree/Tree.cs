@@ -11,7 +11,7 @@ namespace ParseTree;
 /// </summary>
 public class Tree
 {
-    private static readonly Dictionary<string, Func<int, int, int>> SupportedOperators = new()
+    private readonly Dictionary<string, Func<int, int, int>> supportedOperators = new()
     {
         ["+"] = (x, y) => x + y,
         ["-"] = (x, y) => x - y,
@@ -19,19 +19,51 @@ public class Tree
         ["/"] = (x, y) => x / y,
     };
 
-    private readonly Node root;
+    private Node? root = null;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Tree"/> class.
-    /// Builds parse tree by passed expression.
+    /// Adds operation to supported ones so it will be available to use in expressions by specified token.
     /// </summary>
-    /// <param name="expression">Expression that will be parsed to build tree.</param>
-    public Tree(string expression)
+    /// <param name="token">Token which will be used to call new operation in expressions. Token must be unique for each operation.</param>
+    /// <param name="operation">Operation which will be called when expression contains appropriate token.</param>
+    /// <exception cref="InvalidOperationException">Is thrown if token is already occupied.</exception>
+    public void RegisterOperation(string token, Func<int, int, int> operation)
+    {
+        if (this.supportedOperators.ContainsKey(token))
+        {
+            throw new InvalidOperationException("token is already occupied.");
+        }
+
+        this.supportedOperators[token] = operation;
+    }
+
+    /// <summary>
+    /// Gets the operation associated with the specified token.
+    /// </summary>
+    /// <param name="token">Token with which operation is registered.</param>
+    /// <param name="operation">When this method returns, contains the operation associated with the specified token, if the token is found; otherwise, null. This parameter is passed uninitialized.</param>
+    /// <returns>true if token is found; otherwise, false.</returns>
+    public bool TryGetRegisteredOperation(string token, out Func<int, int, int>? operation)
+        => this.supportedOperators.TryGetValue(token, out operation);
+
+    /// <summary>
+    /// Calculates expression that is stored in tree.
+    /// </summary>
+    /// <returns>Expression calculating result.</returns>
+    public int Calculate()
+        => this.root is not null ? this.root.Calculate() : throw new InvalidOperationException("there is not expression in the tree.");
+
+    /// <summary>
+    /// Parses expression and fills in the tree with it. The old one expression will be lost.
+    /// </summary>
+    /// <param name="expression">Expression to parse.</param>
+    /// <exception cref="InvalidExpressionException">Is thrown if expression contains token which is not recognised or if the syntactic rules are not followed.</exception>
+    public void Parse(string expression)
     {
         ArgumentException.ThrowIfNullOrEmpty(expression);
 
         var tokens = expression.Split(' ');
-        this.root = Parse(tokens[0]);
+        this.root = this.ParseToken(tokens[0]);
 
         if (tokens.Length == 1 && this.root is Leaf)
         {
@@ -57,65 +89,38 @@ public class Tree
                 throw new InvalidExpressionException();
             }
 
-            AddNodeToTree(Parse(token));
+            var newNode = this.ParseToken(token);
+            var currentOperator = stack.Peek();
+
+            if (currentOperator.LeftChild is null)
+            {
+                currentOperator.LeftChild = newNode;
+            }
+            else if (currentOperator.RightChild is null)
+            {
+                currentOperator.RightChild = newNode;
+                stack.Pop();
+            }
+
+            if (newNode is Operator newOperator)
+            {
+                stack.Push(newOperator);
+            }
         }
 
         if (stack.Count != 0)
         {
             throw new InvalidExpressionException();
         }
-
-        void AddNodeToTree(Node node)
-        {
-            var current = stack.Peek();
-
-            if (current.LeftChild is null)
-            {
-                current.LeftChild = node;
-            }
-            else if (current.RightChild is null)
-            {
-                current.RightChild = node;
-                stack.Pop();
-            }
-
-            if (node is Operator op)
-            {
-                stack.Push(op);
-            }
-        }
     }
 
-    /// <summary>
-    /// Adds operation to supported ones so it will be available in expressions used to build parse tree.
-    /// </summary>
-    /// <param name="token">Token which will be used to call new operation in expressions. Token must be unique for each operation.</param>
-    /// <param name="operation">Operation which will be called when expression contains appropriate token.</param>
-    /// <exception cref="InvalidOperationException">Is thrown if token is already occupied.</exception>
-    public static void AddOperationToSupportedOnes(string token, Func<int, int, int> operation)
-    {
-        if (SupportedOperators.ContainsKey(token))
-        {
-            throw new InvalidOperationException("token is already occupied.");
-        }
-
-        SupportedOperators[token] = operation;
-    }
-
-    /// <summary>
-    /// Calculates expression that is stored in tree.
-    /// </summary>
-    /// <returns>Expression calculating result.</returns>
-    public int Calculate()
-        => this.root.Calculate();
-
-    private static Node Parse(string token)
+    private Node ParseToken(string token)
     {
         if (int.TryParse(token, out int parsed))
         {
             return new Leaf(parsed);
         }
-        else if (SupportedOperators.TryGetValue(token, out Func<int, int, int>? value))
+        else if (this.supportedOperators.TryGetValue(token, out Func<int, int, int>? value))
         {
             return new Operator(value, token);
         }
