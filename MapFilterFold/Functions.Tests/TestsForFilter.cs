@@ -18,10 +18,10 @@ public class TestsForFilter
     {
         Predicate<int> predicate = x => x < 0 && x % 2 != 0;
 
-        List<int> data = [0, 1, -2, -3, 4];
-        IEnumerable<int> expectedResult = [data[3]];
+        List<int> source = [0, 1, -2, -3, 4];
+        IEnumerable<int> expectedResult = [source[3]];
 
-        var actualResult = Functions.Filter(data, predicate);
+        var actualResult = Functions.Filter(source, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -31,10 +31,10 @@ public class TestsForFilter
     {
         Predicate<string> predicate = s => s.Contains('s') && s.Length < 6;
 
-        string[] data = ["first", "second", "third"];
-        IEnumerable<string> expectedResult = data.Take(1);
+        string[] source = ["first", "second", "third"];
+        IEnumerable<string> expectedResult = source.Take(1);
 
-        var actualResult = Functions.Filter(data, predicate);
+        var actualResult = Functions.Filter(source, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -44,10 +44,10 @@ public class TestsForFilter
     {
         Predicate<CustomType> predicate = e => e.D > 0 && e.B;
 
-        IEnumerable<CustomType> data = [new(1.23, false), new(3.14, true), new(-6.66, true)];
-        IEnumerable<CustomType> expectedResult = data.Skip(1).Take(1);
+        IEnumerable<CustomType> source = [new(1.23, false), new(3.14, true), new(-6.66, true)];
+        IEnumerable<CustomType> expectedResult = source.Skip(1).Take(1);
 
-        var actualResult = Functions.Filter(data, predicate);
+        var actualResult = Functions.Filter(source, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
@@ -57,10 +57,36 @@ public class TestsForFilter
     {
         Predicate<IEnumerable<int>> predicate = e => e.Count(x => x % 2 == 0) > 1;
 
-        IEnumerable<IEnumerable<int>> data = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
-        IEnumerable<IEnumerable<int>> expectedResult = data.Take(2);
+        IEnumerable<IEnumerable<int>> source = [[4, 5, 0], [-2, -4, 12], [9, 0, -5]];
+        IEnumerable<IEnumerable<int>> expectedResult = source.Take(2);
 
-        var actualResult = Functions.Filter(data, predicate);
+        var actualResult = Functions.Filter(source, predicate);
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void Filter_WhenAllItemsSatisfyPredicate_ShouldReturnEmptySequence()
+    {
+        Predicate<string> predicate = s => s.Length < 0;
+
+        IEnumerable<string> source = [string.Empty, "123"];
+        IEnumerable<string> expectedResult = [];
+
+        var actualResult = Functions.Filter(source, predicate);
+
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void Filter_OnEmptySequence()
+    {
+        Predicate<int> predicate = x => true;
+
+        IEnumerable<int> source = [];
+        IEnumerable<int> expectedResult = [];
+
+        var actualResult = Functions.Filter(source, predicate);
 
         Assert.That(actualResult, Is.EqualTo(expectedResult));
     }
