@@ -5,7 +5,7 @@
 namespace ParseTree;
 
 /// <summary>
-/// Implements parse tree data structure that allows store expression and calculates it.
+/// Implements parse tree data structure that allows store expression and calculate it.
 /// Has addition, subtraction, multiplication and division as operations.
 /// Allows add custom integer binary operations.
 /// </summary>
@@ -22,7 +22,7 @@ public class Tree
     private Node? root = null;
 
     /// <summary>
-    /// Adds operation to supported ones so it will be available to use in expressions by specified token.
+    /// Adds operation to supported ones so it will be available to use in expressions using specified token.
     /// </summary>
     /// <param name="token">Token which will be used to call new operation in expressions. Token must be unique for each operation.</param>
     /// <param name="operation">Operation which will be called when expression contains appropriate token.</param>
@@ -41,23 +41,45 @@ public class Tree
     /// Gets the operation associated with the specified token.
     /// </summary>
     /// <param name="token">Token with which operation is registered.</param>
-    /// <param name="operation">When this method returns, contains the operation associated with the specified token, if the token is found; otherwise, null. This parameter is passed uninitialized.</param>
+    /// <param name="operation">When this method returns, contains the operation associated with the specified token if the token is found; otherwise, null. This parameter is passed uninitialized.</param>
     /// <returns>true if token is found; otherwise, false.</returns>
     public bool TryGetRegisteredOperation(string token, out Func<int, int, int>? operation)
         => this.supportedOperators.TryGetValue(token, out operation);
 
     /// <summary>
-    /// Calculates expression that is stored in tree.
+    /// Calculates expression presented in the tree.
     /// </summary>
     /// <returns>Expression calculating result.</returns>
+    /// <exception cref="InvalidOperationException">Is thrown if the tree is not initialized with an expression.</exception>
     public int Calculate()
-        => this.root is not null ? this.root.Calculate() : throw new InvalidOperationException("there is not expression in the tree.");
+    {
+        if (this.root is null)
+        {
+            throw new InvalidOperationException("tree is not initialized with an expression.");
+        }
+
+        return this.root.Calculate();
+    }
+
+    /// <summary>
+    /// Prints expression presented in the tree.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Is thrown if tree is not initialized with an expression.</exception>
+    public void Print()
+    {
+        if (this.root is null)
+        {
+            throw new InvalidOperationException("tree is not initialized with an expression.");
+        }
+
+        this.root.Print();
+    }
 
     /// <summary>
     /// Parses expression and fills in the tree with it. The old one expression will be lost.
     /// </summary>
     /// <param name="expression">Expression to parse.</param>
-    /// <exception cref="InvalidExpressionException">Is thrown if expression contains token which is not recognised or if the syntactic rules are not followed.</exception>
+    /// <exception cref="InvalidExpressionException">Is thrown if expression in the tree is invalid.</exception>
     public void Parse(string expression)
     {
         ArgumentException.ThrowIfNullOrEmpty(expression);
