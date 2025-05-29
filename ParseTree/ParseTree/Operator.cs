@@ -5,7 +5,7 @@
 namespace ParseTree;
 
 /// <summary>
-/// Node that has two children and lets use passed operation on them.
+/// Node that has two children, stores operation and associated tokens and allows Calculate() and Print() subtree.
 /// </summary>
 /// <param name="operation">Function that will be used in Calculate().</param>
 /// <param name="token">Token which Print() writes to console.</param>
@@ -25,7 +25,11 @@ public class Operator(Func<int, int, int> operation, string token = "") : Node
     /// </summary>
     public Node? RightChild { get; set; }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Calculates expression presented in subtree.
+    /// </summary>
+    /// <returns>Expression calculating result.</returns>
+    /// <exception cref="InvalidOperationException">Is thrown if left or right child is missing.</exception>
     public override int Calculate()
     {
         if (this.LeftChild is null || this.RightChild is null)
@@ -38,5 +42,19 @@ public class Operator(Func<int, int, int> operation, string token = "") : Node
 
     /// <inheritdoc/>
     public override void Print()
-        => Console.Write(this.token);
+    {
+        if (this.LeftChild is not null)
+        {
+            this.LeftChild.Print();
+            Console.Write(" ");
+        }
+
+        Console.Write(this.token);
+
+        if (this.RightChild is not null)
+        {
+            Console.Write(" ");
+            this.RightChild.Print();
+        }
+    }
 }
