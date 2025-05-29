@@ -13,11 +13,8 @@ namespace Calculator.Tests;
 /// </summary>
 public class Tests
 {
-    private static readonly char Floor =
-        Calculator.UnaryOperations.First(x => x.Value == Math.Floor).Key;
-
-    private static readonly char Ceiling =
-        Calculator.UnaryOperations.First(x => x.Value == Math.Ceiling).Key;
+    private static readonly char Floor = Calculator.GetTokenByNameOfOperation(_Operation.Floor);
+    private static readonly char Ceiling = Calculator.GetTokenByNameOfOperation(_Operation.Ceiling);
 
     private Calculator calculator;
 
@@ -28,11 +25,11 @@ public class Tests
     }
 
     [Test]
-    public void Calculator_OnSimpleCorrectInput()
+    public void Calculator_OnSimpleCorrectExpression()
     {
-        var input = "12+3=";
+        var expression = "12+3=";
 
-        foreach (var token in input)
+        foreach (var token in expression)
         {
             this.calculator.AddToken(token);
         }
@@ -45,9 +42,9 @@ public class Tests
     [Test]
     public void Calculator_OnNumbersWhichStartWithZero()
     {
-        var input = "01*0023=";
+        var expression = "01*0023=";
 
-        foreach (var token in input)
+        foreach (var token in expression)
         {
             this.calculator.AddToken(token);
         }
@@ -60,9 +57,9 @@ public class Tests
     [Test]
     public void Calculator_OnNegativeNumbers()
     {
-        var input = "-10--20+30*-1=";
+        var expression = "-10--20+30*-1=";
 
-        foreach (var token in input)
+        foreach (var token in expression)
         {
             this.calculator.AddToken(token);
         }
@@ -75,19 +72,19 @@ public class Tests
     [Test]
     public void Calculator_TestingIntermediateStates()
     {
-        var input = "10*20+";
+        var expression = "10*20+";
 
         string[] expectedStates = ["1", "10", "10*", "10*2", "10*20", "200+"];
 
-        for (var i = 0; i < input.Length; ++i)
+        for (var i = 0; i < expression.Length; ++i)
         {
-            this.calculator.AddToken(input[i]);
+            this.calculator.AddToken(expression[i]);
             Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
     [Test]
-    public void Calculator_ShouldThrow_WhenRightOperandIsMissing()
+    public void Calculator_Throws_WhenRightOperandIsMissing()
     {
         var expression = "-10+";
 
@@ -100,39 +97,66 @@ public class Tests
     }
 
     [Test]
-    public void Calculator_TestingUnaryOperations()
+    public void Calculator_WithUnaryOperations()
     {
-        var input = $"10.5{Floor}.25{Ceiling}+2.01={Ceiling}";
+        var expression = $"10.5{Floor}.25{Ceiling}+2.01={Ceiling}";
 
         string[] expectedStates =
             ["1", "10", "10.", "10.5", "10", "10.", "10.2", "10.25", "11", "11+", "11+2", "11+2.", "11+2.0", "11+2.01", "13.01", "14"];
 
-        for (var i = 0; i < input.Length; ++i)
+        for (var i = 0; i < expression.Length; ++i)
         {
-            this.calculator.AddToken(input[i]);
+            this.calculator.AddToken(expression[i]);
             Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
     [Test]
-    public void Calculator_TestingUnaryAndBinaryOperations()
+    public void Calculator_WithUnaryAndBinaryOperations()
     {
-        var input = $"2^4+0.5={Ceiling}*1.5={Floor}";
+        var expression = $"2^4+0.5={Ceiling}*1.5={Floor}";
 
         string[] expectedStates =
             ["2", "2^", "2^4", "16+", "16+0", "16+0.", "16+0.5", "16.5", "17", "17*", "17*1", "17*1.", "17*1.5", "25.5", "25"];
 
-        for (var i = 0; i < input.Length; ++i)
+        for (var i = 0; i < expression.Length; ++i)
         {
-            this.calculator.AddToken(input[i]);
+            this.calculator.AddToken(expression[i]);
             Assert.That(this.calculator.State, Is.EqualTo(expectedStates[i]));
         }
     }
 
     [Test]
-    public void Calculator_ShouldThrow_IfGetsOperatorsWithNoOperands()
+    public void Calculator_Throws_OnSeveralDotsInOneNumber()
+    {
+        var expression = "10+1.1.1=";
+
+        Assert.Throws<ArgumentException>(AddTokens);
+
+        void AddTokens()
+        {
+            foreach (var token in expression)
+            {
+                this.calculator.AddToken(token);
+            }
+        }
+    }
+
+    [Test]
+    public void Calculator_Throws_IfGetsOperatorsWithNoOperands()
     {
         var tokens = $"{Floor}{Ceiling}/*=+^";
+
+        foreach (var token in tokens)
+        {
+            Assert.Throws<ArgumentException>(() => this.calculator.AddToken(token));
+        }
+    }
+
+    [Test]
+    public void Calculator_Throws_OnInvalidCharacters()
+    {
+        var tokens = "_&!@#$%{}[]()help";
 
         foreach (var token in tokens)
         {
@@ -154,28 +178,34 @@ public class Tests
     }
 
     [Test]
-    public void Calculator_ShouldThrow_OnDivizionByZero()
+    public void Calculator_Throws_OnDivizionByZero()
     {
-        var expression = "10/0";
+        var expression = "10/0=";
 
-        foreach (var token in expression)
+        Assert.Throws<DivideByZeroException>(AddTokens);
+
+        void AddTokens()
         {
-            this.calculator.AddToken(token);
+            foreach (var token in expression)
+            {
+                this.calculator.AddToken(token);
+            }
         }
-
-        Assert.Throws<DivideByZeroException>(() => this.calculator.AddToken('='));
     }
 
     [Test]
-    public void Calculator_ShouldNotThrow_IfDivizionByZeroWasCanceledByClean()
+    public void Calculator_DoesNotThrow_IfDivizionByZeroWasCanceledByClean()
     {
-        var expression = "10/0";
+        var expression = "10/0C";
 
-        foreach (var token in expression)
+        Assert.DoesNotThrow(AddTokens);
+
+        void AddTokens()
         {
-            this.calculator.AddToken(token);
+            foreach (var token in expression)
+            {
+                this.calculator.AddToken(token);
+            }
         }
-
-        Assert.DoesNotThrow(() => this.calculator.AddToken('C'));
     }
 }
