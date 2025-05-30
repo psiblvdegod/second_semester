@@ -14,7 +14,7 @@ public class Trie
     /// <summary>
     /// Gets amount of items in the Trie.
     /// </summary>
-    public int Count => this.root.PrefixCounter;
+    public int Count => this.root.NumberOfWordsWithSuchPrefix;
 
     /// <summary>
     /// Adds an object to the Trie.
@@ -25,22 +25,20 @@ public class Trie
     {
         ArgumentException.ThrowIfNullOrEmpty(element);
 
-        var path = new Node[element.Length + 1];
+        var path = new List<Node>(element.Length);
         var current = this.root;
-        path[0] = this.root;
 
-        for (var i = 0; i < element.Length; ++i)
+        foreach (var symbol in element)
         {
-            var next = current.Find(element[i]);
-
+            var next = current.Find(symbol);
             if (next is null)
             {
                 next = new Node();
-                current.Link(element[i], next);
+                current.Link(symbol, next);
             }
 
             current = next;
-            path[i + 1] = current;
+            path.Add(next);
         }
 
         if (current.IsTerminal)
@@ -52,16 +50,18 @@ public class Trie
 
         foreach (var node in path)
         {
-            ++node.PrefixCounter;
+            ++node.NumberOfWordsWithSuchPrefix;
         }
+
+        ++this.root.NumberOfWordsWithSuchPrefix;
 
         return true;
     }
 
     /// <summary>
-    /// Removes the first occurrence of a specific string from the Trie.
+    /// Removes specified string from the Trie.
     /// </summary>
-    /// <returns>true if item is successfully removed; otherwise, false.</returns>
+    /// <returns>true if the string is successfully removed; otherwise, false.</returns>
     /// <param name="element">The string to remove from the Trie.</param>
     public bool Remove(string element)
     {
@@ -69,7 +69,6 @@ public class Trie
 
         var path = new List<Node>();
         var current = this.root;
-        path.Add(this.root);
 
         for (var i = 0; i < element.Length; ++i)
         {
@@ -91,21 +90,21 @@ public class Trie
 
         current.IsTerminal = false;
 
-        var previous = path[0];
+        var previous = this.root;
 
-        for (var i = 1; i < path.Count; ++i)
+        for (var i = 0; i < path.Count; ++i)
         {
-            if (path[i].PrefixCounter == 1)
+            if (path[i].NumberOfWordsWithSuchPrefix == 1)
             {
                 previous.Unlink(element[i]);
                 break;
             }
 
-            --path[i].PrefixCounter;
+            --path[i].NumberOfWordsWithSuchPrefix;
             previous = path[i];
         }
 
-        --this.root.PrefixCounter;
+        --this.root.NumberOfWordsWithSuchPrefix;
         return true;
     }
 
@@ -158,26 +157,19 @@ public class Trie
             current = next;
         }
 
-        return current.PrefixCounter;
+        return current.NumberOfWordsWithSuchPrefix;
     }
 
     private class Node
     {
-        private Dictionary<char, Node> nextNodes = [];
+        private readonly Dictionary<char, Node> nextNodes = [];
 
-        public bool IsTerminal { get; set; } = false;
+        public bool IsTerminal { get; set; }
 
-        public int PrefixCounter { get; set; } = 0;
+        public int NumberOfWordsWithSuchPrefix { get; set; }
 
         public Node? Find(char symbol)
-        {
-            if (this.nextNodes.TryGetValue(symbol, out Node? value))
-            {
-                return value;
-            }
-
-            return null;
-        }
+            => this.nextNodes.TryGetValue(symbol, out Node? value) ? value : null;
 
         public void Link(char symbol, Node node)
             => this.nextNodes[symbol] = node;
