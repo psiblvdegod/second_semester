@@ -23,7 +23,7 @@ public class TrieTests
 
     [Test]
     public void Contains_ElementIsNotInTrie()
-        => Assert.That(!this.trie.Contains("element"));
+        => Assert.That(this.trie.Contains("element"), Is.False);
 
     [Test]
     public void Add_ElementIsAlreadyInTrie()
@@ -42,7 +42,7 @@ public class TrieTests
     }
 
     [Test]
-    public void Add_EmptyStringAsInput()
+    public void Add_Throws_OnEmptyString()
         => Assert.Throws<ArgumentException>(() => this.trie.Add(string.Empty));
 
     [Test]
@@ -83,31 +83,6 @@ public class TrieTests
     }
 
     [Test]
-    public void Count_WithRemove()
-    {
-        Assert.That(this.trie.Count, Is.EqualTo(0));
-
-        bool errorCode;
-
-        errorCode = this.trie.Add("element");
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(errorCode, Is.True);
-            Assert.That(this.trie.Count, Is.EqualTo(1));
-        });
-
-        errorCode = this.trie.Remove("element");
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(errorCode, Is.True);
-            Assert.That(this.trie.Count, Is.EqualTo(0));
-            Assert.That(this.trie.Contains("element"), Is.False);
-        });
-    }
-
-    [Test]
     public void Count_WithAddAndRemove()
     {
         Assert.That(this.trie.Count, Is.EqualTo(0));
@@ -131,7 +106,7 @@ public class TrieTests
     }
 
     [Test]
-    public void Remove_EmptyStringAsInput()
+    public void Remove_Throws_OnEmptyString()
         => Assert.Throws<ArgumentException>(() => this.trie.Remove(string.Empty));
 
     [Test]
@@ -216,25 +191,7 @@ public class TrieTests
     }
 
     [Test]
-    public void HowManyStartsWithPrefix1()
-    {
-        List<string> items = ["he", "he", "she", "h", "his", "hers"];
-
-        foreach (var item in items)
-        {
-            this.trie.Add(item);
-        }
-
-        var prefix = "he";
-        var expectedResult = 2;
-
-        var actualResult = this.trie.HowManyStartsWithPrefix(prefix);
-
-        Assert.That(actualResult, Is.EqualTo(expectedResult));
-    }
-
-    [Test]
-    public void HowManyStartsWithPrefix2()
+    public void HowManyStartsWithPrefix_WithLotsOfAsserts()
     {
         this.trie.Add("1");
         Assert.That(this.trie.HowManyStartsWithPrefix("1"), Is.EqualTo(1));
